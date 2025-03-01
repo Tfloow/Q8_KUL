@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: texlive/texlive
 
     steps:
       - name: Checkout Repository
@@ -17,7 +18,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y pandoc texlive
+          sudo apt install -y pandoc
 
       - name: Run Make Command
         run: make
