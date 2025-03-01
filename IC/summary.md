@@ -7,7 +7,11 @@
     - [Effective fan-out](#effective-fan-out)
     - [Signal in reality](#signal-in-reality)
   - [Pass gate logic](#pass-gate-logic)
+    - [Level restoration](#level-restoration)
 - [Circuit Timing / Dynamic Logic](#circuit-timing--dynamic-logic)
+  - [Latch/Register Implementation](#latchregister-implementation)
+  - [Sequencing, pipelining revisited](#sequencing-pipelining-revisited)
+  - [Dynamic logic](#dynamic-logic)
 
 # Introduction
 
@@ -130,4 +134,56 @@ $$
 
 ## Pass gate logic
 
+Another approach than PUN and PDN as seen previously is the pass gate logic where we will not only use the gate but also the source of a transistor to create some gate.
+
+![Pass gate logic](image-13.png) 
+
+This technique uses less transistors. But the NMOS isn't a really good pull up transistor. It won't give a nice and crisp high voltage but rather a voltage with a $\Delta V = V_{Tloss}$. So to keep this signal crisp and nice we are obligated to add an INV to output a valid signal. This goes in the same idea as the *regeneration of the signal* logic.
+
+So cascading of passes tor logic isn't a smart choice since the signal will rapidly deprecate.
+
+![Static analysis](image-14.png)
+
+### Level restoration
+
+So we need to do what we call *level restoration*.
+
+![Level restorer](image-15.png)
+
+It is compatible with the full swing and the static power consumption is gone. But we need a bleeder which will increases capacitance at node X and takes away the pull down current. Leads to speed degradation and needs proper sizing.
+
+![Threshold drops generalized](image-16.png)
+
+#### Transmission gate
+
+We can add a PMOS to the switch to create a **transmission gate**. This requires another transistor but also a complementary signal is needed so this will result in extra cost.
+
 # Circuit Timing / Dynamic Logic
+
+## Latch/Register Implementation
+
+We know that having 2 INV back to back could lead to meta-stability so how can we reliably store data ? We want to remember the data *no triggering* but also sample and so stop looping the data *triggering*. In the second approach we simply *overpower the feedback loop* due to the asymmetry of the INV and so the input D will be more important than the output of the small INV (**David-Goliath latch**). Or we can cut the loop like in the second example.
+
+![Latches](image-17.png)
+
+| Specifications |     Positive Latch      |       Register        |
+| :------------: | :---------------------: | :-------------------: |
+|   Storage ?    | store when clock is low | Stores on rising edge |
+| Transparent ?  | Yes when clock is high  |          No           |
+
+For latches we can either go for positive or negative latches and a register is simply two latch back to back. We can do latches using MUX for example.
+
+![Mux-Based latch : Transmission Gate vs Switch](image-18.png)
+
+The second option is more preferable because it will have less load on the CLK which reduce the energy waste. But we need to remember we have to *regenerate* the signal since we will have a $V_{Tloss}$.
+
+![David Goliath](image-19.png)
+
+The latch is pretty similar to the idea we have seen with pass gate. Here we can see again the bleeder on top and NMOS on the bottom which forms a basic INV.
+
+![Sizing of the latch](image-20.png)
+
+**NEED TO READ THIS PART CAREFULLY**
+
+## Sequencing, pipelining revisited
+## Dynamic logic
