@@ -10,6 +10,9 @@
   - [Marginal vs Average](#marginal-vs-average)
   - [2 modelling approaches](#2-modelling-approaches)
     - [Modelling context](#modelling-context)
+    - [The basics of life cycle impact assessment](#the-basics-of-life-cycle-impact-assessment)
+    - [Interpretation](#interpretation)
+  - [Input-output LCA](#input-output-lca)
 
 # Life Cycle Assessment
 
@@ -164,7 +167,69 @@ Constrained markets (regulated markets) are not marginal !
 * Ecoinvent advice for attributional
   * Studies at a societal level, where the entire environmental impact of all human activities is studied, with the aim of identifying areas for improvement
   * Studies on environmental taxation, where the focus is less on the consequences of the tax, but rather on who is to carry the burden
-  * Studies that seek to avoid blame or to praise or reward for past good behaviour
+  * Studies that seek to avoid blame or to praise or reward for past good behavior
 * Ecoinvent advice for consequential models:
   * Studies that investigate the long-term consequences(including changes in production capacity) of small-scale decisions (that don’t change overall market conditions)
 
+### The basics of life cycle impact assessment
+
+We have multiple steps : 
+
+* **Classification** : where does it contribute to ?
+  * What is the contribution to global warming, acidification, ...
+* **Characterization** : how much does it contribute ?
+  * Put everything into $CO_2$ equivalent. To have a common reference
+* **Normalisation** : is this much ?
+  * Normalize to the region, see how much contribution it is for europe, world, ...
+* **Weighting** : is this important ?
+  * Subjective step where we arbitrarily give more importance to specific part.
+
+We need to be careful with *characterization* as it by itself contains a certain weighting and choice. Namely, we only see the impact of a given compound on a 100 year scale. So some molecules can be more harmful on the short term but quickly degrade, this behavior won't be seen in the $CO_2$ equivalent methodology. Moreover, we can always quantize this into a carbon footprint (human toxicity, eco-toxicity, resource depletion). This is what we call the **mid-point**.
+
+The **end-point** is more uncertain as we try to predict and measure the impacts and possible scenarios. We also add the weighting method to translate specific views **Individualist, Hierarchist and Egalitarian**
+
+### Interpretation
+
+We can :
+
+1. Draw conclusions
+2. Sensitivity analysis
+3. Report
+4. Quality control (peer review)
+
+## Input-output LCA
+
+We need to put boundaries but it can be quite tricky to partition it.
+
+![Partitioning](image-6.png)
+
+But it can be hard to measure and quantify the bi-directional relationships that exists between all the sectors. We can build this IO model based on the purchases between the sectors. 
+
+* Sum of Value Added (non-inter-industry purchases) and Final Demand is GDP.
+* Transactions include intermediate product purchases and row sum to Total Demand.
+* From the IO Transactions table, form the Technical Requirements matrix by dividing each column by total sector input – matrix D. Entries represent direct inter-industry purchases per dollar of output.
+
+With those tables we can create some matrices indicating the consumption between the sectors.
+
+![Example matrices](image-7.png)
+
+![Final Matrix](image-8.png)
+
+| Output from sectors    | Input to sectors | Intermediate output $O$ | Final demand $F$ | Total output $X$ |
+| ---------------------- | ---------------- | ----------------------- | ---------------- | ---------------- |
+|                        | 1                | 2                       | 3                | n                |       |       |       |
+| 1                      | $X_{11}$         | $X_{12}$                | $X_{13}$         | $X_{1n}$         | $O_1$ | $F_1$ | $X_1$ |
+| 2                      | $X_{21}$         | $X_{22}$                | $X_{23}$         | $X_{2n}$         | $O_2$ | $F_2$ | $X_2$ |
+| 3                      | $X_{31}$         | $X_{32}$                | $X_{33}$         | $X_{3n}$         | $O_3$ | $F_3$ | $X_3$ |
+| n                      | $X_{n1}$         | $X_{n2}$                | $X_{n3}$         | $X_{nn}$         | $O_n$ | $F_n$ | $X_n$ |
+| Intermediate input $I$ | $I_1$            | $I_2$                   | $I_3$            | $I_n$            |       |       |       |
+| Value added $V$        | $V_1$            | $V_2$                   | $V_3$            | $V_n$            |       | GDP   |       |
+| Total input $X$        | $X_1$            | $X_2$                   | $X_3$            | $X_n$            |       |       |       |
+
+$$
+\sum X_{ij} + F_i = X_i \qquad \text{with } X_i = X_j \text{ and } A_{ij} = X_{ij}/X_j\\
+\sum (A_{ij} X_j) + F_i = X_i\\
+F = [I-A] X \quad X = [I-A]^{-1} F
+$$
+
+We normalize those matrix to have a view like "how to make 1 € ?"
