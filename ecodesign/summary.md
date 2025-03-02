@@ -232,4 +232,6 @@ $$
 F = [I-A] X \quad X = [I-A]^{-1} F
 $$
 
-We normalize those matrix to have a view like "how to make 1 € ?"
+We normalize those matrix to have a view like "how to make 1 € ?" and when building those matrices, we can even incorporate the additional demand from a specific sector using $X$. And with those simple notation we can also quantify the environmental impact of various production from different sectors.
+
+![Hazardous](image-9.png)
