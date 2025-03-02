@@ -8,6 +8,8 @@
   - [The basics of life cycle inventory](#the-basics-of-life-cycle-inventory)
     - [Multi-functionality](#multi-functionality)
   - [Marginal vs Average](#marginal-vs-average)
+  - [2 modelling approaches](#2-modelling-approaches)
+    - [Modelling context](#modelling-context)
 
 # Life Cycle Assessment
 
@@ -128,15 +130,41 @@ Sometimes it is best to simply do a cutoff if the by-products are marginal in te
 
 Issues with our methods.
 
-| |problem|
-|:---:|:---:|
-|system expansion| you don’t answer the question you started with|
-|substitution |which processes are avoided?|
-|partitioning |what are the allocation factors?|
+|                  |                    problem                     |
+| :--------------: | :--------------------------------------------: |
+| system expansion | you don’t answer the question you started with |
+|   substitution   |          which processes are avoided?          |
+|   partitioning   |        what are the allocation factors?        |
 
 "*Allocation problem is artefact of wishing to isolate one function. Artefacts can only be cured in an artificial way; there is no “correct” way,
 even not in theory*"
 
 ## Marginal vs Average
 
+Marginal is a sort of short term metric where we ask ourselves "how will X change if we stop doing this ?" Usually it will lead to a stress or a short term change on one specific sector.
+
+But this can also lead to long term marginal where we dezoom and take a closer look to change as a whole.
+
+## 2 modelling approaches
+
+|       Specifications        |                    Attributional approach                    |              Consequential     approach              |
+| :-------------------------: | :----------------------------------------------------------: | :--------------------------------------------------: |
+|         Description         | Like book-keeping, we see the sum of impacts of all products | Scenario analysis, calculated impacts reflect change |
+|          Data type          |                         **average**                          |                     **marginal**                     |
+| Solve multi-functionality ? |                 Partitioning and allocation                  |           Substitution (avoided products)            |
+
+We need to be careful for the consequential approach as it uses *substitution*. We need to ask ourselves "*What is the determining product ?*", "*What is the avoided technology ?*" (technology we are replacing with our innovation). Some new technology can either add extra capacity to the market (*increasing markets*) or simply force some old technology to shut down (*decreasing markets*). When we are looking short or long term it influences the investment but not the *capacity utilization*.
+
+Constrained markets (regulated markets) are not marginal !
+
+### Modelling context
+
+![Modelling-context](image-5.png)
+
+* Ecoinvent advice for attributional
+  * Studies at a societal level, where the entire environmental impact of all human activities is studied, with the aim of identifying areas for improvement
+  * Studies on environmental taxation, where the focus is less on the consequences of the tax, but rather on who is to carry the burden
+  * Studies that seek to avoid blame or to praise or reward for past good behaviour
+* Ecoinvent advice for consequential models:
+  * Studies that investigate the long-term consequences(including changes in production capacity) of small-scale decisions (that don’t change overall market conditions)
 
