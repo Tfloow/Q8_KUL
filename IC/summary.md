@@ -13,6 +13,10 @@
   - [Sequencing, pipelining revisited](#sequencing-pipelining-revisited)
     - [Clock skew](#clock-skew)
   - [Dynamic logic](#dynamic-logic)
+    - [Charge coupling](#charge-coupling)
+    - [Cascading dynamic logic](#cascading-dynamic-logic)
+    - [Clocked CMOS or $C^2$MOS](#clocked-cmos-or-c2mos)
+    - [Conclusion](#conclusion)
 
 # Introduction
 
@@ -265,3 +269,96 @@ $$\text{FF: } t_{cd} + t_{ccq} - t_{skew} > t_{hold} \qquad \text{Latch: } t_{cd
 
 
 ## Dynamic logic
+
+The idea behind *dynamic logic* is to charge and discharge a node that has a high impedance. While in static logic the output is either connected to VDD or GND via a low resistive path.
+
+![Example of a dynamic logic circuit](image-31.png)
+
+We use the low CLK to charge and then evaluate when it is high. So if we discharge by mistake, we will have to wait the next clock cycle. There is 0 or 1 transition during evaluation. We can keep the node high before or after evaluation.
+
+We only need to create a PDN which represent the function we are trying to produce only $N+2$ (so less transistor compared to static logic $2 \cdot N$). We have full swing outputs. No need to ratio size and we have a faster switching speed since the output and input line has less capacitance. Less logical effort.
+
+But we have a higher power dissipation than static logic. The line is always active and for a continuous set of 0 we need to load and discharge all the time the cap. We have a low noise margin since the PDN will start working as soon as the input signal exceed $V_{thn}$ and so $V_M = V_{IH} = V_{IL} = V_{thn}$.
+
+More over, there is some diode on the substrate that causes leakage (*junction leakage of diode in reverse bias*). We also have some *subthreshold leakage* which is dominant. 
+
+I we don't compensate for the leakage, we force a higher clock frequency to avoid falling in the gray zone. We however compensates for this with using a bleeder or level restorer. This will induce some extra static power consumption.
+
+![Bleeder and Level restorer](image-32.png)
+
+#### Charge sharing
+
+Something that can happen due to noise, is that the transistor A will discharge by mistake $C_{out}$ and the charge will go to the node between $A$ and $B$. The charges will split between those two cap reducing the output voltage and have a higher noise sensitivity. 
+
+One way to avoid this is to precharge the internal nodes. But we need more transistor, more energy and it will increase the $C$ making the circuit slower.
+
+### Charge coupling
+
+It is also pretty sensitive to charge coupling. So any wire-to-wire crosstalk can be disastrous. There is also the backgate coupling or output to input coupling that can be problematic. We should also avoid clock feedthrough and overshoot.
+
+![Output to Input coupling](image-33.png)
+
+![Clock feedthrough](image-34.png)
+
+Danger: charge injection in the substrate. Charge can be collected by HiZ node or lead to latch-up.
+
+#### Latch-up
+
+It is an annoying phenomena where the substrate of MOS transistors has a parasitic thyristor junction we can cause latch-up and put the transistor in an unwanted state. To reset, we need to cut-off the power of the circuit and start again. (*More info: Weste N., e.a. “Principles of CMOS VLSI design – a systems perspective. Second Edition”, Addison Wesley, 1993*)
+
+![Latch-up](image-35.png)
+
+### Cascading dynamic logic
+
+![Cascading dynamic logic](image-36.png)
+
+The finite propagation delay from in to out1 will cause a partial discharge at out2 which can again makes the output 2 invalid resulting in unwanted behavior.
+
+#### Domino logic
+
+To avoid this we can add an inverted between the two stages. So any transition from charged to discharge or keep will result into a valid state. The static invertor is like a buffer and we need some extra logic to restore the correct output.
+
+![Domino logic](image-37.png)
+
+We can add some skew to the inverter since the only critical transition is the $1\rightarrow 0$ one. We reduce the impact impedance. Only non-inverting logic can be implemented ! So we either need to do some logic transformation (not always possible) or use **dual rail domino**.
+
+#### Dual rail domino logic
+
+![Dual rail domino logic - using switched bleeders](image-38.png)
+
+We need to construct 2 PDN one where we do $F(A,B,C)=(A \& B)|C$ or any function and then its NOT version $\overline{F(A,B,C)}$ using *De Morgan*'s theorem. So only one branch will switch on and only one side will make a transition. But it comes at the expense of area and continuous switching no matter the result.
+
+#### Alternative to cascade of dynamic logic
+
+![Alternative](image-39.png)
+
+A good alternative is to switch between PDN and PUN networks so the $0\rightarrow 1$ transition are allowed at inputs of PDN and $1\rightarrow 0$ transitions are allowed at inputs of PUN.
+
+#### Dynamic edge triggered register
+
+![Dynamic edge triggered register](image-40.png)
+
+We use a capacitor as a storage source that we need to refresh. We can't simply halt the clock. It is sensitive to $0\rightarrow 0$ and $1\rightarrow 1$ transition and to clock overlap. But we have good performance
+
+### Clocked CMOS or $C^2$MOS
+
+![$C^2$MOS](image-41.png)
+
+Now it is no longer sensitive to clock overlap just need a fast enough rise and fall times.
+
+#### True Single Phase Clock (TSPC) logic
+
+![TSPC logice](image-42.png)
+
+Here we only have 1 clock phase so easy to distribute the clock and no overlap by construction. At first when $CLK=1$ we have like 2 invertors and so the latch is transparent. But when $CLK=0$, the charge can't be pulled down and if we have $In=0$, the output won't change since the inverter will stop the propagation of that value.
+
+![TSPC simplification - split output](image-43.png)
+
+It has less TOR and clock load but the split outputs don't have full swing. We have less drive, less VDD scaling possibility.
+
+### Conclusion
+
+- Due to its high impedance nature, design of dynamic circuits is tricky and requires extreme care at the circuit level.
+- Hard to automate in a synthesis – P&R flow based on static CMOS standard cells
+- Power consumption of dynamic logic is usually higher.
+- Nothing is as easy as standard CMOS...
