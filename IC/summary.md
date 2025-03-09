@@ -11,6 +11,7 @@
 - [Circuit Timing / Dynamic Logic](#circuit-timing--dynamic-logic)
   - [Latch/Register Implementation](#latchregister-implementation)
   - [Sequencing, pipelining revisited](#sequencing-pipelining-revisited)
+    - [Clock skew](#clock-skew)
   - [Dynamic logic](#dynamic-logic)
 
 # Introduction
@@ -185,5 +186,82 @@ The latch is pretty similar to the idea we have seen with pass gate. Here we can
 
 **NEED TO READ THIS PART CAREFULLY**
 
+**PAGE 15**
+
+![NOR-NOR latch](image-21.png)
+
+![NAND-NAND latch](image-22.png)
+
+![Transparent (n-)latch](image-23.png)
+
 ## Sequencing, pipelining revisited
+
+![Registers in the system](image-24.png)
+
+We can also have a *latch based pipelines*, the sequencing is much more soft but we could have race condition if the clocks are overlapping.
+
+![CLK must not overlap](image-25.png)
+
+Here we can have a 1-1 overlap on both latches are transparent. We can also have some undefined states where a node is driven by multiple nets. 
+
+When we have a 0-0 overlap it is like a pseudo static latch since there is no change.
+
+![Creating non-overlapping clock](image-26.png)
+
+![Timing](image-27.png)
+
+| **Term**    | **Name**                                    |
+| ----------- | ------------------------------------------- |
+| $t_{pd}$    | Logic Propagation Delay                     |
+| $t_{ad}$    | Logic Contamination Delay                   |
+| $t_{pcq}$   | Latch/Flop Clock-to-*Q* Propagation Delay   |
+| $t_{ccq}$   | Latch/Flop Clock-to-*Q* Contamination Delay |
+| $t_{pdq}$   | Latch *D*-to-*Q* Propagation Delay          |
+| $t_{cdq}$   | Latch *D*-to-*Q* Contamination Delay        |
+| $t_{setup}$ | Latch/Flop Setup Time                       |
+| $t_{hold}$  | Latch/Flop Hold Time                        |
+
+For registers 
+
+$$T_c > t_{pd} + \underbrace{t_{pcq} + t_{setup}}_{\text{sequencing overhead}}\qquad t_{cd} + t_{ccq} > t_{hold}$$
+
+![latches, max. delay](image-28.png)
+
+$t_{cd} + t_{ccq} + t_{nonoverlap} > t_{hold}$
+
+In the registers logic, we set the clock speed based on the slowest logic section. But in latch logic, we can do some **time borrowing** technique to take some time from the next cycle. We can't do this if we loop the data over in which case we will have some overlap of processing data.
+
+![Time borrowing technique](image-29.png)
+
+To compute the maximum allowed borrow time is based also on the setup time :
+
+$$t_{borrow} < T_c/2 - (t_{setup} + t_{non\_overlap})$$
+
+### Clock skew
+
+It is the fact the clock will have to propagate to gates and it can take less or more time depending on the travel distance. It is a deterministic phenomena. The statistical one is jitter which is not taken into account in this course.
+
+We can use a **clock tree** structure to balance the clock and to make sure that the path taken for all the components is of the same length. It is not always feasible. It is also influenced by interconnect properties.
+
+![Clock skew effect](image-30.png)
+
+If we do latch logic the timing is not impacted by $t_{skew}$ since the *signal has the whole transparent phase to arrive*.
+
+$$t_{pd} = t_{pd1} + t_{pd2} < T_c - 2\cdot t_{pdq}$$
+
+And for time borrowing we get :
+
+$$t_{borrow} < T_c/2 - (t_{setup} + t_{non\_overloap} + t_{skew})$$
+
+For the validity we have :
+
+$$\text{FF: } t_{cd} + t_{ccq} - t_{skew} > t_{hold} \qquad \text{Latch: } t_{cd} + t_{ccq} + t_{non\_overlap} - t_{skew} > t_{hold}$$
+
+|                                   | **Sequencing overhead** $(T_c - t_{pd})$ | **Minimum logic delay** $(t_{cd})$                                         | **Time borrowing** $(t_{borrow})$                                        |
+| --------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Flip-Flops**                    | $t_{pcq} + t_{setup} + t_{skew}$         | $t_{hold} - t_{ccq} + t_{skew}$                                            | 0 (*doesn't exist*)                                                      |
+| **Two-Phase Transparent Latches** | $2 \cdot t_{pdq}$                        | $t_{hold} - t_{ccq} - t_{non\_overlap} + t_{skew}$ <br> in each half-cycle | $\frac{T_c}{2} - \left( t_{setup} + t_{non\_overlap} + t_{skew} \right)$ |
+
+
+
 ## Dynamic logic
