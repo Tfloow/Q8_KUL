@@ -23,6 +23,10 @@
     - [Product-Service Systems (PSS)](#product-service-systems-pss)
   - [Material Selection](#material-selection)
     - [Strategic consideration](#strategic-consideration)
+- [Low impact manufacturing](#low-impact-manufacturing)
+    - [$CO\_2PE$](#co_2pe)
+  - [Unit Process Approach](#unit-process-approach)
+  - [Systems Approach](#systems-approach)
 
 # Life Cycle Assessment
 
@@ -402,3 +406,54 @@ For beams under bending load,  we find :
 
 - Maximum allowed stress levels: $(\rho \cdot Eco )/ \sigma^{2/3}$
 - Maximum allowed bending deformation: $(\rho \cdot Eco )/ E^{1/2}$
+
+# Low impact manufacturing
+
+Manufacturing can play a big role in the impact on the environment of a product. And such analysis are not always interesting for products or services that have a low manufacturing contribution to their footprint.
+
+Precision manufacturing have resulted into higher power density $kW/L$. We are reducing the friction, building better tolerances, enhanced fluid flow and cooling, ...
+
+But using more energy will also lead to more lost when producing and giving the energy to the various sectors. The trend is more and more towards *more energy intensive processes*. Less processing rates and higher energy requirements. Modern technology have introduced many more processes that give extra precision, ... but the trade-off is more energy expensive processes. And we can even push the boundaries further by taking into account the requirements to produce all this tooling.
+
+That is why we refer to body of knowledge like **simapro**. We find usually that many processes are not that energy efficient and that they are not correctly documented, ... So we have a lot of room for improvements. That is the $CO_2 PE$ initiative : **Cooperative Effort on ($CO_2$) Process Emissions**.
+
+### $CO_2PE$
+
+Objectives : 
+
+1. Study the environmental footprint of manufacturing processes with energy consumption/$CO_2$ emissions as first priority. We limit it to *discrete part* manufacturing.
+2. Develop a methodology that allows to provide data in a format useful for inclusion in LCI databases.
+3. Identify opportunities for improved process design in close cooperation with machine tool developers. Derive design rules and guidelines in support of ecodesign machine tools. (less requirements, constraint, slower process, ...)
+4. Draft a proposal for an eco-label system for machine tools.
+
+Optimization can be done at multiple levels.
+
+## Unit Process Approach
+
+We are following the **DIN 8580** taxonomy which is:
+
+1. Primary shaping
+2. Transforming
+3. Separating
+4. Joining
+5. Coasting & Finishing
+6. Changing material properties
+7. Auxiliary processes
+8. Measurements & Modeling
+9. Production & Process planning
+
+![Methodological approach to analyze unit processes](image-12.png)
+
+#### Conclusions
+
+Manufacturing processes are responsible for a significant part of the environmental footprint of products, but are still poorly documented in terms of their impact.
+
+Based on a systematic methodology for inventorisation and analysis of manufacturing unit processes significant environmental impact reduction opportunities can be identified.
+
+#### Opportunities
+
+PAGE 31
+
+## Systems Approach
+
+test
