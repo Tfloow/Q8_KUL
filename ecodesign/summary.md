@@ -22,6 +22,7 @@
   - [Product Concept Optimisation](#product-concept-optimisation)
     - [Product-Service Systems (PSS)](#product-service-systems-pss)
   - [Material Selection](#material-selection)
+    - [Strategic consideration](#strategic-consideration)
 
 # Life Cycle Assessment
 
@@ -356,4 +357,48 @@ Definition : business models in which the usage rights or functional results of 
 - 
 ## Material Selection
 
-test
+There is a risk that some material cannot be created or supplied anymore stressing the production supply.
+
+### Strategic consideration
+
+It can be due to many risks such as:
+
+- Geologic availability
+- Technical availability
+- Regulatory availability
+- Geopolitical availability
+- Social availability
+- Market availability
+
+Then we have other strategic issues that are the impact of supply restrictions:
+
+- Makes manufacturing impossible
+- Delays product development
+- Influences profitability
+
+So when choosing a material, we need to take into account those 2 different dimensions.
+
+![Determining the criticality of materials](image-11.png)
+
+We can have a limit due to:
+
+- ressources limited by their annual extraction: $Au,Cu$ and platinum group. 
+- ressources limited and no obvious substitutes are available: $In, Re,Li, Hf, Er$. 
+- Only available as secondary extraction output: $Cd, Ga, Te, In$
+- High energy requirements for extraction: $Al, Ti$
+- Toxicity constraints: $Pb, Hg,As,Cd$
+
+Some company have thus developed a *black, gray, white* list of materials that can be forbidden, avoided and used. IDEmat is a good database that shows the eco-efficiency as selection criterion.
+
+#### Optimisation
+
+We can evaluate material based on *functional equivalence*. We can compare the stress under axial load, beams, strength of plates, ...
+
+We do *material selection in function of minimisation of the total eco-impact*. The maximum allowed deformation being the critical factor, the ratio to be minimise is:
+
+$$\frac{\rho \cdot Eco}{E}$$
+
+For beams under bending load,  we find :
+
+- Maximum allowed stress levels: $(\rho \cdot Eco )/ \sigma^{2/3}$
+- Maximum allowed bending deformation: $(\rho \cdot Eco )/ E^{1/2}$
