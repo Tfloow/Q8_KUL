@@ -13,6 +13,15 @@
     - [The basics of life cycle impact assessment](#the-basics-of-life-cycle-impact-assessment)
     - [Interpretation](#interpretation)
   - [Input-output LCA](#input-output-lca)
+- [Design for environment (DfE): Methods and Techniques](#design-for-environment-dfe-methods-and-techniques)
+    - [Eco-Labels](#eco-labels)
+    - [LIfe cycle Design Strategies (LIDS) wheel](#life-cycle-design-strategies-lids-wheel)
+    - [MET matrix](#met-matrix)
+    - [DfE Strategy determination](#dfe-strategy-determination)
+    - [Environmental Performance Indicators](#environmental-performance-indicators)
+  - [Product Concept Optimisation](#product-concept-optimisation)
+    - [Product-Service Systems (PSS)](#product-service-systems-pss)
+  - [Material Selection](#material-selection)
 
 # Life Cycle Assessment
 
@@ -235,3 +244,116 @@ $$
 We normalize those matrix to have a view like "how to make 1 € ?" and when building those matrices, we can even incorporate the additional demand from a specific sector using $X$. And with those simple notation we can also quantify the environmental impact of various production from different sectors.
 
 ![Hazardous](image-9.png)
+
+# Design for environment (DfE): Methods and Techniques
+
+We want some fast, applicable methods that can be used in early design phase that requires little additional expertise. So we can better design for the environment.
+
+#### Guidelines
+
+We have 5 requirements for sustainable products, the first 3 mimick the protocols used by plant and animal ecosystems, the 4th is to maximise the utility of ressources in a finite world and the 5th to maximise human happiness and potential : 
+
+1. **Cyclic:** the product is made form organic materials, and is recyclable or compostable, or is made form minerals that are continuously cycled in a closed loop.
+2. **Solar:** the product uses solar energy or other forms of renewable energy that are cyclic and safe, both during use and manufacture.
+3. **Safe:** the product is non-toxic in use and disposal, and its manufacture does not involve toxic releases or the disruption of ecosystems.
+4. **Efficient:** the product in manufacture and use requires 90% less materials, energy and water than products providing equivalent utility did in 1990.
+5. **Social:** the product's manufacture and use does not impinge on basic human rights or natural justice.
+
+Then, from those generic guideline we can refine and go deeper with some more specific one. Basically we have a *mother-child* relationships between the guidelines.
+
+For example, we can decide to select and use materials that are technically and economically recyclable, ...
+
+### Eco-Labels
+
+We can find some guidelines on the consumer market with the *eco-labels*, there is a wide variety that exists for all sort of category of product for different region of the world. But sometimes it is hard for marketing and can be expensive to get (*Milieukeur*).
+
+Most of those *eco-labels* have some criteria for specific product categories that result from a LCA. Typically they will conduct a LCA to try to locate the most problematic part of the product per functional unit and give some guidelines on how to minimize its impact.
+
+Another issue is the fact that those labels will not explicitly show the FU but just the efficiency of a product. So even if a product is large and is more than what I need it will get a good label. It has a limited scope.
+
+#### Semi-Eco-Labels
+
+There is also the *Der grüne punkt* which states if a product is *part of a recycling pool*. Basically, the manufacturer will pay for each of his product an *eco-tax* which will set the product in a pool. Basically they pay to be in a pool where, for example, 75% of products are recycled. But it doesn't mean each products are recycled at 75%. Typically we can have products that will never be recycled and that are part of those 25% left.
+
+#### Best available technology
+
+There is also the *eco-score* that showcases the electricity consumption. Those score are *market related* hence they are not **static**. They will be re-evaluated periodically. The manufacturer wants to have a big A+ label on its fridge. So they will try their best to reduce the energy consumption. But at some point all the manufacturer have reduced it and so everyone is A++. That's why we need to up the standards every few years or so.
+
+### LIfe cycle Design Strategies (LIDS) wheel
+
+![LIDS wheel](image-10.png)
+
+After developping a product, we can aim to develop a future generation that will be more eco-friendly.
+
+0. We start with a new concept development. We can try *dématérialisation, shared use of products, integration of multiple functions in products, functional optimisation of product*.
+1. Selection of low-impact material. So choose recycled and recyclable material, non-toxic, ...
+2. Reduction of the amount of required materials. Reduction of weight, transport volume, ...
+3. Selection of eco-efficient production  processes. More efficient processes, less consumable, waste, ...
+4. Chose an eco-efficient distribution system. Less packaging, better means and logistic.
+5. Reduction of the environmental impact in the use stage. Less energy consumption, less consumable, ...
+6. Optimisation of the initial product lifetime. High reliability and durability so less replacement.
+7. Optimisation of the end-of-life scenario. Reuse of the entire product, remanufacturing/refurbishment of products or components.
+
+### MET matrix
+
+Or the Material, Energy and Toxicity matrix. They are used as verification criteria in the different lifecycle stages.
+
+#### Method
+
+We identify the problematic parts of the environmental profile of a product by systematically screening the product life cycle stages.
+- M: are materials consciously used ? And do we minimize the quantities to the maximum extent.
+- E: is the energy consumption minimized ?
+- T : is the emission of toxic substances avoided ?
+
+|             MET Matrix             |   M   |   E   |   T   |
+| :--------------------------------: | :---: | :---: | :---: |
+| Material extraction and production |       |       |       |
+|            Distribution            |       |       |       |
+|        Use by the consumer         |       |       |       |
+|             Discarding             |       |       |       |
+
+### DfE Strategy determination
+
+We will always have trade-off, we can't just blindly apply all strategies cause some may have a negative impact on other part of the process. Quantitative determination of the most optimal optimisation strategy is often a complex exercise for which little time or budget is allocated.
+
+### Environmental Performance Indicators
+
+Or EPIs for short, it gives information about the environmental impact of a product. It bridges the gap between product and environmental impact related parameters. It can facilitate and simplify evaluation of complex relations with respect to environmental performance. 
+
+In the ISO 14031, we have 2 categories : 
+
+- Management performance indicators (MPIs)
+- Operational performance indicators (OPIs)
+
+Product related EPIs are typically situated at the level of OPIs.
+
+- EPIs are oriented towards specific design aspects causing environmental impact.
+- EPIs should be understandable, transparent and easy to interpret
+- EPI scores should reflect the quality of the design process output and can thus be influenced by the designer.
+- EPIs are defined in an exact way, be it in a numerical or other format, and can thus be verified.
+- If an EPI is applicable to a product or component that can further be split into lower level components or parts, then unambiguous aggregation of EPI values should be possible
+
+With EPIs it can :
+
+- Customer > designer/manufacturer: impose requirements with respect of the environment
+- Designer > < systems engineer or project leader: verification for wether internally or externally imposed requirements are met
+- Designer/manufacturer > customer: reporting of realised design quality with respect to environmental impact constraints.
+
+In the course there was the example of the ravel where it showcases the various requirements everyone can have for each party.
+
+
+## Product Concept Optimisation
+
+We need to ask the right questions, what do the customer expect as a FU ? what type of system are we in ? product, service, ... ? We are trying to decouple added value and functionality from material and energy flows, bring more added value through innovation.
+
+### Product-Service Systems (PSS)
+
+Definition : business models in which the usage rights or functional results of products are sold instead of the product themselves. It can take the form of :
+
+- Product-oriented: Product + complementary services
+- Use-oriented PSS: leasing, renting, ...
+- Result-oriented: sales of a functional results (usually replacing a physical device)
+- 
+## Material Selection
+
+test
