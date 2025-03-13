@@ -452,7 +452,11 @@ Based on a systematic methodology for inventorisation and analysis of manufactur
 
 #### Opportunities
 
-PAGE 31
+- [x] Often standby consumption is substantial and has still a large potential for improvement
+- [x] Auxiliary (supporting) tasks are responsible for a significant part of the electrical energy consumption.
+- [x] Significant energy reduction potential in selectively switching on and off non continuously required subsystems
+- [x] Despite energy is often the dominant contributor to the environmental impact, also resource consumption and process emissions (e.g. waste) are not negligible in terms of their environmental impact.
+- [x] Use the right equipment for the job: use machine tools as near as possible to their maximum capacity.
 
 ## Systems Approach
 
