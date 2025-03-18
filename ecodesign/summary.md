@@ -27,6 +27,17 @@
     - [$CO\_2PE$](#co_2pe)
   - [Unit Process Approach](#unit-process-approach)
   - [Systems Approach](#systems-approach)
+- [Optimal lifetime determination](#optimal-lifetime-determination)
+  - [Methodology](#methodology)
+    - [Inventarisation](#inventarisation)
+    - [Deterioration](#deterioration)
+    - [Social dimension](#social-dimension)
+- [End-of-life treatment](#end-of-life-treatment)
+  - [Example of an EEE recycling line](#example-of-an-eee-recycling-line)
+    - [CRT processing](#crt-processing)
+    - [Plastic recylcing](#plastic-recylcing)
+  - [Efficiency and Feasibility of Disassembly](#efficiency-and-feasibility-of-disassembly)
+    - [Disassembly tye](#disassembly-tye)
 
 # Life Cycle Assessment
 
@@ -461,3 +472,93 @@ Based on a systematic methodology for inventorisation and analysis of manufactur
 ## Systems Approach
 
 test
+
+# Optimal lifetime determination
+
+We either  go for early replacement or life time extension. One better choice is to keep interogating ourselves and do some life optimization. More over, we know that when we keep running things we are deteriorating its performance which will lead to higher power consumption for the same task.
+
+
+
+## Methodology
+
+Now let's dive in the methodology.
+
+### Inventarisation
+
+We have ecological impact:
+
+- Production impact
+- Use impact
+- Disposal impact
+
+Cost:
+
+**ADD SLIDE INFO**
+
+We introduce a new metric the  **Cost of Ownership**.We calculate  this   metric  for all possible   scenarios to better compare it.
+
+We normalize it using the $\alpha$
+
+$$\alpha = \frac{i ADD}{(1+i)^{L-A}-1}$$
+
+### Deterioration
+
+We can measure  and quantify the deterioration and its impact. We can also measure the prices and  futur prices to operate a product.
+
+We can also measure and investigate the cost of ownership compared to the duration. Basically, we can often see how at some point the cost just explode and so  it doesn't make sense to keep using the machine.
+
+We also need to take into account  the fact that everything will get better over time and sometimes it is better to destroy it than letting be it used by another owner.
+
+### Social dimension
+
+We also want a decrease of segregation between the people that  have and do not have certain  conforts. But also with kringwikel, it supplies with jobs etc.
+
+We can also think about fixing it with  pretty modular architecture.
+
+# End-of-life treatment
+
+How to get back the energy and materials that we used ?
+
+We can see that when we have a recession, we have a drop in total waste since people are less inclined to get rid  of their  stuff.
+
+Not all waste can be treated, but we need to recycle and maybe convert this waste into energy source.
+
+In belgium, the manufacturer needs to think about EOL treatment but it can't always be done since most manufacturers are not in Belgium. So to hold responsability, the client will pay an eco-tax through the retail  shop and recupel gets the money so they make sure to have some  money to process the waste.
+
+Computers have a  0.01 euro tax since most ppl wanna gets those computer waste since they can upcycle it and reuse them.  We can't make it 0.
+
+Recupel is like a broker. Recupel knows the market and knows what  contract to make to recycle the product. Issue is that Recupel is not spending as much money as they are getting... 
+
+There are various stream of waste.
+
+## Example of an EEE recycling line
+
+We are looking at SIM group. The last step is shredding so we can do some magnetic, water or mechanical separation technique.
+
+### CRT processing
+
+One of the glass had lead in it so we want to avoid to have lead leakage. We need to do some dissassembling it. Was a hard process at the beginning before finding a simple way to separate it. After this discovery, dissassembling CRT was a juicy business after.
+
+We are seeing more and more of *urban mining* where people are now harvesting the waste. We can get back some important material. With mining we are having 10 grams per ton of ore, for computer, it is more dense than virgin mining.
+
+We can still do much better in Europe, we have bad collection rate (some second hand device go to Africa so we loose it). The handpicking is not super good since the operators are not really well trained and they are not really pushed dto get some more yield.
+
+Shredding is not always the choice due to entropy losses. Mechanical separation isn't always the best.
+
+### Plastic recylcing
+
+We should avoid mixing incopatible plastic in the same product or ensure that they have vastly different buoancy point so we know it is easy to separate it.
+
+Some manufacturers doesn't use the right label to indicate the type of plastic so it is not always clear what plastic is being used. Moreover this label category doesn't indicate some special type of plastic.
+
+## Efficiency and Feasibility of Disassembly
+
+Create a better understanding of the factors determining the economic feasibility of ADD INFO.
+
+Shredding was the best solution for a water kettle (dissasambly isn't better than shredding for this product), but for other device by how much should we lower the price of dissambly to make it profitable.
+
+Automated disassembly is not the best,  we need an operator on the side and it was pretty slow. But sometimes screws were corroded so impossible to remove it.
+
+### Disassembly tye
+
+We either have some product specific that are tailored for a specific disassembly method. We also have some more generic one.
