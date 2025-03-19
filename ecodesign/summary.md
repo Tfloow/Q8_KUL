@@ -24,9 +24,12 @@
   - [Material Selection](#material-selection)
     - [Strategic consideration](#strategic-consideration)
 - [Low impact manufacturing](#low-impact-manufacturing)
-    - [$CO\_2PE$](#co_2pe)
+    - [CO2PE](#co2pe)
   - [Unit Process Approach](#unit-process-approach)
   - [Systems Approach](#systems-approach)
+    - [Multi-machine level](#multi-machine-level)
+    - [Factory Level](#factory-level)
+    - [Multi-facility](#multi-facility)
 
 # Life Cycle Assessment
 
@@ -417,7 +420,7 @@ But using more energy will also lead to more lost when producing and giving the 
 
 That is why we refer to body of knowledge like **simapro**. We find usually that many processes are not that energy efficient and that they are not correctly documented, ... So we have a lot of room for improvements. That is the $CO_2 PE$ initiative : **Cooperative Effort on ($CO_2$) Process Emissions**.
 
-### $CO_2PE$
+### CO2PE
 
 Objectives : 
 
@@ -460,4 +463,59 @@ Based on a systematic methodology for inventorisation and analysis of manufactur
 
 ## Systems Approach
 
-test
+We can do various optimisation at the system-level.
+
+### Multi-machine level
+
+It can be hard to model at this level since there is multiple  unit process happening and some interaction between processes. At higher level, we have higher resources variety and so various metric. It can be tough to analyze at this level.
+
+#### Material flow Kg
+
+We can analyze the process based on the input in Kg where we have $M_1-M_m$ which will result into $M^*_1-M^*_m$ by products and $Y_1-Y_n$ newly created products. We can make a matrix out of this.
+
+| Inputs | Outputs  |          |     |          |          |     |          |
+| ------ | -------- | -------- | --- | -------- | -------- | --- | -------- |
+|        | $M_1^*$  | $M_2^*$  | ... | $M_m^*$  | $Y_1$    | ... | $Y_n$    |
+| $M_1$  | $z_{11}$ | $z_{12}$ | ... | $z_{1m}$ | $w_{11}$ | ... | $w_{1n}$ |
+| $M_2$  | $z_{21}$ | $z_{22}$ | ... | $z_{2m}$ | $w_{21}$ | ... | $w_{2n}$ |
+| ...    | ...      | ...      | ... | ...      | ...      | ... | ...      |
+| $M_m$  | $z_{m1}$ | $z_{m2}$ | ... | $z_{mm}$ | $w_{m1}$ | ... | $w_{mn}$ |
+
+$$
+x_i = z_{i1} + z_{i2} + \cdots + z_{ij} + \cdots + z_{im} + w_{i1} + \cdots + w_{ij} + \cdots + w_{in}\\
+= a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{ij} x_j + \cdots + a_{im} x_m + b_{i1} y_1 + \cdots + b_{ij} y_j + \cdots + b_{in} y_n
+$$
+
+With $x_i$ the input amount, $y_i$ the process output in new substance forms. $z_{ij}$ the material flow from material $i$ to $j$. $w_{ij}$ is the material flow from $i$ to **new substance** $j$. 
+
+$$
+a_{ij} = \frac{z_{ij}}{x_j} \qquad  b_{ij} = \frac{w_{ij}}{y_j}
+$$
+
+And we can even use matrices to have a more compact form:
+
+$$
+(I-A)X = BY \qquad X = (I-A)^{-1}BY
+$$
+
+We can usually reduce the impact of Y by reducing the input of X.
+
+#### Metric Exergy (J)
+
+Concept: The ‘quality of energy’ and / or materials relative to the ‘standard’ reference is monitored. So typically we start from a *reference state* and we see the amount of work needed to bring it to a defined *system state*.
+
+![Flow of Exergy](image-13.png)
+
+But not all of this exergy is lost if we reuse waste material.
+
+### Factory Level
+
+Productive + support activities are analyzed in this scope. Planning and scheduling are included. We can either go for:
+
+- holistic / integrated analysis:
+  - More higher level
+- components analysis:
+  - Check the input and output for every components.
+
+### Multi-facility
+
