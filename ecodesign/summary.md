@@ -30,6 +30,7 @@
     - [Multi-machine level](#multi-machine-level)
     - [Factory Level](#factory-level)
     - [Multi-facility](#multi-facility)
+    - [Supply chain](#supply-chain)
 - [Optimal lifetime determination](#optimal-lifetime-determination)
   - [Methodology](#methodology)
     - [Inventarisation](#inventarisation)
@@ -531,7 +532,26 @@ Productive + support activities are analyzed in this scope. Planning and schedul
 
 ### Multi-facility
 
-test
+Here we have an approach that is based on the principle of **symbiosis** where all of those processes are mutually co-dependent and beneficiate of each other. It can also be an **industrial symbiosis** where companies are benefitting from eachother. This can leads in situation where some dangerous byproducts of one industry is actively reused in another one. So we can make some full circle and reduce consumption.
+
+But some solutions that is in this paradigm needs to be tailored specifically for each cases and cannot be generalized. The only one that can be easily applied at any cases is *recycling*.
+
+#### Recycling
+
+1. Hot extrusion: sound chip welding and can even reinforce some property with casting
+2. Screw extrusion: no need of preheating and continuous rotational movement
+3. Spark Plasma Sintering: energy and material efficient, More efficient, can be quite fast. Combined action of plastic deformation and electric field action.
+
+When we need to take this into account in a LCA, we need to take into account the losses of the material that can not be recovered and we add some primary material.
+
+### Supply chain
+
+In this part the main considerations is freight and facilities location. We need to find the most economical and at the same time balance with the best for the environment.
+
+By far, the air freight is the one to consume the most energy per kg and also the $CO_2$ emissions. But depending on the locations of the facilities running on in various country can have a different impact. We more and more outsource which makes the $CO_2$ emissions related to transport skyrocket.
+
+
+
 
 # Optimal lifetime determination
 
