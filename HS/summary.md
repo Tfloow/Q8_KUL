@@ -7,6 +7,20 @@
   - [Mode of Operation](#mode-of-operation)
     - [Design method](#design-method)
     - [Cipher Block Chaining - CBC](#cipher-block-chaining---cbc)
+- [6 - Countermeasures against physical attacks](#6---countermeasures-against-physical-attacks)
+  - [The basis](#the-basis)
+  - [Countermeasures](#countermeasures)
+    - [1 - Re-keying](#1---re-keying)
+    - [2 - Masking](#2---masking)
+    - [3 - Hiding](#3---hiding)
+  - [Analog circuits and noise generators](#analog-circuits-and-noise-generators)
+    - [Decoupling](#decoupling)
+    - [Detach](#detach)
+    - [Active flattening](#active-flattening)
+  - [Noise generators](#noise-generators)
+  - [Masking](#masking)
+    - [Boolean masking](#boolean-masking)
+    - [Other types](#other-types)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
     - [Theoretical error](#theoretical-error)
@@ -127,6 +141,118 @@ Add confidentiality and encryption.
 The third column indicates how we encrypt or decrypt.
 
 The counter mode, we don't have any pipelining anymore.
+
+# 6 - Countermeasures against physical attacks
+
+To develop good countermeasure, we can't just focus on one area and then think it is good enough. No we need to add many layers of protection at all levels to be more resilient against attacks, we are applying it to **all level of abstraction**.
+
+There is 2 dominant philosophies:
+
+1. **Bottom up**: if we protect a low level component then all the higher one are resilient and safe
+2. **Top down**: if one component can tolerate side-channel leakage of lower components, then the lower components need no protection.
+
+We are often limited by the "what" since we operate on input and output and also by the "how" aka the level we are working at. We can't simply change protocol and primitives as they are fixed.
+
+## The basis
+
+To know if something is vulnerable, we need to have:
+
+1. Sensitive data
+2. Processed values that uses the sensitive data
+3. Physically observable operation (power, sidechannel, ...)
+
+For this we have multiple ways to prevent ourselves:
+
+- Masking: decorrelate the sensitive data and the data processed
+- Hiding: we are using lower SNR to make the recovery harder for an attacker
+- Provable secure countermeasure: usually rely on masking but hard to validate and easy to invalidate
+
+To know if we are at risk, we need to see if some intermediate data depends on a secret and get be guessed with some secret found by the attacker. We have a leak of information.
+
+## Countermeasures
+
+We have 3 main CM
+
+### 1 - Re-keying
+
+We change the key every few often so the attacker doesn't have enough sample to find the key. We also need to make sure that the re-keying is protected and some protocols don't support this.
+
+But it is not always enough as some protocols just need one sample to be broken.
+
+### 2 - Masking
+
+We make intermediate values independent of the secret. We are protecting ourselves to low-order attacks but it gets harder and harder for high-level one.
+
+We only need to store masked sensitive data ! Masking make the data unpredictable. But can be quite challenging to implement it and not accidentally leak or have some glitches
+
+### 3 - Hiding
+
+We try to reduce the SNR. We can either reduce the signal using some encoding or decoupling technique or increase the noise using some additional circuity and doing some timing jitter that is controlled in software. Those effects shouldnt be undoable.
+
+We can also make the operations always look the same or add dummy operation to not reveal the branch we are currently on.
+
+We need to be prepared to fail as no CM is perfect.
+
+
+## Analog circuits and noise generators
+
+We want to hide the power consumption, the ideal scenario would be a power supply that is isolated and cannot be seen or measured by the attacker. But we can't ofc.
+
+### Decoupling
+
+We had a capacitor between $V_{DD}$ and ground to smooth out peaks in the power consumption. But we can't perfectly smooth things out and the cap cannot be infinitely large.
+
+### Detach
+
+![Detached Power supply](image-16.png)
+
+The idea is to have one capacitor that charges while the other is supplying the current. Not perfect because we will see peaks in the toggling of the cap which also leak information.
+
+So the best thing is to supply the current through a cap, discharge it completely and then charge it again so we have a constant power consumption.
+
+### Active flattening
+
+We add a sensor that measures the supply current and we have a sink that mhlps having a constant power and current consumption using this sink. But this means we will have maximum current consumption all the time.
+
+![Active flattening](image-17.png)
+
+It is never perfect and even GPIO pins leak information. We are not protected against EM side channel attacks with those techniques.
+
+## Noise generators
+
+The noise must come from an independent noise source. We gotta randomly charge and discharge a capacitor. We can also activate some unused co-processors. Both methods rely on using a source of randomness.
+
+## Masking
+
+We know that intermediate data will be a function of a key and a sensitive data:
+
+$$
+x = f(p,k)
+$$
+
+But with masking, we are creating $d$ shares which $d \geqslant 1$.
+
+$$
+v = m_1 \cdot m_2 \cdot ... \cdot m_d \cdot x
+$$
+
+Here, "$\cdot$" represents a type of masking. The most basic one is the **boolean masking**
+
+### Boolean masking
+
+It uses a xor operation $\oplus$, it is linear which makes linear operations easy to mask. Non-linear operations are harder to mask.
+
+### Other types 
+
+We can also have the multiplicative one where $\otimes (\text{mult in GF}(2^8))$. It is really used for S-box in AES, but we need to be careful cause we can't mask a 0 with this type of masking.
+
+We can also use modulo addition where $+ (\text{addition mod } n)$. Used for the first versions of SHA and now in Post Quantum Cryptography.
+
+With the $\oplus$ we can recover the secret after reapplying the mask. In general, we have a vector and mask pair.
+
+We can't do masking before going into a S-box since they are non-linear. We have to create a new S-box $S'$. We have to recompute based on our S-box the new S'-box based on the new mask.
+
+
 
 # Students Presentation
 
