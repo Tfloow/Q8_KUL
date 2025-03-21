@@ -17,6 +17,13 @@
     - [Cascading dynamic logic](#cascading-dynamic-logic)
     - [Clocked CMOS or $C^2$MOS](#clocked-cmos-or-c2mos)
     - [Conclusion](#conclusion)
+- [5 - Production Test](#5---production-test)
+  - [Introduction: what’s the problem](#introduction-whats-the-problem)
+    - [Ad hoc versus structured test](#ad-hoc-versus-structured-test)
+  - [Structured test](#structured-test)
+    - [Structural testing](#structural-testing)
+  - [Design for testability](#design-for-testability)
+  - [Summary](#summary)
 
 # Introduction
 
@@ -362,3 +369,38 @@ It has less TOR and clock load but the split outputs don't have full swing. We h
 - Hard to automate in a synthesis – P&R flow based on static CMOS standard cells
 - Power consumption of dynamic logic is usually higher.
 - Nothing is as easy as standard CMOS...
+
+# 5 - Production Test
+
+We cannot build a working chip that is not testable, no one would buy our chip if we can't demonstrate that a specific die is working. This is why we need production test, to demonstrate that each of our sample is working as expected.
+
+## Introduction: what’s the problem
+
+Let's dive in.
+
+### Ad hoc versus structured test
+
+We have two type of cost:
+
+- Non recurring cost: development cost, engineer salary
+- Recurring cost: testing the chip, the time it takes us, the reduced throughput
+
+We need to increase the *observability* and *controlability* but adding more pins is expensive for IC, so we need to use a **scanning technique** where we load in a buffer we can observe all the data. We can also add more controlability by using muxes that are driven by a test mode signal. This a **ad hoc method** of testing.
+
+But we don't always have this available. We don't always know how everything works.
+
+## Structured test
+
+We could just enumerate all possible state, But with $n$ inputs and $m$ states, we have $2^{m+n}$ tests, which quickly explode and we can't just test all possible combinations.
+
+### Structural testing
+
+It is based on the fault models and knowledge of the circuit structure. We can predict or check for specific defect and use the **Automatic Test Pattern Generation (ATPG)**
+
+## Design for testability
+
+test
+
+## Summary
+
+test
