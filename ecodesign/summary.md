@@ -33,7 +33,9 @@
     - [Supply chain](#supply-chain)
 - [Optimal lifetime determination](#optimal-lifetime-determination)
   - [Methodology](#methodology)
+    - [Goal and scope](#goal-and-scope)
     - [Inventarisation](#inventarisation)
+    - [Impact assessment](#impact-assessment)
     - [Deterioration](#deterioration)
     - [Social dimension](#social-dimension)
 - [End-of-life treatment](#end-of-life-treatment)
@@ -557,29 +559,67 @@ By far, the air freight is the one to consume the most energy per kg and also th
 
 We either  go for early replacement or life time extension. One better choice is to keep interogating ourselves and do some life optimization. More over, we know that when we keep running things we are deteriorating its performance which will lead to higher power consumption for the same task.
 
+To measure if we should shorten the lifetime of a product we can see that if its impact is rising (more energy hungry, not working as good as brand new, ...) we shouldn't let it run forever as it will be contributing more to the environment that a new version of the product.
 
 
 ## Methodology
 
 Now let's dive in the methodology.
 
+### Goal and scope
+
+We need to set the time and place and see possibilities to give a second life to the products. We can also take into account a bunch of other parameters and metrics to decide of the best solution.
+
 ### Inventarisation
+
+Here we have 2 rates that are of interest:
+
+1. rate of innovation: how much is products improving and having less and less impact
+2. rate of deterioration: how a given product will consume more, be less efficient, ...
+
+Finally we can measure it with a function of the **energy consumption** $E(X,t_p,t)$.
 
 We have ecological impact:
 
-- Production impact
-- Use impact
-- Disposal impact
+- Production impact $P_e(X,t_p)$
+- Use impact $U_e(X,t_p,t)$
+- Disposal impact $D_e(X,t_p)$
 
 Cost:
+- Purchase prices $P_c(X,t_p)$
+- Use cost $U_c(X,t_p,t)$
+- Disposal cost $D_c(X,t_p)$
+- Discount rate $i$ (interest-inflation)
 
-**ADD SLIDE INFO**
+### Impact assessment
 
 We introduce a new metric the  **Cost of Ownership**.We calculate  this   metric  for all possible   scenarios to better compare it.
 
-We normalize it using the $\alpha$
+$$
+\text{TCO}_{\text{Ref}} = \min_X \left[ P_C(X, 0) + \sum_{j=0}^{L-1} \frac{U_C(X, 0, j)}{(1+i)^j} + \frac{D_C(X, 0)}{(1+i)^{L-1}} \right]
+$$
+
+So we analyze the purchase cost, the use cost and the disposal cost and we try to find a minimum for it.
+
+Then we use the TEI that analyse the **Environmental Impact**
+
+$$
+\text{TEI}_{\text{Ref}} = \left[ P_e(X, 0) + \sum_{j=0}^{L-1} U_e(X, 0, j) + D_e(X, 0) \right]_{X=\text{Ref}}
+$$
+
+Here we look at the purchase, use and disposal impact.
+
+We normalize it using the $\alpha$, we call it the *annuity factor* and it distributes the once-only costs evenly over the reuse lifetime of L-A years.
 
 $$\alpha = \frac{i ADD}{(1+i)^{L-A}-1}$$
+
+After finding those references, it serves as baseline for analyzing second hand products. In fact, it is not always more sustainable to buy second hand as it may have higher use impact. So we find $TCO_A$ with $A$ being the age of the second hand product that can run until $L$ years after it breaks (breakdown lifetime).
+
+We can define 3 zones:
+
+1. reuse: $TCO < TCO_{ref}$ and $TEI < TEI_{ref}$
+2. gray area: ($TCO > TCO_{ref}$ and $TEI < TEI_{ref}$) or $TCO < TCO_{ref}$ and $TEI > TEI_{ref}$
+3. no reuse: $TCO > TCO_{ref}$ and $TEI > TEI_{ref}$
 
 ### Deterioration
 
@@ -591,7 +631,7 @@ We also need to take into account  the fact that everything will get better over
 
 ### Social dimension
 
-We also want a decrease of segregation between the people that  have and do not have certain  conforts. But also with kringwikel, it supplies with jobs etc.
+We also want a decrease of segregation between the people that  have and do not have certain  conforts. But also with kringwinkel, it supplies with jobs etc.
 
 We can also think about fixing it with  pretty modular architecture.
 
