@@ -21,6 +21,10 @@
   - [Masking](#masking)
     - [Boolean masking](#boolean-masking)
     - [Other types](#other-types)
+- [7 - Trusted Computing](#7---trusted-computing)
+  - [Theory](#theory)
+  - [Techniques](#techniques)
+  - [Conclusion](#conclusion)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
     - [Theoretical error](#theoretical-error)
@@ -252,7 +256,19 @@ With the $\oplus$ we can recover the secret after reapplying the mask. In genera
 
 We can't do masking before going into a S-box since they are non-linear. We have to create a new S-box $S'$. We have to recompute based on our S-box the new S'-box based on the new mask.
 
+# 7 - Trusted Computing
 
+It is the **assurance on running code**, we need to prove its identity, authenticity and secrecy. Making sure to keep sensitive data private. This is enable through **hardware support**.
+
+Trusted Computing all rely on root of trust and chain of trust. TC solutions need to be tailored for every application.
+
+## Theory
+
+> *Trusted system or component is one whose failure can break the security policy, while a trustworthy system or component is one that won’t fail*
+
+## Techniques
+
+## Conclusion
 
 # Students Presentation
 
