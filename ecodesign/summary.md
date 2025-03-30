@@ -41,7 +41,7 @@
 - [End-of-life treatment](#end-of-life-treatment)
   - [Example of an EEE recycling line](#example-of-an-eee-recycling-line)
     - [CRT processing](#crt-processing)
-    - [Plastic recylcing](#plastic-recylcing)
+    - [Plastic recycling](#plastic-recycling)
   - [Efficiency and Feasibility of Disassembly](#efficiency-and-feasibility-of-disassembly)
     - [Disassembly tye](#disassembly-tye)
 >>>>>>> 1af6aef0b674cae2888cc3ce02b1baea9c120027
@@ -643,7 +643,7 @@ We can see that when we have a recession, we have a drop in total waste since pe
 
 Not all waste can be treated, but we need to recycle and maybe convert this waste into energy source.
 
-In belgium, the manufacturer needs to think about EOL treatment but it can't always be done since most manufacturers are not in Belgium. So to hold responsability, the client will pay an eco-tax through the retail  shop and recupel gets the money so they make sure to have some  money to process the waste.
+In Belgium, the manufacturer needs to think about EOL treatment but it can't always be done since most manufacturers are not in Belgium. So to hold responsibility, the client will pay an eco-tax through the retail  shop and Recupel gets the money so they make sure to have some  money to process the waste.
 
 Computers have a  0.01 euro tax since most ppl wanna gets those computer waste since they can upcycle it and reuse them.  We can't make it 0.
 
@@ -657,7 +657,7 @@ We are looking at SIM group. The last step is shredding so we can do some magnet
 
 ### CRT processing
 
-One of the glass had lead in it so we want to avoid to have lead leakage. We need to do some dissassembling it. Was a hard process at the beginning before finding a simple way to separate it. After this discovery, dissassembling CRT was a juicy business after.
+One of the glass had lead in it so we want to avoid to have lead leakage. We need to do some disassembling it. Was a hard process at the beginning before finding a simple way to separate it. After this discovery, disassembling CRT was a juicy business after.
 
 We are seeing more and more of *urban mining* where people are now harvesting the waste. We can get back some important material. With mining we are having 10 grams per ton of ore, for computer, it is more dense than virgin mining.
 
@@ -665,9 +665,9 @@ We can still do much better in Europe, we have bad collection rate (some second 
 
 Shredding is not always the choice due to entropy losses. Mechanical separation isn't always the best.
 
-### Plastic recylcing
+### Plastic recycling
 
-We should avoid mixing incopatible plastic in the same product or ensure that they have vastly different buoancy point so we know it is easy to separate it.
+We should avoid mixing incompatible plastic in the same product or ensure that they have vastly different buoyancy point so we know it is easy to separate it.
 
 Some manufacturers doesn't use the right label to indicate the type of plastic so it is not always clear what plastic is being used. Moreover this label category doesn't indicate some special type of plastic.
 
@@ -675,7 +675,7 @@ Some manufacturers doesn't use the right label to indicate the type of plastic s
 
 Create a better understanding of the factors determining the economic feasibility of ADD INFO.
 
-Shredding was the best solution for a water kettle (dissasambly isn't better than shredding for this product), but for other device by how much should we lower the price of dissambly to make it profitable.
+Shredding was the best solution for a water kettle (disassembly isn't better than shredding for this product), but for other device by how much should we lower the price of disassembly to make it profitable.
 
 Automated disassembly is not the best,  we need an operator on the side and it was pretty slow. But sometimes screws were corroded so impossible to remove it.
 
