@@ -23,7 +23,12 @@
     - [Other types](#other-types)
 - [7 - Trusted Computing](#7---trusted-computing)
   - [Theory](#theory)
+    - [TCB and RoT](#tcb-and-rot)
   - [Techniques](#techniques)
+    - [Secure boot goals](#secure-boot-goals)
+    - [Measured boot goals](#measured-boot-goals)
+    - [Trusted Platform Module](#trusted-platform-module)
+    - [Trusted Execution Environment goals](#trusted-execution-environment-goals)
   - [Conclusion](#conclusion)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
@@ -266,7 +271,54 @@ Trusted Computing all rely on root of trust and chain of trust. TC solutions nee
 
 > *Trusted system or component is one whose failure can break the security policy, while a trustworthy system or component is one that won’t fail*
 
+So a trusted device is a *dangerous* attack point. It is part of a potential attack surface. And as a hardware designer it is our task to prove security since we can't rely on further lower level supposition since we are the lowest level. That's why we are creating TPM or special operating mode TEE.
+
+### TCB and RoT
+
+- Trusted Computing Base: collection of everything in a system that is trusted
+  - Often implemented in a hierarchical manner where A verifies B, ...
+  - Root of Trust: the anchor of this chain
+
+eg: when booting in windows 11, the boot ROM starts (RoT) and verifies the BIOS, then the bootloader gets verified and finally the OS. Then any untrusted applications can execute.
+
+By using this kind of chain, we can verify authenticity and make sure no malicious actor tampered the software, ... 
+ 
+But also good for Digital Right Management and make sure there is no fake copy or pirated copy that are being used.
+
+| Technique          | Goal                                                              | Examples                     |
+| ------------------ | ----------------------------------------------------------------- | ---------------------------- |
+| Secure boot        | Ensure only signed software is running, encrypt software binaries | every game console and phone |
+| Measured boot      | Unforgeable identity of running code                              | DICE                         |
+| Trusted execution  | Shield away code and data from untrusted OS                       | SGX, TrustZone               |
+| Remote attestation | Prove to other party which software stack you are running         | Apple App Attest             |
+
 ## Techniques
+
+### Secure boot goals
+
+We don't want to leak the code or secrets running on device and make sure we can only execute vendor-approved code. Good for **confidentiality** and **integrity & authenticity**.
+
+*note:* Secure boot is the general term, Secure Boot is the windows implementation.
+
+Here we have on the hardware a key written with fuses and it sends its public key to the TPM unit that make sure the BIOS is not corrupted. Here the RoT is the boot ROM and the engraved key.
+
+### Measured boot goals
+
+Know which code is being executed and can attest it. Good for **integrity**. Here, even if the code is not the right one, it is still allowed to run but we can check that it is not the correct one.
+
+![Device Identity Composition Engine](image-18.png)
+
+They grey box is done by a secured piece of code that is trusted by the boot ROM. The CDI will change at any data change in the code which creates new key making previous encrypted data unreadable.
+
+### Trusted Platform Module
+
+It uses cryptography and is a form of data storage that can realize attestation. Heavily used and now standardized by the TCP.
+
+![A. Sadeghi, used with permission](image-19.png)
+
+### Trusted Execution Environment goals
+
+It hides secrets from other system parts **confidentiality** and isolate execution from untrusted parts (like OS too) **availability**. Can be broken through leakage and side channel at the microarchitectural level.
 
 ## Conclusion
 
