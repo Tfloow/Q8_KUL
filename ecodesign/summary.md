@@ -43,7 +43,8 @@
     - [CRT processing](#crt-processing)
     - [Plastic recycling](#plastic-recycling)
   - [Efficiency and Feasibility of Disassembly](#efficiency-and-feasibility-of-disassembly)
-    - [Disassembly tye](#disassembly-tye)
+    - [Active disassembly concept](#active-disassembly-concept)
+    - [Disassembly type](#disassembly-type)
 >>>>>>> 1af6aef0b674cae2888cc3ce02b1baea9c120027
 
 # Life Cycle Assessment
@@ -661,7 +662,7 @@ One of the glass had lead in it so we want to avoid to have lead leakage. We nee
 
 We are seeing more and more of *urban mining* where people are now harvesting the waste. We can get back some important material. With mining we are having 10 grams per ton of ore, for computer, it is more dense than virgin mining.
 
-We can still do much better in Europe, we have bad collection rate (some second hand device go to Africa so we loose it). The handpicking is not super good since the operators are not really well trained and they are not really pushed dto get some more yield.
+We can still do much better in Europe, we have bad collection rate (some second hand device go to Africa so we loose it). The handpicking is not super good since the operators are not really well trained and they are not really pushed to get some more yield.
 
 Shredding is not always the choice due to entropy losses. Mechanical separation isn't always the best.
 
@@ -671,14 +672,58 @@ We should avoid mixing incompatible plastic in the same product or ensure that t
 
 Some manufacturers doesn't use the right label to indicate the type of plastic so it is not always clear what plastic is being used. Moreover this label category doesn't indicate some special type of plastic.
 
+On top of that, there is multiple standards for material identification in the industry.
+
+There is a set of best practices to help with disassembly. Typically:
+
+- joint parts that are easy to remove
+- reduce number of joint parts
+- standard types and sizes of joint parts
+- plenty of room for tools
+
+There is also research in the field that studies fasteners and easy mechanism for dismounting and opening a product.
+
+There is also a trade-off between the depth of the disassembly and the cost. Typically, we will get a good return up until a certain point where there is less and less valuable parts and more cost to extract it.
+
+![ROI disassembly](image-14.png)
+
+It is hard to design for recycling and requires a tremendous amount of data before starting to design. 
+
+A better approach is to first design and quickly flag the bottlenecks and iterate on it. It requires less data and is a suited methodology for complex products.
+
 ## Efficiency and Feasibility of Disassembly
 
-Create a better understanding of the factors determining the economic feasibility of ADD INFO.
+Create a better understanding of the factors determining the economic feasibility of disassembly operations.
+
+Identify suitable technical means to achieve more efficient disassembly for a wide variety of products
 
 Shredding was the best solution for a water kettle (disassembly isn't better than shredding for this product), but for other device by how much should we lower the price of disassembly to make it profitable.
 
 Automated disassembly is not the best,  we need an operator on the side and it was pretty slow. But sometimes screws were corroded so impossible to remove it.
 
-### Disassembly tye
+### Active disassembly concept
+
+- One-to-one dis
+  - Dis as the inverse of assembly
+  - Connections reversed individually
+  - Limited automation potential
+  - Products treated sequentially
+- One-to-many dis
+  - Single action causing reversal of multiple connections
+  - uniform trigger signal
+  - high automation potential
+  - multiple products can be treated in parallel
+
+For one-to-many disassembly we can even have some generic disassembly method that can help us quickly disassemble multiple parts, kinda like a *self-disassembly* process. Some examples:
+
+- Thermal: can remove the joints, freezing will cause a trigger.
+- Chemical: use of hydrogen storage alloy or soluble nuts that will dissolve with the correct compound.
+- EM: use of magnetic field and magnet to let a fastener unlock
+- Electrical: we use some heating principle to remove a nut.
+- Mechanical: by using some pneumatic forces we can trigger a fastener (typically with less pressure, ...).
+
+Those ideas are having a hard time to emerge in the industry as they are more costly and paying 5 cents more for replacing fasteners in a product isn't interesting. We need to have more initiative to push companies to get compensation using this type of fasteners.
+
+### Disassembly type
 
 We either have some product specific that are tailored for a specific disassembly method. We also have some more generic one.
