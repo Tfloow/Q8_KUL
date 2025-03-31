@@ -29,6 +29,8 @@
     - [Measured boot goals](#measured-boot-goals)
     - [Trusted Platform Module](#trusted-platform-module)
     - [Trusted Execution Environment goals](#trusted-execution-environment-goals)
+    - [SGX](#sgx)
+    - [Remote Attestation](#remote-attestation)
   - [Conclusion](#conclusion)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
@@ -320,7 +322,25 @@ It uses cryptography and is a form of data storage that can realize attestation.
 
 It hides secrets from other system parts **confidentiality** and isolate execution from untrusted parts (like OS too) **availability**. Can be broken through leakage and side channel at the microarchitectural level.
 
+This can be implemented like an ARM TrustZone where on top of the privileged, unprivileged mode of execution, we have a secure and non-secure mode:
+
+![Arm TrustZone](image-20.png)
+
+Also relies on code supplied by the boot firmware.
+
+### SGX
+
+It creates some *unprivileged secure* islands. In other words it creates enclave shielded from the OS and uses memory encryption. It also uses attestation to prove authenticity and is implemented using some CPU microcode.
+
+### Remote Attestation
+
+This is a mix of TEE and measured boot and is called **remote attestation**. We ask a server to verify some code that it is running. Then it will measure the code and will sign hash and challenge with a protected signing key.
+
+But we need to protect some nonvolatile key storage and need a TEE implementation. We also need to be protected against some classic attack. How to anonymize prover, give keys, ...
+
 ## Conclusion
+
+We will try to minimize the Trusted Computing Base and will move towards RoT with one single pont of failure. There isn't a one-fit-all solution, we need to create one for each threat we want to protect against.
 
 # Students Presentation
 
