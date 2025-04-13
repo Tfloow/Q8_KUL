@@ -32,6 +32,21 @@
     - [SGX](#sgx)
     - [Remote Attestation](#remote-attestation)
   - [Conclusion](#conclusion)
+- [8 - Micro-Architectural attacks and defense](#8---micro-architectural-attacks-and-defense)
+  - [Caches](#caches)
+    - [Set-associative cache](#set-associative-cache)
+  - [Cache side channels](#cache-side-channels)
+    - [Flush + Reload](#flush--reload)
+    - [Evict + Reload](#evict--reload)
+    - [Prime + probe](#prime--probe)
+  - [Cache covert channels](#cache-covert-channels)
+  - [Transient Execution Attacks](#transient-execution-attacks)
+    - [Spectre](#spectre)
+    - [Meltdown](#meltdown)
+  - [Rowhammer](#rowhammer)
+    - [Countermeasures - DDR4](#countermeasures---ddr4)
+    - [Countermeasures - DDR5](#countermeasures---ddr5)
+  - [Conclusions](#conclusions)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
     - [Theoretical error](#theoretical-error)
@@ -341,6 +356,149 @@ But we need to protect some nonvolatile key storage and need a TEE implementatio
 ## Conclusion
 
 We will try to minimize the Trusted Computing Base and will move towards RoT with one single pont of failure. There isn't a one-fit-all solution, we need to create one for each threat we want to protect against.
+
+# 8 - Micro-Architectural attacks and defense
+
+Micro-architecture is something pretty subtle as it is not software nor really hardware. I sits right between the Software and ISA and the Hardware. It is something that differentiates each generation of processor between each other.
+
+We have the Instruction Set Architecture that decodes and executes. The micro-architecture is like the secret sauce that makes everything works and that allows Hardware engineer to create and extend some functionality without redesigning ISA from the ground-up.
+
+**Specific implementation of the ISA is called the micro-architecture**.
+
+## Caches
+
+In hardware, everything is a mirage and we tend to idealize everything. We want fast and wide memory. But this is a pure dream, so we have to create *cache-levels*. Each level is a bit bigger than the previous one but also slower.
+
+Data that was recently accessed are often physically located close to a CPU core for quick access in the future. 
+
+![Cache levels](image-21.png)
+
+### Set-associative cache
+
+If we understand the architecture and the algorithm behind caches, it can potentially indicates sensitive informations to an attacker.
+
+Typically in set-associative caches, We use the something like:
+
+```
+[-----tag-----:---index---:offset]
+```
+
+Where the index is the row in our cache table, the tag is there to be sure that we are accessing the right data. The offset is usually 2 bits since we often work in 32 bits system so $4 \cdot 8$ bits (we rarely access data or instructions in the middle).
+
+So if we fill up a cache line with garbage data, we can time how long a program will run and compare various executions. This is the principle of cache attack and such attacks can be extended to page-fault attacks.
+
+
+## Cache side channels
+
+To make those attacks feasible and plausible, we have to rule a set of constraint and access to make an attack count as is.
+
+### Flush + Reload
+
+* Victim and attacker run on the same CPU and shares micro-architectural elements
+* Attacker cannot read victim secrets directly, they do share some memory (shared library)
+* Attacker can directly manipulate cache state, eg flush a cache line from the cache
+
+The idea is to flush all the data from a cache line, especially the victim's address. Then let the victim run his codes, finally we measure the time access. If it is slow, the victim didn't access this line, if it is fast then the victim did in fact access this.
+
+We can apply this attack model on RSA where a clear bit will simply square as a set bit will square and multiply. The idea is to wipe the access address of the square and multiply functions. Then we let a loop run and check the time access for both functions. We can then determine if the victim accessed one or both functions.
+
+There exists some countermeasures for this as:
+
+* Constant-time programming
+* Not allowing cache state manipulation
+* ...
+
+### Evict + Reload
+
+* Victim and attacker run on the same CPU and shares micro-architectural elements
+* Attacker cannot read victim secrets directly, they do share some memory (shared library)
+* Attacker can directly manipulate cache state, eg evict so remove cache line by accessing others
+
+We first access some garbage addresses to evict a potential victim's address. The we let the victim run his codes and finally we measure the speed.
+
+### Prime + probe
+
+* Victim and attacker run on the same CPU and shares micro-architectural elements
+* Attacker cannot read victim secrets directly, they do share some memory (shared library). Prime cache with attacker-controlled addresses.
+* Attacker can directly manipulate cache state, eg flush a cache line from the cache
+
+Here, we will evict a cache line by using a set of addresses that map to the same cache set as the victim address. After, we will measure the speed of the cache set, if it has one or more slow access, we know the victim used this cache set.
+
+Some counter-measures can involve:
+
+* constant time programming
+* Restricting access to timers
+* Disabling cache
+* Partitioning cache
+* Cryptographically secure indexing function
+
+## Cache covert channels
+
+The idea is to communicate between a sender a receiver without using an official channel. But we use the cache to send those data since the two are running on the same cpu.
+
+For example, we have a large buffer, we can flush all of the data from the cache and then the transmitter can do a dummy access to a specific offset in this array. Then the receiver scan the access time to every $a_i$.
+
+## Transient Execution Attacks
+
+Most modern CPUs implement some branch prediction and other type of algorithm to avoid stalls due to data dependency between different instructions. Most of those CPU's are what we call **out of order** meaning they can execute one or another instructions before another one. They will be called **transient instructions** where we have the result but we do not commit yet (no write back).
+
+Those transient instructions will leave some micro-architectural side effects, it will change the cache state.
+
+### Spectre
+
+```c
+buf_size = len(buf)
+if (x < buf_size){
+  s = buf[x]
+  a = array[s*4096]
+}
+```
+
+Typically we will iterate over the buffer, most of the time `x < buf_size` so it will avoid checking all the time and will execute the two instructions before. So we have some transient instructions and as seen before, the last line is a way to use covert channels.
+
+We can access extra values without triggering a buffer overflow or we could also leak some data about the size of the buffer.
+
+Some countermeasures can be the insertions of `lfence()` to stop speculative execution up until a certain point, making hte program slower. On the *hardware* level we can disable all speculation, prevent forwarding of transiently loaded data, roll back micro-architectural state, close cache covert channel, ...
+
+### Meltdown
+
+```c
+s = load(kernel_address)
+a = array[s*4096]
+```
+
+Result from faulting instruction may have already been forwarded. Executing the array access affects the cache and an attacker can infer value of s from cache state.
+
+There exists some software and hardware countermeasures for it such as:
+
+* Software: Kernel Page Table Isolation
+  * Don't map kernel pages in userspace
+* Hardware: Don't forward values from faulting instructions
+
+## Rowhammer
+
+This type of attacks is even more low-level as it is linked with the physical way that data is stored in RAM. In a RAM stick, each data is stored on a capacitance that is accessed through the word- and bitline. This cap needs to be charged and discharged quite often.
+
+Reading in DRAM is destructive and requires to refresh the value. We use a *row buffer* to store the row that is being currently read.
+
+BUT, reading all the time can disturb the neighboring rows. We can witness some bitflip.
+
+![Expected Behavior](image-22.png)
+![Rowhammer](image-23.png)
+
+Neighboring rows loose a tiny amount of charge which causes to flip.
+
+### Countermeasures - DDR4
+
+*Target Row Refresh* (TRR), we keep a counter for each row and if it exceeds a certain value we also refresh neighboring rows. But it is quite not feasible to implement such counter. So we have a limited number of counters per bank. So that makes DDR4 still vulnerable to rowhammer.
+
+### Countermeasures - DDR5
+
+We have on die ECC, less refresh intervals so less time to hammer the rows. But it as been proved on AMD processor that we can do some rowhammer.
+
+## Conclusions
+
+Correct execution doesn't mean it is safe. We have to often reduce performance to enhance security since performance can introduce vulnerabilities.
 
 # Students Presentation
 
