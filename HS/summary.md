@@ -47,6 +47,13 @@
     - [Countermeasures - DDR4](#countermeasures---ddr4)
     - [Countermeasures - DDR5](#countermeasures---ddr5)
   - [Conclusions](#conclusions)
+- [9 - Introduction to Software Security](#9---introduction-to-software-security)
+  - [Introduction and Motivation](#introduction-and-motivation)
+    - [Evolution of the cyberspace](#evolution-of-the-cyberspace)
+    - [Cybersecurity](#cybersecurity)
+    - [Past incidents](#past-incidents)
+    - [Underlying causes](#underlying-causes)
+  - [Low-Level Software security](#low-level-software-security)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
     - [Theoretical error](#theoretical-error)
@@ -499,6 +506,63 @@ We have on die ECC, less refresh intervals so less time to hammer the rows. But 
 ## Conclusions
 
 Correct execution doesn't mean it is safe. We have to often reduce performance to enhance security since performance can introduce vulnerabilities.
+
+
+# 9 - Introduction to Software Security
+
+## Introduction and Motivation
+
+### Evolution of the cyberspace
+
+We have more and more IoT devices so more and more edge devices connected to the internet. The code are becoming more and more sophisticated and we are running even more programs in parallel. This all involves billions of users who rely more and more on it. 
+
+Raise the security risk from this increase.
+
+### Cybersecurity
+
+Study of the general problem of:
+
+* Maintaining good properties of Internet-connected systems in the presence of intelligent adversaries trying to break those properties
+
+It is still a pretty vague definition, we instead will accept the definition of "avoiding bad things to happen". So we have to recognize and respond to it.
+
+### Past incidents
+
+#### Malware
+
+* Virus: piece of code that can infect other programs. It can then replicate through different medium.
+* Worm: self-replicating virus
+
+Now, most of the malware are developed by:
+
+* Criminals for DDOS, botnet (rent them), crypto-mining, ...
+* Nations for collecting intelligence and do some cyber-offensive operations
+
+A common attack vector for Nations is to use some supply chain attacks where a third party compromise an entity.
+
+#### Jail Breaking
+
+To do some escalation of privileges on a closed device. To customize the device, to bypass the DRM, ...
+
+#### Online scams
+
+* Phishing: fake email that look legitimate
+* Catfishing: impersonating someone (les brouteurs)
+
+### Underlying causes
+
+There is often 2 weak links:
+
+1. People: easy to manipulate, forget password, reuse the same all the time, security configuration, ... We can even do some *spear-phishing* to target a specific person that can be at the foundation of the company's security, ...
+2. Software: some vulnerability in the software, ... over 100 000 CVE registered.
+
+#### 0 day vulnerability 
+
+Vulnerability that the manufacturer is not aware of. Highly powerful vulnerability. Valuable to hackers, state, law enforcement, ...
+
+
+## Low-Level Software security
+
 
 # Students Presentation
 
