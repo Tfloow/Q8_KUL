@@ -54,6 +54,11 @@
     - [Past incidents](#past-incidents)
     - [Underlying causes](#underlying-causes)
   - [Low-Level Software security](#low-level-software-security)
+    - [Threat model](#threat-model)
+    - [System model](#system-model)
+    - [Attack scenarios](#attack-scenarios)
+    - [Mitigating Attacks](#mitigating-attacks)
+  - [Conclusions](#conclusions-1)
 - [Students Presentation](#students-presentation)
   - [2 - Low Cost and Precise Jitter Measurement Method for TRNG Entropy Assessment](#2---low-cost-and-precise-jitter-measurement-method-for-trng-entropy-assessment)
     - [Theoretical error](#theoretical-error)
@@ -560,8 +565,98 @@ There is often 2 weak links:
 
 Vulnerability that the manufacturer is not aware of. Highly powerful vulnerability. Valuable to hackers, state, law enforcement, ...
 
+All those vulnerabilities can be also researched and found. We can either report it as part of a bug bounty program or sell it as a weapon to various entity.
+
+#### Legality ?
+
+We can do some legal ethical hacking where it is not problematic. But we can still sell it which is like a weapon but seems well tolerated in the eu.
+
 
 ## Low-Level Software security
+
+### Threat model
+
+Before diving any further, we need to set the attacker and System model:
+
+* **System:** software written in a C like language compiled to a modern processor
+* **Attacker:** attacker can interact with the programs with input and sees the output. He also knows the source code and understand it and can execute it.
+
+### System model
+
+It will be system dependent so the attack may vary from system to system but the underlying attack remains the same. So we will build an abstract model of the machine
+
+#### Abstract model
+
+We have a memory part that is *byte-addressable* ranging from a minimum and maximum either with virtual or physical memory.
+
+It also has a CPU that possess a Program Counter, stack pointer, register, ... with an ISA where the code is in byte in sequence. We also assume those data are **little-endian**.
+
+![Little-endian](image-24.png)
+
+We assume the code to be like a C program where we have int, char, ... and a table or vector is simply a pointer to the start of this table. We have some simple IO and other libraries and we have some private and global variable.
+
+![Stack and heap in linux](image-25.png)
+
+Quick reminder: 
+
+* Local variable: grow on the stack, parameters, ...
+* Global variable: in the data segment
+* Dynamic variable: in the heap and is handled by malloc or free
+
+We use pointers where pointers arithmetic is possible. The code for the function sits in the code and we compile the code separately. We also have some shared libraries that can be dynamically loaded.
+
+#### Memory management vulnerabilities
+
+C offers a lot of flexibility and let the programmer to allocate and re-allocate variable easily. But it needs to be well used and not using variables that have been de-allocated or accessing value outside of a buffer. Usually, programs don't do checks for speed and efficiency reason but the program will run in an undefined state.
+
+### Attack scenarios
+
+The main idea is to feed the program some wrong data that will take advantage of this undefined state of the program to execute or run other things. Or, since we know how is the program written we could simply trigger a specific part of the program without doing anything not permitted.
+
+#### 1: Call stack smashing
+
+The simplest type of attack where we will make a buffer overflow and overwrites the return pointer. We can re-write this return pointer with a shellcode.
+
+So typically we will load in the buffer the shellcode we want, and we will put as the return address the address at the start of our malicious payload.
+
+#### 2: Code reuse attacks
+
+It is similar to the previous example but here we will replace the return pointer to a specific part of the program, for example forcing to execute a function we couldn't reach but has some secrets.
+
+#### Return Oriented Programming or ROP
+
+this is a more modern idea, instead of using some return into functions, we chain *gadgets*. A gadget is a small piece of machine code that ends with a return.
+
+![Basic Memory Exploit](image-26.png)
+
+### Mitigating Attacks
+
+The first defense line is the the hardware, system, compiler, ... But those protections are simply partial.
+
+#### 1: Canaries
+
+We can put a small value before the return pointer and we check before return that this value was not erased or modified. A modified value is an indicator of a modified return address pointer.
+
+#### 2: Non-executable data
+
+Make the stack and heap non-executable and mark the code part as non writable. This can be a good counter-measure but doesn't protect to data-only and code-reuse attack. But this could also break some legacy applications.
+
+#### 3: Randomize address
+
+Use some Address Space Layout Randomization (ASLR) is a good and simple counter-measures as it significantly raise the bar for attacker who relies on exact memory address.
+
+#### Other mitigations
+
+Those automatic countermeasures are simply efficient “mitigate-the-exploit” approaches are just stop-gap measures.
+
+
+## Conclusions
+
+It has been an attacker-defender infinite race against each other. Due to legacy and old codes, it has been hard to deploy solutions against the memory safety issue.
+
+But there is some hope with some safe compilation of C but also other programming language to build system such as Rust.
+
+
 
 
 # Students Presentation
