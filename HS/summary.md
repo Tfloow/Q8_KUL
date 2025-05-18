@@ -1,3 +1,10 @@
+---
+title: "Hardware Security - Summary"
+author: Thomas Debelle
+geometry: margin=2cm
+output: pdf_document
+---
+
 - [5 - Cryptographic Key](#5---cryptographic-key)
   - [Block cipher](#block-cipher)
   - [Data Encryption Standard (DES)](#data-encryption-standard-des)

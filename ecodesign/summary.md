@@ -1,3 +1,10 @@
+---
+title: "Hardware Security - Summary"
+author: Thomas Debelle
+geometry: margin=2cm
+output: pdf_document
+---
+
 
 - [Life Cycle Assessment](#life-cycle-assessment)
   - [Basics of Life Cycle Assessment](#basics-of-life-cycle-assessment)

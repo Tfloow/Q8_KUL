@@ -1,3 +1,10 @@
+---
+title: "Digital IC - Summary"
+author: Thomas Debelle
+geometry: margin=2cm
+output: pdf_document
+---
+
 
 - [Introduction](#introduction)
   - [Transistor switch model](#transistor-switch-model)
