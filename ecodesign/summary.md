@@ -116,17 +116,17 @@ We often speak about *eco-efficiency* where we try to be cheaper and less impact
   * Yet be careful not to lose important insights (you might be optimizing irrelevant things)
 * Determining system boundaries can occur iteratively
 
-![Data quality](image.png)
+![Data quality](image.png){ width=50% }
 
 ## The basics of life cycle inventory
 
-![Principle of inventory](image-1.png)
+![Principle of inventory](image-1.png){ width=50% }
 
 We need to analyze how much is going in and out, in emission but also waste that can be further valorized sometimes. We also need to make the distinction between the *technosphere* and *ecosphere*. When talking about the ecosphere we are taking into account all the ressources that comes from the nature while the technosphere takes into account the economic flows of products and also waste.
 
 We have the idea of **conservation of mass and energy**.
 
-![Typical analysis of flow](image-2.png)
+![Typical analysis of flow](image-2.png){ width=50% }
 
 We have two types of processes
 
@@ -161,9 +161,9 @@ How to distribute the impacts of these processes ? That's the main question we a
    * Always focus on the main driving and wanted production functional flow.
    * Primarily used in *consequential approach* but can be used for waste treatment in *attributional studies*.
 
-![Partitioning](image-3.png)
+![Partitioning](image-3.png){ width=50% }
 
-![Bad partitioning when physical link exists](image-4.png)
+![Bad partitioning when physical link exists](image-4.png){ width=50% }
 
 #### Allocation at point of substitution (APOS)
 
@@ -202,7 +202,7 @@ Constrained markets (regulated markets) are not marginal !
 
 ### Modelling context
 
-![Modelling-context](image-5.png)
+![Modelling-context](image-5.png){ width=50% }
 
 * Ecoinvent advice for attributional
   * Studies at a societal level, where the entire environmental impact of all human activities is studied, with the aim of identifying areas for improvement
@@ -241,7 +241,7 @@ We can :
 
 We need to put boundaries but it can be quite tricky to partition it.
 
-![Partitioning](image-6.png)
+![Partitioning](image-6.png){ width=50% }
 
 But it can be hard to measure and quantify the bi-directional relationships that exists between all the sectors. We can build this IO model based on the purchases between the sectors. 
 
@@ -251,9 +251,9 @@ But it can be hard to measure and quantify the bi-directional relationships that
 
 With those tables we can create some matrices indicating the consumption between the sectors.
 
-![Example matrices](image-7.png)
+![Example matrices](image-7.png){ width=50% }
 
-![Final Matrix](image-8.png)
+![Final Matrix](image-8.png){ width=50% }
 
 | Output from sectors    | Input to sectors | Intermediate output $O$ | Final demand $F$ | Total output $X$ |
 | ---------------------- | ---------------- | ----------------------- | ---------------- | ---------------- |
@@ -274,7 +274,7 @@ $$
 
 We normalize those matrix to have a view like "how to make 1 € ?" and when building those matrices, we can even incorporate the additional demand from a specific sector using $X$. And with those simple notation we can also quantify the environmental impact of various production from different sectors.
 
-![Hazardous](image-9.png)
+![Hazardous](image-9.png){ width=50% }
 
 # Design for environment (DfE): Methods and Techniques
 
@@ -312,7 +312,7 @@ There is also the *eco-score* that showcases the electricity consumption. Those 
 
 ### LIfe cycle Design Strategies (LIDS) wheel
 
-![LIDS wheel](image-10.png)
+![LIDS wheel](image-10.png){ width=50% }
 
 After developping a product, we can aim to develop a future generation that will be more eco-friendly.
 
@@ -408,7 +408,7 @@ Then we have other strategic issues that are the impact of supply restrictions:
 
 So when choosing a material, we need to take into account those 2 different dimensions.
 
-![Determining the criticality of materials](image-11.png)
+![Determining the criticality of materials](image-11.png){ width=50% }
 
 We can have a limit due to:
 
@@ -468,7 +468,7 @@ We are following the **DIN 8580** taxonomy which is:
 8. Measurements & Modeling
 9. Production & Process planning
 
-![Methodological approach to analyze unit processes](image-12.png)
+![Methodological approach to analyze unit processes](image-12.png){ width=50% }
 
 #### Conclusions
 
@@ -527,7 +527,7 @@ We can usually reduce the impact of Y by reducing the input of X.
 
 Concept: The ‘quality of energy’ and / or materials relative to the ‘standard’ reference is monitored. So typically we start from a *reference state* and we see the amount of work needed to bring it to a defined *system state*.
 
-![Flow of Exergy](image-13.png)
+![Flow of Exergy](image-13.png){ width=50% }
 
 But not all of this exergy is lost if we reuse waste material.
 
@@ -692,7 +692,7 @@ There is also research in the field that studies fasteners and easy mechanism fo
 
 There is also a trade-off between the depth of the disassembly and the cost. Typically, we will get a good return up until a certain point where there is less and less valuable parts and more cost to extract it.
 
-![ROI disassembly](image-14.png)
+![ROI disassembly](image-14.png){ width=50% }
 
 It is hard to design for recycling and requires a tremendous amount of data before starting to design. 
 

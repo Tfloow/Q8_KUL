@@ -58,29 +58,29 @@ This class is all about Gate and transistor. Low level is king.
 
 We can model a switch (MOSFET) with an ideal switch and a resistor : 
 
-![Switch](image.png)
+![Switch](image.png){ width=50% }
 
 By the transistor scaling, short channel are behaving differently due to the **velocity saturation**. The relation becomes linear and not quadratic like it used to be.
 
-![Equations](image-1.png)
+![Equations](image-1.png){ width=50% }
 
-![Regions](image-2.png)
+![Regions](image-2.png){ width=50% }
 
 # Logic Circuits
 
-![The static model](image-3.png)
+![The static model](image-3.png){ width=50% }
 
 The swing here is equal to $V_{dd}$ so we have a high noise margin. It is not a **ratioed** logic so we can't use tricks to minimize mismatch by taking advantage of ratios. We only have 1 resistor on so low output impedance but the input is the gate of MOS so we have a high input impedance. There is no static power consumption since no direct path from Vdd to ground. That's nice :)
 
 In the dynamic model we need to add an output cap $C_L$. The load cap is simply the sum of all capacitance at the output node. Transition time is determined by the charging of this cap by a resistor. The sizing impacts the dynamic behavior of the gate.
 
-![Switching threshold](image-4.png)
+![Switching threshold](image-4.png){ width=50% }
 
 Ideally we want $V_M$ to be at the middle of the other nominal voltage. We call the region in between the *undefined region*.
 
 ## Regeneration of the level
 
-![NAND gate regeneration](image-5.png)
+![NAND gate regeneration](image-5.png){ width=50% }
 
 With using this type of gate we have some regeneration level, it will amplify the signal and so we won't have undefined level and we will have the signal that will reach one defined state. If we have no regeneration, we will reach meta-stability. We have to meet some conditions : 
 
@@ -90,7 +90,7 @@ With using this type of gate we have some regeneration level, it will amplify th
 
 We need gain or the signal will be lost.
 
-![Noise margin](image-6.png)
+![Noise margin](image-6.png){ width=50% }
 
 We have 3 different types of noise : 
 
@@ -100,17 +100,17 @@ We have 3 different types of noise :
 
 The noise margin in CMOS is rather high which is a good thing seeing the low output impedance.
 
-![Switching threshold for INV](image-7.png)
+![Switching threshold for INV](image-7.png){ width=50% }
 
 We see that the ratio of PMOS and NMOS determine the $V_M$ voltages.
 
 ## Capacitance
 
-![Glitches and Delay](image-8.png)
+![Glitches and Delay](image-8.png){ width=50% }
 
 We know that the delay of a switch is $t_{phl} = f(R_{on} C_L) = ln(1/2) R_{on} C_L = ln(1/2) (R_{eqn} + R_{eqp})/2 \cdot C_L$. We are still observing some glitches when we switch on and off. This **isn't** due to the miller effect. This **overshoot** is due to the gate drain capacitor. 
 
-![Explanation of the overshoot](image-9.png)
+![Explanation of the overshoot](image-9.png){ width=50% }
 
 This is due to charges and sudden and "infinite" steep step at the input which will create an extra unwanted voltage. Thankfully the input isn't as steep in reality and so the effect is less severe but still noticeable. We call it the *digital miller effect*:
 
@@ -120,7 +120,7 @@ $$
 
 So it is like the cap becomes 3 times larger (similar to the miller effect) but in reality we are closer to 2 since we never have a perfect step at the input.
 
-![Loading issue](image-10.png)
+![Loading issue](image-10.png){ width=50% }
 
 We can move those $C_{gd}$ to the inside and see it as an impact on $C_L$. Again we can reuse the theory of DDP with the intrinsic and extrinsic load where $C_L = C_{int} + C_{ext}$ : 
 
@@ -142,7 +142,7 @@ The delay depends on the ratio between its external load capacitance and its inp
 
 The newly introduced $\gamma$ is not valid for dynamic logic or more exotic technologies. If this $\gamma = 1$ then it means that $C_{int} = C_{in}$. It is an acceptable approximation in standard CMOS logic.
 
-![The golden formula](image-11.png)
+![The golden formula](image-11.png){ width=50% }
 
 For the ring oscillator where we assume equal size $f=1$ is independent of the size. In real technology we see only a weak dependency of timing on sizing.
 
@@ -165,29 +165,29 @@ $$
 * $d$ : gate delay
   * relative to  the intrinsic delay of the reference invertor
 
-![Critical path \& Charging](image-12.png)
+![Critical path \& Charging](image-12.png){ width=50% }
 
 ## Pass gate logic
 
 Another approach than PUN and PDN as seen previously is the pass gate logic where we will not only use the gate but also the source of a transistor to create some gate.
 
-![Pass gate logic](image-13.png) 
+![Pass gate logic](image-13.png){ width=50% } 
 
 This technique uses less transistors. But the NMOS isn't a really good pull up transistor. It won't give a nice and crisp high voltage but rather a voltage with a $\Delta V = V_{Tloss}$. So to keep this signal crisp and nice we are obligated to add an INV to output a valid signal. This goes in the same idea as the *regeneration of the signal* logic.
 
 So cascading of passes tor logic isn't a smart choice since the signal will rapidly deprecate.
 
-![Static analysis](image-14.png)
+![Static analysis](image-14.png){ width=50% }
 
 ### Level restoration
 
 So we need to do what we call *level restoration*.
 
-![Level restorer](image-15.png)
+![Level restorer](image-15.png){ width=50% }
 
 It is compatible with the full swing and the static power consumption is gone. But we need a bleeder which will increases capacitance at node X and takes away the pull down current. Leads to speed degradation and needs proper sizing.
 
-![Threshold drops generalized](image-16.png)
+![Threshold drops generalized](image-16.png){ width=50% }
 
 #### Transmission gate
 
@@ -199,7 +199,7 @@ We can add a PMOS to the switch to create a **transmission gate**. This requires
 
 We know that having 2 INV back to back could lead to meta-stability so how can we reliably store data ? We want to remember the data *no triggering* but also sample and so stop looping the data *triggering*. In the second approach we simply *overpower the feedback loop* due to the asymmetry of the INV and so the input D will be more important than the output of the small INV (**David-Goliath latch**). Or we can cut the loop like in the second example.
 
-![Latches](image-17.png)
+![Latches](image-17.png){ width=50% }
 
 | Specifications |     Positive Latch      |       Register        |
 | :------------: | :---------------------: | :-------------------: |
@@ -208,41 +208,41 @@ We know that having 2 INV back to back could lead to meta-stability so how can w
 
 For latches we can either go for positive or negative latches and a register is simply two latch back to back. We can do latches using MUX for example.
 
-![Mux-Based latch : Transmission Gate vs Switch](image-18.png)
+![Mux-Based latch : Transmission Gate vs Switch](image-18.png){ width=50% }
 
 The second option is more preferable because it will have less load on the CLK which reduce the energy waste. But we need to remember we have to *regenerate* the signal since we will have a $V_{Tloss}$.
 
-![David Goliath](image-19.png)
+![David Goliath](image-19.png){ width=50% }
 
 The latch is pretty similar to the idea we have seen with pass gate. Here we can see again the bleeder on top and NMOS on the bottom which forms a basic INV.
 
-![Sizing of the latch](image-20.png)
+![Sizing of the latch](image-20.png){ width=50% }
 
 **NEED TO READ THIS PART CAREFULLY**
 
 **PAGE 15**
 
-![NOR-NOR latch](image-21.png)
+![NOR-NOR latch](image-21.png){ width=50% }
 
-![NAND-NAND latch](image-22.png)
+![NAND-NAND latch](image-22.png){ width=50% }
 
-![Transparent (n-)latch](image-23.png)
+![Transparent (n-)latch](image-23.png){ width=50% }
 
 ## Sequencing, pipelining revisited
 
-![Registers in the system](image-24.png)
+![Registers in the system](image-24.png){ width=50% }
 
 We can also have a *latch based pipelines*, the sequencing is much more soft but we could have race condition if the clocks are overlapping.
 
-![CLK must not overlap](image-25.png)
+![CLK must not overlap](image-25.png){ width=50% }
 
 Here we can have a 1-1 overlap on both latches are transparent. We can also have some undefined states where a node is driven by multiple nets. 
 
 When we have a 0-0 overlap it is like a pseudo static latch since there is no change.
 
-![Creating non-overlapping clock](image-26.png)
+![Creating non-overlapping clock](image-26.png){ width=50% }
 
-![Timing](image-27.png)
+![Timing](image-27.png){ width=50% }
 
 | **Term**    | **Name**                                    |
 | ----------- | ------------------------------------------- |
@@ -259,13 +259,13 @@ For registers
 
 $$T_c > t_{pd} + \underbrace{t_{pcq} + t_{setup}}_{\text{sequencing overhead}}\qquad t_{cd} + t_{ccq} > t_{hold}$$
 
-![latches, max. delay](image-28.png)
+![latches, max. delay](image-28.png){ width=50% }
 
 $t_{cd} + t_{ccq} + t_{nonoverlap} > t_{hold}$
 
 In the registers logic, we set the clock speed based on the slowest logic section. But in latch logic, we can do some **time borrowing** technique to take some time from the next cycle. We can't do this if we loop the data over in which case we will have some overlap of processing data.
 
-![Time borrowing technique](image-29.png)
+![Time borrowing technique](image-29.png){ width=50% }
 
 To compute the maximum allowed borrow time is based also on the setup time :
 
@@ -277,7 +277,7 @@ It is the fact the clock will have to propagate to gates and it can take less or
 
 We can use a **clock tree** structure to balance the clock and to make sure that the path taken for all the components is of the same length. It is not always feasible. It is also influenced by interconnect properties.
 
-![Clock skew effect](image-30.png)
+![Clock skew effect](image-30.png){ width=50% }
 
 If we do latch logic the timing is not impacted by $t_{skew}$ since the *signal has the whole transparent phase to arrive*.
 
@@ -302,7 +302,7 @@ $$\text{FF: } t_{cd} + t_{ccq} - t_{skew} > t_{hold} \qquad \text{Latch: } t_{cd
 
 The idea behind *dynamic logic* is to charge and discharge a node that has a high impedance. While in static logic the output is either connected to VDD or GND via a low resistive path.
 
-![Example of a dynamic logic circuit](image-31.png)
+![Example of a dynamic logic circuit](image-31.png){ width=50% }
 
 We use the low CLK to charge and then evaluate when it is high. So if we discharge by mistake, we will have to wait the next clock cycle. There is 0 or 1 transition during evaluation. We can keep the node high before or after evaluation.
 
@@ -314,7 +314,7 @@ More over, there is some diode on the substrate that causes leakage (*junction l
 
 I we don't compensate for the leakage, we force a higher clock frequency to avoid falling in the gray zone. We however compensates for this with using a bleeder or level restorer. This will induce some extra static power consumption.
 
-![Bleeder and Level restorer](image-32.png)
+![Bleeder and Level restorer](image-32.png){ width=50% }
 
 #### Charge sharing
 
@@ -326,9 +326,9 @@ One way to avoid this is to precharge the internal nodes. But we need more trans
 
 It is also pretty sensitive to charge coupling. So any wire-to-wire crosstalk can be disastrous. There is also the backgate coupling or output to input coupling that can be problematic. We should also avoid clock feedthrough and overshoot.
 
-![Output to Input coupling](image-33.png)
+![Output to Input coupling](image-33.png){ width=50% }
 
-![Clock feedthrough](image-34.png)
+![Clock feedthrough](image-34.png){ width=50% }
 
 Danger: charge injection in the substrate. Charge can be collected by HiZ node or lead to latch-up.
 
@@ -336,11 +336,11 @@ Danger: charge injection in the substrate. Charge can be collected by HiZ node o
 
 It is an annoying phenomena where the substrate of MOS transistors has a parasitic thyristor junction we can cause latch-up and put the transistor in an unwanted state. To reset, we need to cut-off the power of the circuit and start again. (*More info: Weste N., e.a. “Principles of CMOS VLSI design – a systems perspective. Second Edition”, Addison Wesley, 1993*)
 
-![Latch-up](image-35.png)
+![Latch-up](image-35.png){ width=50% }
 
 ### Cascading dynamic logic
 
-![Cascading dynamic logic](image-36.png)
+![Cascading dynamic logic](image-36.png){ width=50% }
 
 The finite propagation delay from in to out1 will cause a partial discharge at out2 which can again makes the output 2 invalid resulting in unwanted behavior.
 
@@ -348,41 +348,41 @@ The finite propagation delay from in to out1 will cause a partial discharge at o
 
 To avoid this we can add an inverted between the two stages. So any transition from charged to discharge or keep will result into a valid state. The static invertor is like a buffer and we need some extra logic to restore the correct output.
 
-![Domino logic](image-37.png)
+![Domino logic](image-37.png){ width=50% }
 
 We can add some skew to the inverter since the only critical transition is the $1\rightarrow 0$ one. We reduce the impact impedance. Only non-inverting logic can be implemented ! So we either need to do some logic transformation (not always possible) or use **dual rail domino**.
 
 #### Dual rail domino logic
 
-![Dual rail domino logic - using switched bleeders](image-38.png)
+![Dual rail domino logic - using switched bleeders](image-38.png){ width=50% }
 
 We need to construct 2 PDN one where we do $F(A,B,C)=(A \& B)|C$ or any function and then its NOT version $\overline{F(A,B,C)}$ using *De Morgan*'s theorem. So only one branch will switch on and only one side will make a transition. But it comes at the expense of area and continuous switching no matter the result.
 
 #### Alternative to cascade of dynamic logic
 
-![Alternative](image-39.png)
+![Alternative](image-39.png){ width=50% }
 
 A good alternative is to switch between PDN and PUN networks so the $0\rightarrow 1$ transition are allowed at inputs of PDN and $1\rightarrow 0$ transitions are allowed at inputs of PUN.
 
 #### Dynamic edge triggered register
 
-![Dynamic edge triggered register](image-40.png)
+![Dynamic edge triggered register](image-40.png){ width=50% }
 
 We use a capacitor as a storage source that we need to refresh. We can't simply halt the clock. It is sensitive to $0\rightarrow 0$ and $1\rightarrow 1$ transition and to clock overlap. But we have good performance
 
 ### Clocked CMOS or $C^2$MOS
 
-![$C^2$MOS](image-41.png)
+![$C^2$MOS](image-41.png){ width=50% }
 
 Now it is no longer sensitive to clock overlap just need a fast enough rise and fall times.
 
 #### True Single Phase Clock (TSPC) logic
 
-![TSPC logice](image-42.png)
+![TSPC logice](image-42.png){ width=50% }
 
 Here we only have 1 clock phase so easy to distribute the clock and no overlap by construction. At first when $CLK=1$ we have like 2 invertors and so the latch is transparent. But when $CLK=0$, the charge can't be pulled down and if we have $In=0$, the output won't change since the inverter will stop the propagation of that value.
 
-![TSPC simplification - split output](image-43.png)
+![TSPC simplification - split output](image-43.png){ width=50% }
 
 It has less TOR and clock load but the split outputs don't have full swing. We have less drive, less VDD scaling possibility.
 
@@ -478,7 +478,7 @@ One implementation of this idea is **guarded evaluation** where we will trigger 
 
 Here we check the if condition earlier and avoid propagating useless inputs.
 
-![Precomputation](image-44.png)
+![Precomputation](image-44.png){ width=50% }
 
 #### Clock gating
 
@@ -549,7 +549,7 @@ One common practice, is to start designing with long Le transistor and then when
 
 Such Le transistors are often more appreciated as they don't require multiple power supply and is more effective.
 
-![Techniques and their effects](image-45.png)
+![Techniques and their effects](image-45.png){ width=50% }
 
 ### Stacking effect
 
@@ -557,7 +557,7 @@ Such Le transistors are often more appreciated as they don't require multiple po
 
 That's what they thought when introducing this technique or something similar. It can drastically reduce leakage but will gives us less headroom for our design:
 
-![Stacking effect](image-46.png)
+![Stacking effect](image-46.png){ width=50% }
 
 We can have some natural stacking (because of the nature of the logic) or *forced stacking* where we will split one NMOS into two parts to reduce leakage.
 
@@ -609,26 +609,26 @@ $$
 
 We can then derivate the sensitivity to sizing:
 
-![Sizing sensitivity](image-47.png)
+![Sizing sensitivity](image-47.png){ width=50% }
 
 So the more a gate consumes, the more sensitives it is to sizing. 
 
 We can do the same thing for the sensitivity to the power supply:
 
-![Sensitivity PSS 1](image-50.png)
+![Sensitivity PSS 1](image-50.png){ width=50% }
 
-![Sensitivity PSS 2](image-48.png)
+![Sensitivity PSS 2](image-48.png){ width=50% }
 
-![Sensitivity PSS 3](image-49.png)
+![Sensitivity PSS 3](image-49.png){ width=50% }
 
 Most sensitive to energy and fast gates. Maximal for $V_{DD, max}$
 
 ### Example Chain of inverter
 
-![Chain of inverter example](image-51.png)
+![Chain of inverter example](image-51.png){ width=50% }
 
-![Effective fan-out](image-52.png)
+![Effective fan-out](image-52.png){ width=50% }
 
-![Change of PSS](image-53.png)
+![Change of PSS](image-53.png){ width=50% }
 
 ## Ultra low voltage design examples

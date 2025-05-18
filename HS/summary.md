@@ -85,7 +85,7 @@ It will repeat on it we call this rounds and each rounds has subkey derived by k
 
 Often, one cycle per round for HW architecture to ensure speed and throughput. On the other side we can make low area which is slower.
 
-![Block cipher example](image.png)
+![Block cipher example](image.png){ width=50% }{ width=50% }
 
 ## Data Encryption Standard (DES)
 
@@ -107,29 +107,29 @@ In 2017, we limit the max b lock size to $2^{30}$ and disallows its usage for TL
 
 It is still heavly used in reality.
 
-![Des Feistel Structure](image-1.png)
+![Des Feistel Structure](image-1.png){ width=50% }
 
 The encryption and decrytpion is the same function so it is super hardware efficient !
 
 In the 16 rounds we have an initial and final permutation.
 
-![DES hardware](image-2.png)
+![DES hardware](image-2.png){ width=50% }
 
-![DEs-f function](image-3.png)
+![DEs-f function](image-3.png){ width=50% }
 
 Expansion will expand and reshuffle the bit. We then have 8 S-box with 6 inputs bit and 4 bits output. S_i non-linaear subsitution.
 
-![S-box](image-4.png)
+![S-box](image-4.png){ width=50% }
 
 We have some needed linearity to have good and robust encryption. But too much non-linearity is costly on hardware.
 
 We havec then the key schedule, with a 64 bits key input but we will only have 56 used
 
-![DES Key schedule](image-5.png)
+![DES Key schedule](image-5.png){ width=50% }
 
 We rotate in those C and D register and it depends on the round we are in that decide how much we shift.
 
-![On the fly in hardware](image-6.png)
+![On the fly in hardware](image-6.png){ width=50% }
 
 The key never really change so we prefer in SW to first compute them and store in memory to easily access it.
 
@@ -147,7 +147,7 @@ The simple way takes around 300 instructions per block !
 
 Each register contains 1 bit of eg 32 blocks. Block size is defined by algorithm for DES block is 64 bit. We are going to parellelize of n encryptions. Number of blocks in parallel n = width of register.
 
-![Operating First bits of multiple block](image-7.png)
+![Operating First bits of multiple block](image-7.png){ width=50% }
 
 So in a register we have all the first or n bits of all the blocks etc. So now the CPU can be viewed as 16/32/54 one-bit parallel processors (depending of the size of the inputs). CPU is like a Single-Instruction Multiple-Data SIMD processor.
 
@@ -163,25 +163,25 @@ Inclue modes of operation into hardware IP module or co-processor. It gives more
 
 ### Cipher Block Chaining - CBC
 
-![CBC](image-8.png)
+![CBC](image-8.png){ width=50% }
 
 Error in Ci propagation over 2 blocks ! If we have a loss of block synchronization it is fatal. If we have an error in $P_i$ we will propagate it to the other blocks. It is mostly used with encryption only for Message Authentification Encryption (MAC) generation.
 
 #### CBC-MAC
 
-![CBC-MAC](image-9.png)
+![CBC-MAC](image-9.png){ width=50% }
 
 Feedback inhibits pipeline. But due to feedback we can't easily pipeline it. It gets even worse for triple DES. Worse for bit slicing and certain masking schemes.
 
 #### Modes of operation counter
 
-![Galois counter mode](image-10.png)
+![Galois counter mode](image-10.png){ width=50% }
 
-![CCM (counter + CBC MAC) mode](image-11.png)
+![CCM (counter + CBC MAC) mode](image-11.png){ width=50% }
 
 Add confidentiality and encryption.
 
-![Block cipher modes of operation](image-12.png)
+![Block cipher modes of operation](image-12.png){ width=50% }
 
 The third column indicates how we encrypt or decrypt.
 
@@ -249,7 +249,7 @@ We had a capacitor between $V_{DD}$ and ground to smooth out peaks in the power 
 
 ### Detach
 
-![Detached Power supply](image-16.png)
+![Detached Power supply](image-16.png){ width=50% }
 
 The idea is to have one capacitor that charges while the other is supplying the current. Not perfect because we will see peaks in the toggling of the cap which also leak information.
 
@@ -259,7 +259,7 @@ So the best thing is to supply the current through a cap, discharge it completel
 
 We add a sensor that measures the supply current and we have a sink that mhlps having a constant power and current consumption using this sink. But this means we will have maximum current consumption all the time.
 
-![Active flattening](image-17.png)
+![Active flattening](image-17.png){ width=50% }
 
 It is never perfect and even GPIO pins leak information. We are not protected against EM side channel attacks with those techniques.
 
@@ -342,7 +342,7 @@ Here we have on the hardware a key written with fuses and it sends its public ke
 
 Know which code is being executed and can attest it. Good for **integrity**. Here, even if the code is not the right one, it is still allowed to run but we can check that it is not the correct one.
 
-![Device Identity Composition Engine](image-18.png)
+![Device Identity Composition Engine](image-18.png){ width=50% }
 
 They grey box is done by a secured piece of code that is trusted by the boot ROM. The CDI will change at any data change in the code which creates new key making previous encrypted data unreadable.
 
@@ -350,7 +350,7 @@ They grey box is done by a secured piece of code that is trusted by the boot ROM
 
 It uses cryptography and is a form of data storage that can realize attestation. Heavily used and now standardized by the TCP.
 
-![A. Sadeghi, used with permission](image-19.png)
+![A. Sadeghi, used with permission](image-19.png){ width=50% }
 
 ### Trusted Execution Environment goals
 
@@ -358,7 +358,7 @@ It hides secrets from other system parts **confidentiality** and isolate executi
 
 This can be implemented like an ARM TrustZone where on top of the privileged, unprivileged mode of execution, we have a secure and non-secure mode:
 
-![Arm TrustZone](image-20.png)
+![Arm TrustZone](image-20.png){ width=50% }
 
 Also relies on code supplied by the boot firmware.
 
@@ -390,7 +390,7 @@ In hardware, everything is a mirage and we tend to idealize everything. We want 
 
 Data that was recently accessed are often physically located close to a CPU core for quick access in the future. 
 
-![Cache levels](image-21.png)
+![Cache levels](image-21.png){ width=50% }
 
 ### Set-associative cache
 
@@ -502,8 +502,8 @@ Reading in DRAM is destructive and requires to refresh the value. We use a *row 
 
 BUT, reading all the time can disturb the neighboring rows. We can witness some bitflip.
 
-![Expected Behavior](image-22.png)
-![Rowhammer](image-23.png)
+![Expected Behavior](image-22.png){ width=50% }
+![Rowhammer](image-23.png){ width=50% }
 
 Neighboring rows loose a tiny amount of charge which causes to flip.
 
@@ -598,11 +598,11 @@ We have a memory part that is *byte-addressable* ranging from a minimum and maxi
 
 It also has a CPU that possess a Program Counter, stack pointer, register, ... with an ISA where the code is in byte in sequence. We also assume those data are **little-endian**.
 
-![Little-endian](image-24.png)
+![Little-endian](image-24.png){ width=50% }
 
 We assume the code to be like a C program where we have int, char, ... and a table or vector is simply a pointer to the start of this table. We have some simple IO and other libraries and we have some private and global variable.
 
-![Stack and heap in linux](image-25.png)
+![Stack and heap in linux](image-25.png){ width=50% }
 
 Quick reminder: 
 
@@ -634,7 +634,7 @@ It is similar to the previous example but here we will replace the return pointe
 
 this is a more modern idea, instead of using some return into functions, we chain *gadgets*. A gadget is a small piece of machine code that ends with a return.
 
-![Basic Memory Exploit](image-26.png)
+![Basic Memory Exploit](image-26.png){ width=50% }
 
 ### Mitigating Attacks
 
@@ -674,17 +674,17 @@ Here is the compilation of all students questions and prepared answer
 
 We have issues of drift due to jitter, duty cycle can slightly change. It is pretty volatile cause the source of noise varies. To measure the jitter, we will avoid using probes etc since it can be worse. Use a counter:
 
-![Counter to check jitter](image-13.png)
+![Counter to check jitter](image-13.png){ width=50% }
 
 New method proposed:
 
-![New method](image-14.png)
+![New method](image-14.png){ width=50% }
 
 We most likely observes the k clock cycles as expected
 
 ### Theoretical error 
 
-![2 cases](image-15.png)
+![2 cases](image-15.png){ width=50% }
 
 $F_k$ is the most probable outcome.
 
