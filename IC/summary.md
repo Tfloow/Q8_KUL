@@ -47,6 +47,7 @@ output: pdf_document
     - [Circuit analysis of Energy and Delay](#circuit-analysis-of-energy-and-delay)
     - [Example Chain of inverter](#example-chain-of-inverter)
   - [Ultra low voltage design examples](#ultra-low-voltage-design-examples)
+    - [TG: Building pipelines](#tg-building-pipelines)
 
 # Introduction
 
@@ -631,4 +632,31 @@ Most sensitive to energy and fast gates. Maximal for $V_{DD, max}$
 
 ![Change of PSS](image-53.png){ width=50% }
 
+> [!caution]
+> I need to finish this bruh
+
 ## Ultra low voltage design examples
+
+In this section, we will investigate some low voltage design:
+
+![Low VDD inverter](image-54.png){ width=50% }
+
+It is a trade-off between the amount of stacking and the relative size and the noise margin. The more we stack the more sensitive it is to noise and a lil bleep could ruin the whole logical function. 
+
+This has been proven to help with the *variability*.
+
+> [!warning]
+> Using this technique isn't ideal as the PMOS gets weak er and weaker, the excessive sizing of PMOS will result in higher area and capacitance !
+
+This is where transmission gates really shine ! They are both on and they compensate each other. They take less area and they function in every corner and variability. Less leakage and good dynamic numbers.
+
+But the NMOS in TG leaks too much and we have to increase this $I_{on,p}/I_{off,n}$ ratio. Stacking will reduce  $I_{off,n}$ by a **factor 5**. Degrades the speed slightly.
+
+![TG logic gate](image-55.png){ width=50% }
+
+* Good: low leakage, small area, low dynamic energy, 1 generic block, AND and OR possible
+* Needs differential input, signal loss at output, lower speed, not well supported in modern library (need to create your own), delays go up **quadratically** with logic length.
+
+### TG: Building pipelines
+
+We need to re-generate the logic with inverter and construct our own special library for this. We need some differential master-slave architecture. It is possible to build some RISC-V CPU in academic, but the industry doesn't really want this. On top of this, the gap between the driving strength of PMOS and NMOS is closing. Variability is worse and worse and we prefer simply redesigning for Ultra low VT application.
