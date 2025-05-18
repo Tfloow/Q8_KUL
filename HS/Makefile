@@ -1,2 +1,2 @@
 compile :
-	pandoc -s -o HS.pdf summary.md
+	pandoc -s --gfm -o HS.pdf summary.md

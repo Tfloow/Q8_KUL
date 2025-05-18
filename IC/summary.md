@@ -48,6 +48,8 @@ output: pdf_document
     - [Example Chain of inverter](#example-chain-of-inverter)
   - [Ultra low voltage design examples](#ultra-low-voltage-design-examples)
     - [TG: Building pipelines](#tg-building-pipelines)
+- [7 - Variability](#7---variability)
+- [8 - Memory](#8---memory)
 
 # Introduction
 
@@ -660,3 +662,11 @@ But the NMOS in TG leaks too much and we have to increase this $I_{on,p}/I_{off,
 ### TG: Building pipelines
 
 We need to re-generate the logic with inverter and construct our own special library for this. We need some differential master-slave architecture. It is possible to build some RISC-V CPU in academic, but the industry doesn't really want this. On top of this, the gap between the driving strength of PMOS and NMOS is closing. Variability is worse and worse and we prefer simply redesigning for Ultra low VT application.
+
+# 7 - Variability 
+
+TODO
+
+# 8 - Memory
+
+TODO
