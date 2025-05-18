@@ -1,2 +1,2 @@
 compile :
-	pandoc -s --gfm -o ecodesign.pdf summary.md
+	pandoc -s --from gfm -o ecodesign.pdf summary.md
