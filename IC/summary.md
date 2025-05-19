@@ -62,6 +62,21 @@ output: pdf_document
   - [New devices to the rescue?](#new-devices-to-the-rescue)
     - [Fully Depleted Silicon-On-Insulator](#fully-depleted-silicon-on-insulator)
 - [8 - Memory](#8---memory)
+    - [General structure](#general-structure)
+  - [SRAM basics](#sram-basics)
+    - [Read](#read)
+    - [Write](#write)
+    - [Trip Voltage](#trip-voltage)
+    - [Sense amplifier](#sense-amplifier)
+    - [8T cell](#8t-cell)
+  - [DRAM in a nutshell](#dram-in-a-nutshell)
+  - [SRAM energy](#sram-energy)
+    - [Level Shifter](#level-shifter)
+  - [SRAM and variability](#sram-and-variability)
+    - [Bitline energy considerations](#bitline-energy-considerations)
+  - [In Memory Compute](#in-memory-compute)
+    - [Analog IMC](#analog-imc)
+    - [Digital IMC](#digital-imc)
 
 # Introduction
 
@@ -852,4 +867,173 @@ FDSOI is good for low power design and allow really good control. Indeed, full d
 
 # 8 - Memory
 
-TODO
+As we all know, the current issue is the memory performance in modern computers. We call it the *memory wall*. The memory is denser and denser, the lines are so big it is hard to drive it.
+
+The main issue lies in the power consumption and speed that are proportional to locality and inversely proportional to size. It is the largest *analog* circuits and then it is consolidated in generators to be used in digital design flow. 
+
+### General structure
+
+We reduce teh amount of line by using some decoder for the select signals; this reduces the circuitry and load. But usually the Height is larger than the width and so we need to reload a lot so we keep the width small but no so efficient to access memory.
+
+![Trick to speed up decoding](image-71.png){ width=50% } 
+
+On top of this we add a level of hierarchy by using block and using block address to select the right block. 
+
+There exists multiple type of bit cells, SRAM or DRAM and then some non volatile memories such as Flash, MRAM, FRAM, RRAM, ...
+
+#### Non-volatile
+
+![Non volatile](image-72.png){ width=50% } 
+
+#### SRAM vs DRAM
+
+![Main trade-off](image-73.png){ width=50% } 
+
+DRAM can be made extremely small if we can use some vertical caps that can store the energy. It is what is mostly use in RAM for computers while SRAM is use for on-chip memory.
+
+## SRAM basics
+
+![Basic SRAM structure](image-74.png){ width=50% } 
+
+This it the 6T SRAM. We need two bit lines as inside the cell, it is a sort of inverting amplifier loop. We must overcome this loop of inverters and so a differential input is used. It is more robust.
+
+It is not a *lithography friendly* circuits as we need polysilicon vertically and horizontally ! On top of this, the cell must be extremely small violating a lot of DRC check.
+
+![More and more litho friendly](image-75.png){ width=50% } 
+
+![Very regular design](image-76.png){ width=50% }
+
+![Write and read principle](image-77.png){ width=50% }
+
+### Read
+
+To avoid a destructive read, we must have $\Delta V < V_{tn}$.
+
+![Read in CMOS SRAM](image-78.png){ width=50% }
+
+![Analysis](image-79.png){ width=50% }
+
+### Write
+
+![Write in CMOS SRAM](image-80.png){ width=50% }
+
+![Analysis](image-81.png){ width=50% }
+
+### Trip Voltage
+
+It is the maximum voltage allowed on bitline for which the 6T cell is still written. The write trip voltage represents the margin left for writeability.
+
+![Trip Voltage](image-82.png){ width=50% }
+
+It needs to be stable to avoid this undefined region where we enter the meta stability.
+
+#### Seevinck squares
+
+![Seevinck squares](image-83.png){ width=50% }
+
+It corresponds to the largest squares that can be drawn in the two eyes. The side of the smallest seevinck square is a measure for the $SNM  = f(CR,PR)$, better to simulation and draw it.
+
+![Accessing the cell](image-84.png){ width=50% }
+
+We can see it will reduce the square when reading.
+
+So SRAM design is all about:
+
+1. Get cell ratio $CR > CR_{crit}$, pass tor should be small enough compared to pull down so no destructive read. Make the square large enough
+2. Get pull down ratio $PR < PR_{crit}$, pass tor should be large enough compared to pull up so that the cell can be written from the bitline. Write trip voltage not too small
+3. Stable cell, $SNM > SNM_{crit}$, good square dimension
+
+### Sense amplifier
+
+Bitlines are most of the times not fully discharged in read but so we need to restore the logic using a sense amplifier.
+
+![Sense amplifier](image-85.png){ width=50% }
+
+Quite robust, reduce power consumption and has some enhanced stability. Larger area though.
+
+### 8T cell
+
+![8T Buffered read cell](image-86.png){ width=50% }
+
+## DRAM in a nutshell
+
+It is a capacitive and on-regenerative technology with high density. But data leaks away so we must usually do some periodic refresh.
+
+![DRAM architecture](image-87.png){ width=50% }
+
+![Refreshing DRAM](image-88.png){ width=50% }
+
+Again, we need some sense amplifiers to restore the level.
+
+![Sense amplifiers](image-89.png){ width=50% }
+
+If we have too large capacitance on the bitline, it will be hard to charge  by small sense FF. So we make the cap smaller by using some backbias, junction cap, smaller blocksize, triple well, ... We need another voltage generator on chip. We need larger oxide to reduce the subthreshold loss. So we can see that the process used for RAM and logic differs. We reduce the footprint of the cap by making them vertical.
+
+We always need to refresh the full selected row !
+
+![Advanced 1T DRAM](image-90.png){ width=50% }
+
+## SRAM energy
+
+Now we will analyze the leakage of a 6T SRAM cell:
+
+![SRAM leakage](image-91.png){ width=50% }
+
+By raising Vt and VDD we keep the amount of current of a read pretty much constant while reducing the leakage current.
+
+To reduce the active energy, we use some low voltage swing on wordlines and bitlines.
+
+![Using low or hight VT in SRAM](image-92.png){ width=50% }
+
+The issue is that we will need some extra hardware to interface with energy efficient logic so we will need level shifters.
+
+### Level Shifter
+
+Level shifting is quite tough as we need a wide level shifting range, it needs to be fast and consume 0 static current.
+
+![Latch Based level shift](image-93.png){ width=50% }
+
+No static current, High VT pmos to reduce leakage but slow down operation. Driver NMOS will leak and the green NMOS is speed boost (auto switch off). Not so easy to design.
+
+## SRAM and variability
+
+Area is the major tradeoff in memory and due to pelgrom's law, we will have a high variability on cell, high spread on SNM, speed !
+
+To avoid slow operation, we will use some small swing on the bitline and then amplify this to logic level.
+
+![Local Block](image-94.png){ width=50% }
+
+We can also use some distributed decoder:
+
+![Distributed Decoder](image-95.png){ width=50% }
+
+![Buffering](image-96.png){ width=50% }
+
+### Bitline energy considerations
+
+![Bitline energy considerations](image-97.png){ width=50% }
+
+In the buffered version, less charge is drawn from the global lines, less delay variation, we have less delay variation and we precharge global lines to $200 mV$.
+
+Locality of bitlines and wordlines allows to deal with variability. It creates more hardware but using sense amplifier is a good and efficient way to help with this issue.
+
+## In Memory Compute
+
+The ongoing big trends in LLM and AI where we want to bring the memory as close as possible to the compute unit and avoid unnecessary data transfer from memory to registers. Usually we want to store the weights of the multiply accumulate closer.
+
+- Analog IMC: accumulation is simply adding current or charges
+- Digital IMC: based on digital logic operation and need logic and bit cells
+
+### Analog IMC
+
+![Analog IMC cell](image-98.png){ width=50% }
+
+How to bias it properly to make it robust ? Low flexibility and lots of ADC/DAC but no comparison with classic accelerators / DIMC.
+
+### Digital IMC
+
+![Digital IMC architecture](image-99.png){ width=50% }
+
+Still pretty experimental and we have to design everything by hand.
+
+It is an interesting paradigm for edge AI and for moderate size NN.
