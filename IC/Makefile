@@ -1,2 +1,2 @@
 compile :
-	pandoc -s --from gfm -o IC.pdf summary.md
+	pandoc -s -o IC.pdf summary.md

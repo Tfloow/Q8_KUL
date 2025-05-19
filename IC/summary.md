@@ -49,6 +49,18 @@ output: pdf_document
   - [Ultra low voltage design examples](#ultra-low-voltage-design-examples)
     - [TG: Building pipelines](#tg-building-pipelines)
 - [7 - Variability](#7---variability)
+  - [Variability causes, definitions and jargon](#variability-causes-definitions-and-jargon)
+    - [Statical Static Timing Analysis](#statical-static-timing-analysis)
+  - [How bad is it?](#how-bad-is-it)
+  - [Dealing with global variability: replica based techniques](#dealing-with-global-variability-replica-based-techniques)
+  - [Dealing with local variability also: in-situ techniques](#dealing-with-local-variability-also-in-situ-techniques)
+    - [Iteration of RAZOR](#iteration-of-razor)
+    - [Efficiency of RAZOR](#efficiency-of-razor)
+    - [Razor Limitations](#razor-limitations)
+    - [Where to put our EDAC ?](#where-to-put-our-edac-)
+    - [Use Late clocking](#use-late-clocking)
+  - [New devices to the rescue?](#new-devices-to-the-rescue)
+    - [Fully Depleted Silicon-On-Insulator](#fully-depleted-silicon-on-insulator)
 - [8 - Memory](#8---memory)
 
 # Introduction
@@ -665,7 +677,178 @@ We need to re-generate the logic with inverter and construct our own special lib
 
 # 7 - Variability 
 
-TODO
+## Variability causes, definitions and jargon
+
+Going smaller and smaller hurts the variability. As everything gets smaller, it discretize the molecules and now one more or one less will have a massive impact on the actual doping.
+
+Moreover, designing mask isn't as straight forward as it was. The UV light will bend and create some weird pattern we do not always expect:
+
+![Optical Proximity Correction and Phase Shift Mask](image-57.png){ width=50% }
+
+It is also harder to make nice pattern as the photoresist is an **organic molecule** so naturally their molecules are bigger.
+
+We have 2 types of process variation:
+
+1. **Inter-die**: same wafer, different property between the die
+2. **Intra-die**: same wafer, same chip but difference amongst the chip.
+
+To model this, we typically use some corners in Cadence or other designing tools to prepare for known worst case scenarios. Those corners are usually different for PMOS and NMOS
+
+- TT: Typical Typical
+- FF: Fast Fast
+- SS: Slow Slow
+- SF+FS: combination of Fast and Slow
+
+To model variability in *analog* there is the Pelgrom's model:
+
+$$
+\sigma_x = \frac{A_x}{\sqrt{WL}}
+$$
+
+With A the technological constant and X the variability of a given parameter. Sizing isn't this helpful as it helps with a factor $\sqrt{}$.
+
+The worst corner is pretty pessimistic and will include up to $n$ $\sigma$ for global **and** local variation. We try to model it as accurate as possible by using some monte carlo analysis and building statistical model.
+
+### Statical Static Timing Analysis
+
+Instead of just preparing for the worst worst case (very unlikely that everything will be in the worst case status), we give each cell a distribution of delay $t_d(\mu,\sigma)$ (in the LVF lib format). It can take time to run all those simulations so sometimes we rely on backed-in values to speed up the process.
+
+## How bad is it?
+
+If we take the example of a *ring oscillator* running at minimum 1 GHz. We know control the frequency through the power supply voltage:
+
+$$
+t_d = K V_{dd}/(V_{dd} - V_t)^2 = 1ns\\
+P = C V_{dd}^2/t_d = 100 \mu W\\
+V_{dd} = 1V, V_t = 0.25 V
+$$
+
+If we have $\Delta V_t = \pm 0.05V \approx \sigma_{V_t}$
+
+So to keep everything running at the right frequency:
+
+| $V_t$ | Supply |   Power    |  Freq   |
+| :---: | :----: | :--------: | :-----: |
+|  0.3  |  1.08  | 116 $\mu$W |  1GHz   |
+|  0.2  |   1    | 137 $\mu$W | 1.27GHz |
+
+So we need to implement a feedback loop that will control the supply voltage accordingly (PLL). But we can't always do this for all circuits as we can always monitor it !
+This is why we introduce **replica tuning**.
+
+We duplicate the circuit (only the relevant part, critical path, ...) and we tune this circuit, the result of the tuning is also forwarded to the actual circuit. Usually we represent the original circuit through a **Ring Oscillator** that model the same performance of the original circuit. It helps for inter-die effect but not intra-die effect !
+
+If we have 5 stage RO, $\sigma_{osc} = \sigma_{V_t}/ \sqrt{5}$ according to Pelgrom's model. With the usual spread of 3$\sigma$, we have $66mV$. If we try to compensate for worst case variation, we will end up with an excess of power consumption that will be more significant than the power we are trying to monitor !
+
+We can then do some **in-situ** monitoring !
+
+When talking about $\sigma$ we usually have $\pm 99.73\%$ for $3\sigma$ but we should only take one side of the curve as one part is detrimental so $0.135\%$ lost. But 3 sigma is not enough we need higher sigma to produce denser and denser chips.
+
+![The sigma problem](image-58.png){ width=50% }
+
+- Process variation: compromises circuit power-performance trade-off
+- Mismatch: compromises the use of circuit techniques to deal with process variations
+  - Leads to functional and parametric yield problems
+
+
+## Dealing with global variability: replica based techniques
+
+![Real life example of replica technique](image-59.png){ width=50% }
+
+The core principle of replica technique is using **Adaptive Voltage Scaling** or AVS, **Dynamic Frequency and Voltage Scaling** or DVFS is a mix of both. The infrastructure for those techniques are quite similar and can be shared.
+
+![Impact fo AVS](image-60.png){ width=50% }
+
+## Dealing with local variability also: in-situ techniques
+
+The basic idea is **EDAC** (Error Detection and Correction) where we monitor the critical path and adapt the voltage in adequation.
+
+![Razor principle](image-61.png){ width=50% }
+
+The idea is that the Master register will save on the rising edge and the slave latch will save on the falling edge. So if their output changes it means that something new happened during the High of the clock. Then by combining with multiple RAZOR detection unit, we can tweak the power supply.
+
+It is often used in X86 cpus where the RAZOR will simply push a bubble if it detects an error. It is way simpler, costs ore cycles but less critical.
+
+### Iteration of RAZOR
+
+- RAZOR 2: more efficient error detection, no correction in FF, architectural replay
+- Bubble RAZOR: make automatic razor insertion in design, latch-based pipeline
+  - Hard to do some timing
+
+The simplest way to control the power supply is to use a loop filter and a DC/DC converter.
+
+### Efficiency of RAZOR
+
+Sometimes, we may notice some spur as RAZOR try to make things faster which can cause some trouble. RAZOR and the circuit will consume more current than without RAZOR obviously. But the actual gain is in the recovery, it can track and recover from an error to keep the instructions per cycle at an optimum.
+
+![Razor gains](image-62.png){ width=50% }
+
+### Razor Limitations
+
+Take quite some space and not easy to insert and know how to control all of this. Can be sensitive to hold time issues as the positive clock phase width should be precisely controlled.
+
+On paper it is interesting but what if nothing changes ? what if the delay is so late that both the register and latch don't capture this change ?
+
+![One solution, create a warning](image-63.png){ width=50% }
+
+This is less risky as we put less trust into our detection algorithm. Moreover, we can notice some warning patterns and omit certain warnings. With error detection, this simplification cannot be made as knowing the location is primordial.
+
+#### Error masking 
+
+![Borrowing some time in the next phase](image-64.png){ width=50% }
+
+It looks amazing as we don't have to add bubble or recover from this but in reality it makes the timing analysis for next stage quite difficult with this principle of "*time to borrow*". Usually, commercial tools are not made for this.
+
+![Summary RAZOR](image-65.png){ width=50% }
+
+### Where to put our EDAC ?
+
+The most simple idea is to replace some registers located on path with the worst slack with our EDAC. Turned out to be okay. OFC, we could do some more advance statistics on the critical endpoints
+
+![Advanced insertion methodology](image-66.png){ width=50% }
+
+It reduces the overhead linked with the insertion of all those EDAC and this methodology has the advantage to be compatible with existing flow !
+
+![More info about the algorithm](image-67.png){ width=50% }
+
+We can run some monte carlo simulation on the critical path and inserts some EDAC to the endpoints that show up the most in our simulation.
+
+Some endpoints have low probability to fail but if we do not detect it, our CDF shows that it would be quite mediocre performance (below 90%) so we better take them into account.
+
+### Use Late clocking
+
+On slow path we can clock at a time $\delta_{extra}$ later. It optimizes the slack diagram but we need to accommodate for this on the later logic path. It can be tricky with hold violations !
+
+![late clocking](image-68.png){ width=50% } 
+
+#### Monitor Insertion
+
+We need to evaluate for all combinations of possible delay. We want to maximize the probability of detection in the EP (endpoint). So we can check and decide if we should add an EDAC and if extra delay should be added. 
+
+Criterium: Pe_chip == Probability of timing error in chip without having detected a transition when scaling the voltage down. Only if Pe_chip is smaller than the yield criterium ($n_{\sigma}$) a [$\delta_{VDD},\delta_{dw},\delta_{extra}$] is kept and monitors are inserted accordingly.
+
+We can automate this process and in-situ detection is very effective in terms of *demargining*. But we need to enhance the probability to detect a transition on the monitored nodes. Plus, we didn't talk yet about the clock tree !
+
+![Alternative: completion detection along the path](image-69.png){ width=50% } 
+
+The error prediction comes too late and we are messing too much with the clock tree so not easy to replicate in other products.
+
+## New devices to the rescue?
+
+We are now using FinFets, and soon FDSOI, GAA transistors. But they all must be better than classical CMOS or it wouldn't be viable to use them, they must be cheap, good properties, easy to layout, ...
+
+FinFET brings better gate control and allow more current for the same footprint as classic CMOS technology.
+
+### Fully Depleted Silicon-On-Insulator
+
+Is a Ultra Thin Body & Box technology where we shrink the source and drain and add a thin box and a back gate !
+
+![FDSOI](image-70.png){ width=50% } 
+
+#### Body bias
+
+But the issue is that it creates some unwanted diode, body bias. FDSOI is good for variability and performance and to control the energy. But body bias is driving large well, coarse granularity and to bias we will need some negative voltages !
+
+FDSOI is good for low power design and allow really good control. Indeed, full depleting the channel allows to easily cut off the channel reducing the leakage current. We don't need to dope the substrate since the channel is so thin !
 
 # 8 - Memory
 
