@@ -8,6 +8,16 @@ output: pdf_document
 - [1 - Trust what is it ?](#1---trust-what-is-it-)
   - [Evolution of the trust model](#evolution-of-the-trust-model)
   - [Design methods](#design-methods)
+  - [2 - Hardware attacks](#2---hardware-attacks)
+  - [Overview](#overview)
+    - [Side channel attack](#side-channel-attack)
+    - [Fault attack](#fault-attack)
+    - [Circuit Modification](#circuit-modification)
+  - [Power Analysis Attack](#power-analysis-attack)
+    - [SPA](#spa)
+  - [differential side channel analysis (DSCA)](#differential-side-channel-analysis-dsca)
+    - [Correlation Power Analysis](#correlation-power-analysis)
+- [3 - Physically Unclonable Function (PUFs)](#3---physically-unclonable-function-pufs)
 - [5 - Cryptographic Key](#5---cryptographic-key)
   - [Block cipher](#block-cipher)
   - [Data Encryption Standard (DES)](#data-encryption-standard-des)
@@ -105,6 +115,96 @@ We need to apply security at all level ! A **root of trust** is a component at l
 
 We try to reduce this footprint of attack and model what the attacker can or could do on your root of trust. Then we need to build some interface to communicate with higher level.
 
+## 2 - Hardware attacks
+
+## Overview
+
+As seen before, now everything is not secure or cannot be trusted. A system is as secure as its weakest link and any attacker will reach out first for the easiest link.
+
+There is a wide range of what an attacker can do with physical access to the circuit, from non-invasive to invasive or from passive to active.
+
+### Side channel attack
+
+Passive we simply observe what is going on. So even secure algorithm can be broken if they don't behave like a black box.
+
+We can either check the execution time, the instantaneous power, the Electromagnetic emanations, sound, temperature, ...
+
+There exists also some more invasive side channel attack like photon detection (we need to scratch the package to reveal a transistor and see if it emits) or directly invasive such as micro-probing.
+
+#### Timing attack
+
+If we can divide a hard problem into multiple simple one then we win. typically we can check the timing attack on a digipad for example.
+
+So a lot of cryptographic algorithm that leverage from repeating simple step but assuming only the complicated result will be found is no longer valid.
+
+### Fault attack
+
+We *actively* try to make the software or hardware bug to skip or reveal secrets. This is part of some *Single Events Upsets* where we could have bitflips.
+
+Again we can have some non-invasive such as *clock glitches, voltages spikes, underpowering,...*
+
+To more invasive such as optical or EM fault injection where we need to scratch the package and/or the shielding to make it happen.
+
+Typically we can perform some **Differential Fault Analysis** where we have the input output result and then we try again with a fault. Sometimes it can be enough to find the key !
+
+### Circuit Modification
+
+It is far more complicated and we bypass some traces, ...
+
+## Power Analysis Attack
+
+We use the **instantaneous** power over time to conduct our attack. We can derivate some information based on the power consumption since larger power consumption can indicate some transition. We can use some simple shunt resistor, current probe or EM emanations device.
+
+Typically it is efficient against block cipher such as AES we can quickly highlight some part of the algorithm.
+
+We can even see some capacitive charge and discharge on the lines and the amplitude reveals some information about the operand values.
+
+There exists many approach to power analysis attack and the definition are quite flexible but the mains are :
+
+- Simple Power Analysis SPA
+- Differential Power Analysis DPA
+- Correlation Power Analysis CPA
+
+There also exists two main families:
+
+1. Profiled: training on a classifier we know some information and what to look for
+2. Non-profiled: no real knowledge about what to expect
+
+### SPA
+
+Visual inspection of traces. Need the IO and some expertise.
+
+
+## differential side channel analysis (DSCA)
+
+This allows to affirm or reject some hypothesis about an intermediate state of an implementation. If this kind of analysis allow to deduce some information about a secret then it becomes an attack.
+
+For an analysis to work we need to make sure that there is a direct link between power and bit status. This is usually the case when a bit is 1 then higher power consumption and vice versa (proved).
+
+![S-box](image-27.png){ width=50% }
+
+We use a function $D$ to only select certain bit to simplify our analysis. The idea is like if K has this value, Y will be this which is sorted by our D function and we see if it is higher or lower in term of power consumption.
+
+![How it works](image-28.png){ width=50% }
+
+The basic idea is that most of the time, our assumption about the key is wrong and thus our categorization will also be wrong. But if our guess is correct then we will correctly put the trace in the appropriate group which will stand out from the noise.
+
+The idea is to guess the intermediate value processed at some point in time based on our knowledge of the algorithm.
+
+The advantage of this method is that it will reduce the influence of noise and other power consumption by activities on the chip.
+
+#### How to compute DPA better
+
+One way is to skew back the DPA around the center either by the exact or approximated formula.
+
+It is important that those intermediate values we can target will influence the actual result or it won't help finding the key later on.
+
+### Correlation Power Analysis
+
+We can also use some CPA that is more robust against noise !
+
+# 3 - Physically Unclonable Function (PUFs)
+
 # 5 - Cryptographic Key
 
 ## Block cipher
@@ -115,8 +215,7 @@ It will repeat on it we call this rounds and each rounds has subkey derived by k
 
 Often, one cycle per round for HW architecture to ensure speed and throughput. On the other side we can make low area which is slower.
 
-![Block cipher example](image.png){ width=50% }{ width=50% }
-
+![Block cipher example](image.png){ width=50% }
 ## Data Encryption Standard (DES)
 
 It is a *block cipher* with 64 bit I/O and 56 bit key with 8 parity  bits. The idea, it is iterated cipher with 16 rounds. It has influenced modern encryption even tough it is no longer considered secure as of 2004.
