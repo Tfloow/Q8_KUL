@@ -18,6 +18,18 @@ output: pdf_document
   - [differential side channel analysis (DSCA)](#differential-side-channel-analysis-dsca)
     - [Correlation Power Analysis](#correlation-power-analysis)
 - [3 - Physically Unclonable Function (PUFs)](#3---physically-unclonable-function-pufs)
+  - [Introduction](#introduction)
+  - [Important PUF properties and design flavors](#important-puf-properties-and-design-flavors)
+    - [Weak PUF](#weak-puf)
+    - [Strong PUF](#strong-puf)
+    - [Metrics](#metrics)
+  - [Design examples](#design-examples)
+  - [Improving PUF reliability](#improving-puf-reliability)
+    - [Temporary majority voting](#temporary-majority-voting)
+    - [Dark-bit masking](#dark-bit-masking)
+    - [Burn-in enhancement](#burn-in-enhancement)
+  - [Applications](#applications)
+  - [Summary](#summary)
 - [5 - Cryptographic Key](#5---cryptographic-key)
   - [Block cipher](#block-cipher)
   - [Data Encryption Standard (DES)](#data-encryption-standard-des)
@@ -204,6 +216,85 @@ It is important that those intermediate values we can target will influence the 
 We can also use some CPA that is more robust against noise !
 
 # 3 - Physically Unclonable Function (PUFs)
+
+## Introduction
+
+We need an **entropy source** that will help us generate something truly random. There is either *static* (PUFs) or *dynamic* (TRNG).
+
+The idea behind puf is like our own biometric data that defines our uniqueness. We want it to be unclonable so no one could try to replicate the data.
+
+We take advantage of process variation and in this case we want this pelgrom's law that will induce more $\sigma$.
+
+## Important PUF properties and design flavors
+
+The weak and the strong puf. Basically the weak puf will **linearly** increment the randomness while the strong will **exponentially** increase it. Both are used and have their pros and cons.
+
+### Weak PUF
+
+An array of identically designed IC and each produce one or few bits . High-quality in response bits. SRAM PUF for example good key generation, device identification
+
+### Strong PUF
+
+Based on mathematical operation (delay, current, voltage, ...) and can produce huge number of response bits. Low-quality bits as they will often be correlated together !(see later) Good for IC auth.
+
+Watch out, not feasible to clone physically but we may be able to derive a certain mathematical clone !
+
+PUF responses are not always reproducible as noise comes into the play and overtime it may even change drastically (after accessing it too much, hot-carrier injection, ...) ust like our fingertips.
+
+### Metrics
+
+To measure the **uniqueness**, we use the Hamming distance and compare the answer from 2 PUF to the same challenge. We can also compare reliability by the same method for 2 same challenge on the same PUF.
+
+$$
+PUF = \frac{HD(r_1, R_2)}{n}
+$$
+
+![Ideal properties](image-29.png){ width=50% }
+
+It is quite hard to estimate the min-entropy.
+
+$$
+H_\infty(X) = - log_2\left(\max_{x_i} (Pr[X=x_i]) \right)
+$$
+
+It is a *conservative measure of guesswork and unpredictability*. So this shows the minimum amount of randomness. So typically, if it is biased towards a certain value, we loose some randomness.
+
+## Design examples
+
+![Arbiter for a strong PUF](image-30.png){ width=50% }
+
+As we can see, it is quite correlated ! This can be easily predicted using some NN and a trial to fix this is using XOR Arbiter PUF. The issue is the fact it will amplify the noise !
+
+There is many example in the course **see slides**.
+
+## Improving PUF reliability
+
+### Temporary majority voting
+
+To avoid to be too subjected by noise, we can reiterate the same challenge N times and do some majority voting to see what is the most probable and accurate answer. Introduces Latency and need more storage element.
+
+### Dark-bit masking
+
+Mark some bits as *do not use*.
+
+### Burn-in enhancement
+
+Typically, in SRAM PUFs, one side will be more often charged than the other which induces an asymetrical stress that we want to get rid of.
+
+## Applications
+
+We can use some *helper data* to get a specific type of key. See course slide to understand the HDA method.
+
+## Summary
+
+* IC PUFs – unique chip fingerprints
+* Process variations in silicon technology
+* Key properties: reliability and uniqueness
+* SRAM PUF as a classic example of a weak PUF
+* Strong PUFs prone to ML attacks
+* Need for helper data algorithm
+* Secret key generation using weak PUFs
+* Lightweight entity authentication using strong PUFs – still an open questio
 
 # 5 - Cryptographic Key
 
