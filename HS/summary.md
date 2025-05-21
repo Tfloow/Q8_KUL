@@ -5,6 +5,9 @@ geometry: margin=2cm
 output: pdf_document
 ---
 
+- [1 - Trust what is it ?](#1---trust-what-is-it-)
+  - [Evolution of the trust model](#evolution-of-the-trust-model)
+  - [Design methods](#design-methods)
 - [5 - Cryptographic Key](#5---cryptographic-key)
   - [Block cipher](#block-cipher)
   - [Data Encryption Standard (DES)](#data-encryption-standard-des)
@@ -74,6 +77,33 @@ output: pdf_document
     - [Injection Platform](#injection-platform)
     - [Question](#question)
 
+# 1 - Trust what is it ?
+
+Trust (R. Anderson in "Security Engineering", after NSA):
+* "Trusted system or component is one whose failure can break the security
+policy, while a trustworthy system or component is one that won’t fail."
+
+Trust (Trusted Computing Group):
+* "An entity can be trusted if it always behaves in the expected manner for the
+intended purpose."
+
+So if we trust a component, usually, if it is compromised or something goes wrong inside, then the rest of the trust chain is compromised. So reduce the amount of trusted component is key.
+
+## Evolution of the trust model
+
+Before, internet was much simpler qnd we could assume that the communication link was the untrusted environment and each device was trustworthy. Each was protected by strong cryptographic encryption making them seen as black boxes.
+
+Now, every device can be at risk. Each device is part of the big triangle tradeoff between flexibility-energy-performance. We don't only need secure algorithm but secure *implementation*.
+
+But typically, an implementation can leak a secret as they don't perform the same operation each time which could give the attacker a hint about what it is currently doing.
+
+So we need to be **lightweight and resistant**. Harsh constraint.
+
+## Design methods
+
+We need to apply security at all level ! A **root of trust** is a component at lower level that ensures that anything build on top will be secure. 
+
+We try to reduce this footprint of attack and model what the attacker can or could do on your root of trust. Then we need to build some interface to communicate with higher level.
 
 # 5 - Cryptographic Key
 

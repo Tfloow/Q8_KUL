@@ -6,16 +6,16 @@ output: pdf_document
 ---
 
 
-- [Introduction](#introduction)
+- [1 - Introduction](#1---introduction)
   - [Transistor switch model](#transistor-switch-model)
-- [Logic Circuits](#logic-circuits)
+- [2 - Logic Circuits](#2---logic-circuits)
   - [Regeneration of the level](#regeneration-of-the-level)
   - [Capacitance](#capacitance)
     - [Effective fan-out](#effective-fan-out)
     - [Signal in reality](#signal-in-reality)
   - [Pass gate logic](#pass-gate-logic)
     - [Level restoration](#level-restoration)
-- [Circuit Timing / Dynamic Logic](#circuit-timing--dynamic-logic)
+- [3 - Circuit Timing / Dynamic Logic](#3---circuit-timing--dynamic-logic)
   - [Latch/Register Implementation](#latchregister-implementation)
   - [Sequencing, pipelining revisited](#sequencing-pipelining-revisited)
     - [Clock skew](#clock-skew)
@@ -24,6 +24,15 @@ output: pdf_document
     - [Cascading dynamic logic](#cascading-dynamic-logic)
     - [Clocked CMOS or $C^2$MOS](#clocked-cmos-or-c2mos)
     - [Conclusion](#conclusion)
+- [4 - Datapath block](#4---datapath-block)
+  - [Adders](#adders)
+    - [Ripple Carry Adder](#ripple-carry-adder)
+    - [Mirror Adder](#mirror-adder)
+  - [Faster Adder](#faster-adder)
+    - [Carry bypass (or carry skip)](#carry-bypass-or-carry-skip)
+    - [Carry select](#carry-select)
+    - [Carry look ahead](#carry-look-ahead)
+    - [Logarithmic trees](#logarithmic-trees)
 - [5 - Production Test](#5---production-test)
   - [Introduction: what’s the problem](#introduction-whats-the-problem)
     - [Ad hoc versus structured test](#ad-hoc-versus-structured-test)
@@ -78,7 +87,7 @@ output: pdf_document
     - [Analog IMC](#analog-imc)
     - [Digital IMC](#digital-imc)
 
-# Introduction
+# 1 - Introduction
 
 One of the main thing about this class is finding how to optimize the ratio of $Op/s / W = Op/J$. We want to enhance this ratio. Less and less foundry have smaller and smaller technology. We want to reduce it both for *plugged* and *battery* device. Either we don't have the requirements to pull out or the space to store the energy. 
 
@@ -96,7 +105,7 @@ By the transistor scaling, short channel are behaving differently due to the **v
 
 ![Regions](image-2.png){ width=50% }
 
-# Logic Circuits
+# 2 - Logic Circuits
 
 ![The static model](image-3.png){ width=50% }
 
@@ -223,7 +232,7 @@ It is compatible with the full swing and the static power consumption is gone. B
 
 We can add a PMOS to the switch to create a **transmission gate**. This requires another transistor but also a complementary signal is needed so this will result in extra cost.
 
-# Circuit Timing / Dynamic Logic
+# 3 - Circuit Timing / Dynamic Logic
 
 ## Latch/Register Implementation
 
@@ -422,6 +431,85 @@ It has less TOR and clock load but the split outputs don't have full swing. We h
 - Hard to automate in a synthesis – P&R flow based on static CMOS standard cells
 - Power consumption of dynamic logic is usually higher.
 - Nothing is as easy as standard CMOS...
+
+# 4 - Datapath block
+
+## Adders
+
+The key idea for this, is to view the addition not just as a mathematical operation but as a LUT that can have different states: delete, propagate, generate:
+
+| $A$ | $B$ | $C_i$ | $S$ | $C_o$ | Carry status |
+| --- | --- | ----- | --- | ----- | ------------ |
+| 0   | 0   | 0     | 0   | 0     | delete       |
+| 0   | 0   | 1     | 1   | 0     | delete       |
+| 0   | 1   | 0     | 1   | 0     | propagate    |
+| 0   | 1   | 1     | 0   | 1     | propagate    |
+| 1   | 0   | 0     | 1   | 0     | propagate    |
+| 1   | 0   | 1     | 0   | 1     | propagate    |
+| 1   | 1   | 0     | 0   | 1     | generate     |
+| 1   | 1   | 1     | 1   | 1     | generate     |
+
+This logic can be represented as 
+
+![Logic equations](image-100.png){ width=50% }
+
+We can optimize each and every operation to make the adder faster. The main bottleneck in adder is the carry propagation. Faster will always require more hardware, *conservation of misery* !
+
+### Ripple Carry Adder
+
+![Ripple Carry Adder](image-101.png){ width=50% }
+
+It needs toooooo many transition to do simple operation.
+
+![For 3 inputs](image-102.png){ width=50% }
+
+#### Multilevel Optimisation
+
+![Same logic but much much faster !](image-103.png){ width=50% }
+
+#### Inversion Property
+
+Multilevel logic is inverting so this can be problematic ? No remember the inversion property of the adder, so we can simply invert the values.
+
+![Using Duality](image-104.png){ width=50% }
+
+### Mirror Adder
+
+
+![Even better structure](image-105.png){ width=50% }
+
+The NMOS and PMOS chains are completely symmetrical and a maximum of 2 series transistors can be observed in the carry generation circuitry. To have good speed, we must reduce the capacitance on the $C_0$ node.
+
+This node has 4 diffusion cap, 2 internal gate cap, 6 gate cap (through the connecting adder cell).
+
+The transistors connected to $C_i$ are placed closest to the output. We must optimize the transistors in the carry stage only !
+
+![Critical Path](image-106.png){ width=50% }
+
+It is also possible to do it with the invertor, SEE COURSE.
+
+## Faster Adder
+
+### Carry bypass (or carry skip)
+
+![Carry bypass](image-107.png){ width=50% }
+![Carry bypass](CSAdder4Bit.svg.png){ width=50% }
+
+#### Finding the critical path
+
+It can often be quite tricky to find where is the local path without actual numbers. We need to build some model that will represent the critical path based on some sizing and other parameters.
+
+![The critical path](image-108.png){ width=50% }
+
+![The real benefit](image-109.png){ width=50% }
+
+See course about this
+
+### Carry select
+### Carry look ahead
+### Logarithmic trees
+
+
 
 # 5 - Production Test
 
