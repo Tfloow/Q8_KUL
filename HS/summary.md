@@ -30,6 +30,16 @@ output: pdf_document
     - [Burn-in enhancement](#burn-in-enhancement)
   - [Applications](#applications)
   - [Summary](#summary)
+- [4 - Random Number Generators for Security](#4---random-number-generators-for-security)
+  - [Why do we need random numbers?](#why-do-we-need-random-numbers)
+  - [Mathematical background](#mathematical-background)
+  - [True Random Number Generators (TRNGs)](#true-random-number-generators-trngs)
+    - [Entropy Sources](#entropy-sources)
+    - [Testing](#testing)
+    - [Post-processing](#post-processing)
+    - [Summary](#summary-1)
+  - [Pseudo Random Number Generators (PRNGs)](#pseudo-random-number-generators-prngs)
+    - [Dual EC](#dual-ec)
 - [5 - Cryptographic Key](#5---cryptographic-key)
   - [Block cipher](#block-cipher)
   - [Data Encryption Standard (DES)](#data-encryption-standard-des)
@@ -294,7 +304,106 @@ We can use some *helper data* to get a specific type of key. See course slide to
 * Strong PUFs prone to ML attacks
 * Need for helper data algorithm
 * Secret key generation using weak PUFs
-* Lightweight entity authentication using strong PUFs – still an open questio
+* Lightweight entity authentication using strong PUFs – still an open question
+
+# 4 - Random Number Generators for Security
+
+## Why do we need random numbers?
+
+A system is secure even if everything is known about it besides the key. So we see the importance of generating truly random numbers. Randomness is a property of data generating process/source ! It shows how unpredictable data generation is.
+
+## Mathematical background
+
+It is all about minimizing the bias. The Shannon entropy is also important as it measures the disorder. Finally the min-entropy reveals the amount of truly random bits produce by one mean.
+
+$$
+bias(X) = \left| Pr[X=1] - \frac{1}{2} \right| = \left| Pr[X=0] - \frac{1}{2} \right|\\
+H_1 (X) = - \sum_{i=0}^{N-1} (Pr[X=x_i] log_2(Pr[X=x_i]))\\
+H_\infty (X) = - log_2 (\max_{x_i} Pr[X=x_i])
+$$
+
+Taking the min-entropy always ensure we have have $2^{-n}$ chance of guessing the right key at the first try. Min-entropy is always smaller than the Shanon entropy. 
+
+
+## True Random Number Generators (TRNGs)
+
+![Typical scheme for TRNG](image-31.png){ width=50% }
+
+The "on-the-fly" tests are there to check for possible issues or biased results. Post-processing will compress the numbers to obtain a full-entropy output bits.
+
+### Entropy Sources
+
+#### Metastability
+
+![Metastability](image-32.png){ width=50% }
+
+It's like rolling a ball on top of a hill and seeing when it goes left or right. But the drop of the ball is influenced by noise and the hill by the manufacturing variation.
+
+#### Timing jitter
+
+We can also inspect the jitter in a RO. TERO is not too bad.
+
+#### Quantum effect
+
+We use some photon detection circuits to check in which way the photon is fired.
+
+### Testing
+
+We do some prototype testing and check long bit sequences which can be quite intensive compute wise. It needs to detect some total failure and see if some bits are stuck at a specific location. Always one full cycle of continuous tests before any output (start-up tests).
+
+Need to be careful with some attacks and the effect could appear a lil later before any tests can check it.
+
+### Post-processing
+
+We can use some *parity filter* that will reduce the throughput and will not remove the bias. But we need the bits to be totally independent from each other or their locality will increase the bias.
+
+To remove totally the bias we can use the **Von Neumann**'s post-processing. The input bits must be independent and identically distributed (IID).
+
+**Compression** is needed to increase density after post-processing.
+
+### Summary
+
+- Digital entropy source
+  - Produces raw bits, usually not completely unpredictable (do not have full entropy)
+  - Sensitive to operating conditions (voltage, temperature, etc.)
+  - Requires testing to monitor health
+- Two types of testing
+  - Prototype evaluation
+    - Extensive statistical testing
+    - Black box
+  - n-the-fly testing
+    - On chip
+    - Lightweight, low latency
+    - False positive errors
+- Post-processing
+  - Increasing entropy rate of the random bits (“extracts entropy” from raw bits)
+  - Compression function (if there is no compression, it doesn’t extract entropy)
+  - XOR (parity filter) cannot remove bias completely
+    - Inputs should be independent
+  - Von Neumann removes all bias
+    - Inputs should be independent and identically distributed (IID)
+  - Cryptographic post-processing: not lightweight, offer computational security of the output bits
+
+## Pseudo Random Number Generators (PRNGs)
+
+Uses for high throughput random number generator. It is based on an actual random numbers named the *seed*.
+
+![PRNG Architecture](image-33.png){ width=50% }
+
+If an attacker intercept a part of the sequence shouldn't be able to compute any previous or future output. This is forward and backward secrecy. We can have some *enhanced* secrecy if we can't find the future or past secrets based on **internal state** value.
+
+### Dual EC 
+
+There exists some non invertible algorithm usually based on the Elliptic curve !
+
+- PRNGs are deterministic, they don’t produce entropy 
+- Requirements:
+  - Forward and backward secrecy: The attacker cannot predict future/past outputs by observing the current and past/future output
+  - Enhanced forward and backward secrecy: The attacker cannot predict future/past outputs by observing the internal state
+- Three main components:
+  1. Internal state (memory)
+  2. The state update function
+  3. The output function
 
 # 5 - Cryptographic Key
 
