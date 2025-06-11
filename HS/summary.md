@@ -416,6 +416,7 @@ It will repeat on it we call this rounds and each rounds has subkey derived by k
 Often, one cycle per round for HW architecture to ensure speed and throughput. On the other side we can make low area which is slower.
 
 ![Block cipher example](image.png){ width=50% }
+
 ## Data Encryption Standard (DES)
 
 It is a *block cipher* with 64 bit I/O and 56 bit key with 8 parity  bits. The idea, it is iterated cipher with 16 rounds. It has influenced modern encryption even tough it is no longer considered secure as of 2004.
