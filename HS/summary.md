@@ -800,10 +800,10 @@ For example, we have a large buffer, we can flush all of the data from the cache
 
 | **Attack**         | **Principle**                                                            | **Shared Memory Required** | **Flush Instruction Needed** | **Attacker Control Over Cache** | **Resolution/Granularity** | **Typical Use Case**                          |
 | ------------------ | ------------------------------------------------------------------------ | -------------------------- | ---------------------------- | ------------------------------- | -------------------------- | --------------------------------------------- |
-| **Flush+Reload**   | Flush shared memory, let victim execute, reload, and time access         | ✅ Yes                      | ✅ Yes                        | Direct (flush + measure)        | Fine-grained (cache line)  | Key extraction (e.g., RSA), spyware detection |
-| **Evict+Reload**   | Evict shared memory by cache eviction, then reload and time access       | ✅ Yes                      | ❌ No                         | Indirect (evict + measure)      | Fine-grained               | When flush instruction is unavailable         |
-| **Prime+Probe**    | Prime a cache set, let victim execute, then probe timing of eviction set | ❌ No                       | ❌ No                         | Indirect (measure set state)    | Coarser (cache set)        | Sandbox breaking, timing leakage              |
-| **Covert Channel** | Deliberate cache use to leak data between isolated processes/VMs         |  ✅ Often                   | Varies                       | Cooperative sender/receiver     | Byte-wise possible         | Cross-domain leakage, VM escape               |
+| **Flush+Reload**   | Flush shared memory, let victim execute, reload, and time access         | V Yes                      | V Yes                        | Direct (flush + measure)        | Fine-grained (cache line)  | Key extraction (e.g., RSA), spyware detection |
+| **Evict+Reload**   | Evict shared memory by cache eviction, then reload and time access       | V Yes                      | X No                         | Indirect (evict + measure)      | Fine-grained               | When flush instruction is unavailable         |
+| **Prime+Probe**    | Prime a cache set, let victim execute, then probe timing of eviction set | X No                       | X No                         | Indirect (measure set state)    | Coarser (cache set)        | Sandbox breaking, timing leakage              |
+| **Covert Channel** | Deliberate cache use to leak data between isolated processes/VMs         |  V Often                   | Varies                       | Cooperative sender/receiver     | Byte-wise possible         | Cross-domain leakage, VM escape               |
 
 
 ## Transient Execution Attacks
