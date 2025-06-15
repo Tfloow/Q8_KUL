@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title></title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <table>
+<thead>
+<tr>
+<th><strong>Category</strong></th>
+<th><strong># Questions</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Typical Questions</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Side Questions (Conceptual Theory)</strong></td>
+<td>13</td>
+<td>Key oral theory concepts: phase center, grating lobes, mutual coupling, miniaturization, and CEM methods.</td>
+<td>- What is the phase center?  <br> - What are grating lobes? <br> - What's the Wheeler-Chu limit? <br> - What's the difference between DE and IE methods? <br> - Why is miniaturizing antennas difficult? <br> - What is mutual coupling?</td>
+</tr>
+<tr>
+<td><strong>Antenna Fundamentals (λ, f, Friis, Gain)</strong></td>
+<td>6</td>
+<td>Core topics: frequency-wavelength, Friis, gain, effective area.</td>
+<td>- What is the wavelength at 3GHz? <br> - Derive and explain the Friis equation. <br> - How can Pr &gt; Pt be explained? <br> - Can aperture efficiency exceed 1?</td>
+</tr>
+<tr>
+<td><strong>Scattering &amp; Electromagnetic Theory</strong></td>
+<td>5</td>
+<td>Modeling materials in EM fields, relation of scattered and total fields.</td>
+<td>- What happens when a scatterer is a PEC or dielectric? <br> - Solve E_tot = E_inc + E_scat. <br> - Describe the role of induced currents.</td>
+</tr>
+<tr>
+<td><strong>Slot and Microstrip Antennas</strong></td>
+<td>5</td>
+<td>Radiation from slots, patch resonance, equivalence use.</td>
+<td>- Explain how a microstrip antenna works. <br> - What resonates and in which direction? <br> - Use equivalence theorem to analyze a slot.</td>
+</tr>
+<tr>
+<td><strong>Dipole and PEC Image Problems</strong></td>
+<td>4</td>
+<td>Image theory and PECs affecting dipole fields.</td>
+<td>- Draw the image of a dipole over PEC. <br> - What is the far field of a dipole near PEC? <br> - What height gives optimal directivity?</td>
+</tr>
+<tr>
+<td><strong>Far Field Radiation &amp; Antenna Patterns</strong></td>
+<td>4</td>
+<td>Calculate radiated E and H fields from simple sources.</td>
+<td>- Use elementary dipole formulas to find far field. <br> - What is the pattern in the phi = π/2 plane? <br> - Derive F(r) for a radiating dipole.</td>
+</tr>
+<tr>
+<td><strong>Nulls and Directivity</strong></td>
+<td>4</td>
+<td>Placing nulls, shaping beam with geometry and phase.</td>
+<td>- Find smallest h to get a null at θ = 60°. <br> - How can antenna placement create nulls? <br> - Optimize h for main lobe targeting.</td>
+</tr>
+<tr>
+<td><strong>Equivalence Theorems &amp; Boundary Conditions</strong></td>
+<td>3</td>
+<td>Use of surface equivalence and physical meaning of boundary conditions.</td>
+<td>- What does the equivalence theorem state? <br> - Explain surface currents at PEC. <br> - Why must E and H fields be continuous?</td>
+</tr>
+<tr>
+<td><strong>Uniform Linear Array (ULA) Theory</strong></td>
+<td>2</td>
+<td>Element count vs pattern shaping, gain, and aperture.</td>
+<td>- What happens to main lobe as N→∞? <br> - How do grating lobes appear? <br> - Prove scaling laws for gain and aperture.</td>
+</tr>
+</tbody>
+</table>
+
+            
+            
+        </body>
+        </html>

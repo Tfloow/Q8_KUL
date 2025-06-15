@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f4e1; Computational Electromagnetics &lpar;CEM&rpar; &ndash; Summary and Methods</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <ul>
+<li><a href="#-computational-electromagnetics-cem--summary-and-methods">📡 Computational Electromagnetics (CEM) – Summary and Methods</a>
+<ul>
+<li><a href="#-what-is-computational-electromagnetics-cem">🧠 What is Computational Electromagnetics (CEM)?</a></li>
+<li><a href="#%EF%B8%8F-three-main-computational-methods-in-cem">⚙️ Three Main Computational Methods in CEM</a>
+<ul>
+<li><a href="#-1-differential-equation-de-based-method">🔹 1. Differential Equation (DE)-Based Method</a></li>
+<li><a href="#-2-volume-integral-equation-vie-method">🔹 2. Volume Integral Equation (VIE) Method</a></li>
+<li><a href="#-3-boundary-integral-equation-bie-method">🔹 3. Boundary Integral Equation (BIE) Method</a></li>
+</ul>
+</li>
+<li><a href="#-classical-vs-cem-approaches">📚 Classical vs. CEM Approaches</a></li>
+<li><a href="#-summary-table">🧮 Summary Table</a></li>
+</ul>
+</li>
+<li><a href="#-in-depth-mathematical-reasoning-of-cem-methods">📡 In-Depth Mathematical Reasoning of CEM Methods</a>
+<ul>
+<li><a href="#-what-is-computational-electromagnetics-cem-1">🧠 What is Computational Electromagnetics (CEM)?</a></li>
+<li><a href="#%EF%B8%8F-1-differential-equation-de-based-method">⚙️ 1. Differential Equation (DE)-Based Method</a>
+<ul>
+<li><a href="#maxwells-equations-frequency-domain">Maxwell's Equations (Frequency Domain):</a></li>
+<li><a href="#finite-difference-discretization">Finite Difference Discretization:</a></li>
+<li><a href="#-pros">✅ Pros:</a></li>
+<li><a href="#-cons">❌ Cons:</a></li>
+</ul>
+</li>
+<li><a href="#%EF%B8%8F-2-volume-integral-equation-vie-method">⚙️ 2. Volume Integral Equation (VIE) Method</a>
+<ul>
+<li><a href="#problem-setup">Problem Setup:</a></li>
+<li><a href="#integral-equation-using-greens-function">Integral Equation using Green’s Function:</a></li>
+<li><a href="#-pros-1">✅ Pros:</a></li>
+<li><a href="#-cons-1">❌ Cons:</a></li>
+</ul>
+</li>
+<li><a href="#%EF%B8%8F-3-boundary-integral-equation-bie-method">⚙️ 3. Boundary Integral Equation (BIE) Method</a>
+<ul>
+<li><a href="#key-idea">Key Idea:</a></li>
+<li><a href="#electric-field-from-surface-currents">Electric Field from Surface Currents:</a></li>
+<li><a href="#boundary-conditions">Boundary Conditions:</a></li>
+<li><a href="#-pros-2">✅ Pros:</a></li>
+<li><a href="#-cons-2">❌ Cons:</a></li>
+</ul>
+</li>
+<li><a href="#-classical-approaches">📚 Classical Approaches</a>
+<ul>
+<li><a href="#-poynting-vector">✅ Poynting Vector:</a></li>
+<li><a href="#-pocklington-integral">✅ Pocklington Integral:</a></li>
+</ul>
+</li>
+<li><a href="#-final-comparison-table">🧮 Final Comparison Table</a></li>
+</ul>
+</li>
+<li><a href="#-method-of-moments-mom--detailed-explanation">📐 Method of Moments (MoM) – Detailed Explanation</a>
+<ul>
+<li><a href="#-core-idea">🧠 Core Idea</a></li>
+<li><a href="#%EF%B8%8F-steps-of-the-method">⚙️ Steps of the Method</a>
+<ul>
+<li><a href="#1-formulate-the-integral-equation">1. <strong>Formulate the Integral Equation</strong></a></li>
+<li><a href="#2-discretize-the-geometry">2. <strong>Discretize the Geometry</strong></a></li>
+<li><a href="#3-testingweighting-procedure">3. <strong>Testing/Weighting Procedure</strong></a></li>
+<li><a href="#4-matrix-form">4. <strong>Matrix Form</strong></a></li>
+</ul>
+</li>
+<li><a href="#-basis-and-test-functions">🧾 Basis and Test Functions</a>
+<ul>
+<li><a href="#common-choices">Common Choices:</a></li>
+<li><a href="#testing-methods">Testing Methods:</a></li>
+</ul>
+</li>
+<li><a href="#-example-pocklington-integral-for-a-thin-wire">💡 Example: Pocklington Integral for a Thin Wire</a></li>
+<li><a href="#-advantages">✅ Advantages</a></li>
+<li><a href="#-disadvantages">❌ Disadvantages</a></li>
+<li><a href="#-summary">📊 Summary</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="-computational-electromagnetics-cem--summary-and-methods">📡 Computational Electromagnetics (CEM) – Summary and Methods</h1>
+<h2 id="-what-is-computational-electromagnetics-cem">🧠 What is Computational Electromagnetics (CEM)?</h2>
+<p><strong>CEM</strong> uses numerical methods and computers to solve <strong>Maxwell's equations</strong> in complex scenarios such as:</p>
+<ul>
+<li>Nanostructures</li>
+<li>Wave scattering</li>
+<li>Antenna radiation</li>
+</ul>
+<p>It integrates:</p>
+<ul>
+<li><strong>Physics</strong> (electromagnetics)</li>
+<li><strong>Mathematics</strong> (differential/integral equations)</li>
+<li><strong>Programming</strong> (numerical solvers)</li>
+<li><strong>Applications</strong> (e.g., antennas, nanophotonics)</li>
+</ul>
+<hr>
+<h2 id="️-three-main-computational-methods-in-cem">⚙️ Three Main Computational Methods in CEM</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Core Idea</th>
+<th>Type</th>
+<th>Typical Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. <strong>Differential Equation (DE)</strong></td>
+<td>Discretizes <strong>Maxwell’s equations</strong> using finite differences or elements</td>
+<td>Local, volume-based</td>
+<td>Full-wave solvers, waveguides</td>
+</tr>
+<tr>
+<td>2. <strong>Volume Integral Equation</strong></td>
+<td>Uses Green’s functions to relate induced currents to total/scattered fields over volumes</td>
+<td>Global, volume-based</td>
+<td>Dielectric scattering</td>
+</tr>
+<tr>
+<td>3. <strong>Boundary Integral Equation</strong></td>
+<td>Applies surface equivalence; reduces domain to object surfaces using boundary integrals</td>
+<td>Global, boundary-based</td>
+<td>Open-region problems, antennas</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="-1-differential-equation-de-based-method">🔹 1. Differential Equation (DE)-Based Method</h3>
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li>Solves Maxwell’s equations directly via <strong>finite difference</strong> or <strong>finite element</strong> discretization.</li>
+<li>Grid-based (e.g., Yee grid).</li>
+</ul>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Simple to implement</li>
+<li>Works with arbitrary materials/geometries</li>
+<li>Yields <strong>sparse matrices</strong></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Must model full domain including empty space</li>
+<li>Less efficient for open-region problems</li>
+</ul>
+<hr>
+<h3 id="-2-volume-integral-equation-vie-method">🔹 2. Volume Integral Equation (VIE) Method</h3>
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li>Reformulates scattering as <strong>integrals over induced volume currents</strong> using Green’s functions.</li>
+<li>Good for complex media.</li>
+</ul>
+<p><strong>Equation Example:</strong></p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">E</mi><mtext>scat</mtext></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><msub><mo>∫</mo><mi>V</mi></msub><mi mathvariant="bold">G</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo separator="true">,</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>⋅</mo><mi mathvariant="bold">J</mi><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mtext> </mtext><mi>d</mi><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\mathbf{E}_{\text{scat}}(\mathbf{r}) = -j\omega\mu \int_V \mathbf{G}(\mathbf{r}, \mathbf{r}&#x27;) \cdot \mathbf{J}(\mathbf{r}&#x27;) \, d\mathbf{r}&#x27;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">scat</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2719em;vertical-align:-0.9119em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:-0.4336em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbf">G</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord mathbf">J</span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Precise modeling of inhomogeneous media</li>
+<li>Direct interpretation of scattering</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li><strong>Dense matrices</strong></li>
+<li>Higher computation and memory cost</li>
+</ul>
+<hr>
+<h3 id="-3-boundary-integral-equation-bie-method">🔹 3. Boundary Integral Equation (BIE) Method</h3>
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li>Uses <strong>surface currents</strong> and <strong>Green’s functions</strong></li>
+<li>Reduces problem size: only surface needs meshing</li>
+</ul>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Excellent for <strong>open-domain</strong> problems</li>
+<li>No need to mesh free space</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Only works for <strong>homogeneous interiors</strong></li>
+<li>Requires accurate Green’s functions</li>
+<li>Dense matrices</li>
+</ul>
+<hr>
+<h2 id="-classical-vs-cem-approaches">📚 Classical vs. CEM Approaches</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Classical Methods (Poynting, Pocklington)</th>
+<th>CEM Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Usage</td>
+<td>Analytic; ideal for canonical shapes</td>
+<td>General; for real-world applications</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Analytical simplification</td>
+<td>Full 3D arbitrary geometries/materials</td>
+</tr>
+<tr>
+<td>Power Calculation</td>
+<td>Poynting vector (field-based)</td>
+<td>Used as a post-processing tool</td>
+</tr>
+<tr>
+<td>Thin Wire Modeling</td>
+<td>Pocklington integral</td>
+<td>Recast as BIE or MoM</td>
+</tr>
+<tr>
+<td>Computational Scalability</td>
+<td>Poor (manual effort)</td>
+<td>High (automated solvers, large problems)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-summary-table">🧮 Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Equation Form</th>
+<th>Domain Type</th>
+<th>Matrix Type</th>
+<th>Best For</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FDM/DE</strong></td>
+<td>Differential (Maxwell)</td>
+<td>Whole volume</td>
+<td>Sparse</td>
+<td>Closed structures, waveguides</td>
+<td>Not memory-efficient for open space</td>
+</tr>
+<tr>
+<td><strong>VIE</strong></td>
+<td>Volume Integral</td>
+<td>Scatterer volume</td>
+<td>Dense</td>
+<td>Dielectric scattering</td>
+<td>High memory/computation</td>
+</tr>
+<tr>
+<td><strong>BIE</strong></td>
+<td>Boundary Integral</td>
+<td>Scatterer surface</td>
+<td>Dense</td>
+<td>Antennas, open-region scattering</td>
+<td>Requires homogeneity inside</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="-in-depth-mathematical-reasoning-of-cem-methods">📡 In-Depth Mathematical Reasoning of CEM Methods</h1>
+<h2 id="-what-is-computational-electromagnetics-cem-1">🧠 What is Computational Electromagnetics (CEM)?</h2>
+<p><strong>CEM</strong> uses numerical methods and computers to solve <strong>Maxwell's equations</strong> in complex electromagnetic environments, such as:</p>
+<ul>
+<li>Nanostructures</li>
+<li>Wave scattering</li>
+<li>Antennas</li>
+</ul>
+<hr>
+<h2 id="️-1-differential-equation-de-based-method">⚙️ 1. Differential Equation (DE)-Based Method</h2>
+<h3 id="maxwells-equations-frequency-domain">Maxwell's Equations (Frequency Domain):</h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">∇</mi><mo>×</mo><mi mathvariant="bold">E</mi><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><mi mathvariant="bold">H</mi><mo separator="true">,</mo><mspace width="1em"/><mi mathvariant="normal">∇</mi><mo>×</mo><mi mathvariant="bold">H</mi><mo>=</mo><mi>j</mi><mi>ω</mi><mi>ε</mi><mi mathvariant="bold">E</mi><mo>+</mo><mi mathvariant="bold">J</mi></mrow><annotation encoding="application/x-tex">\nabla \times \mathbf{E} = -j\omega \mu \mathbf{H}, \quad
+\nabla \times \mathbf{H} = j\omega \varepsilon \mathbf{E} + \mathbf{J}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8805em;vertical-align:-0.1944em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mord mathbf">H</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">H</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8805em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">ε</span><span class="mord mathbf">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">J</span></span></span></span></span></p>
+<p>Substituting gives the vector wave equation:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">∇</mi><mo>×</mo><mo stretchy="false">(</mo><mi mathvariant="normal">∇</mi><mo>×</mo><mi mathvariant="bold">E</mi><mo stretchy="false">)</mo><mo>−</mo><msup><mi>k</mi><mn>2</mn></msup><mi mathvariant="bold">E</mi><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><mi mathvariant="bold">J</mi><mo separator="true">,</mo><mspace width="1em"/><msup><mi>k</mi><mn>2</mn></msup><mo>=</mo><msup><mi>ω</mi><mn>2</mn></msup><mi>μ</mi><mi>ε</mi></mrow><annotation encoding="application/x-tex">\nabla \times (\nabla \times \mathbf{E}) - k^2 \mathbf{E} = -j\omega \mu \mathbf{J}, \quad k^2 = \omega^2 \mu \varepsilon
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">∇</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">E</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathbf">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mord mathbf">J</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathnormal">μ</span><span class="mord mathnormal">ε</span></span></span></span></span></p>
+<h3 id="finite-difference-discretization">Finite Difference Discretization:</h3>
+<ul>
+<li>
+<p>Approximate derivatives:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>f</mi></mrow><mrow><mi>d</mi><mi>x</mi></mrow></mfrac><mo>≈</mo><mfrac><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>x</mi><mo stretchy="false">)</mo><mo>−</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><mrow><mi mathvariant="normal">Δ</mi><mi>x</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{df}{dx} \approx \frac{f(x+\Delta x) - f(x)}{\Delta x}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">df</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">Δ</span><span class="mord mathnormal">x</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">Δ</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+</li>
+<li>
+<p>Discretized system:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">L</mi><mi mathvariant="bold">E</mi><mo>=</mo><mi mathvariant="bold">f</mi></mrow><annotation encoding="application/x-tex">\mathbf{L}\mathbf{E} = \mathbf{f}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">LE</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathbf" style="margin-right:0.10903em;">f</span></span></span></span></span></p>
+</li>
+</ul>
+<h3 id="-pros">✅ Pros:</h3>
+<ul>
+<li>Sparse matrix system</li>
+<li>Arbitrary materials and geometries</li>
+</ul>
+<h3 id="-cons">❌ Cons:</h3>
+<ul>
+<li>Domain must include all space (even air)</li>
+<li>Not efficient for open problems</li>
+</ul>
+<hr>
+<h2 id="️-2-volume-integral-equation-vie-method">⚙️ 2. Volume Integral Equation (VIE) Method</h2>
+<h3 id="problem-setup">Problem Setup:</h3>
+<ul>
+<li>
+<p>Total field:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">E</mi><mtext>tot</mtext></msub><mo>=</mo><msub><mi mathvariant="bold">E</mi><mtext>inc</mtext></msub><mo>+</mo><msub><mi mathvariant="bold">E</mi><mtext>scat</mtext></msub></mrow><annotation encoding="application/x-tex">\mathbf{E}_{\text{tot}} = \mathbf{E}_{\text{inc}} + \mathbf{E}_{\text{scat}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8361em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">tot</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8361em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">inc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8361em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">scat</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+</li>
+<li>
+<p>Inhomogeneity:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>ε</mi><mi>r</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>ε</mi><mi>b</mi></msub><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>ε</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\varepsilon_r(\mathbf{r}) = \varepsilon_b + \Delta\varepsilon(\mathbf{r})
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Δ</span><span class="mord mathnormal">ε</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span></span></span></span></span></p>
+</li>
+<li>
+<p>Induced current:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">J</mi><mtext>ind</mtext></msub><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi mathvariant="normal">Δ</mi><mi>ε</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><msub><mi mathvariant="bold">E</mi><mtext>tot</mtext></msub></mrow><annotation encoding="application/x-tex">\mathbf{J}_{\text{ind}} = -j\omega \Delta \varepsilon(\mathbf{r}) \mathbf{E}_{\text{tot}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8361em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">ind</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord">Δ</span><span class="mord mathnormal">ε</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">tot</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+</li>
+</ul>
+<h3 id="integral-equation-using-greens-function">Integral Equation using Green’s Function:</h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">E</mi><mtext>scat</mtext></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>=</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><msub><mo>∫</mo><mi>V</mi></msub><mi mathvariant="bold">G</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo separator="true">,</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi mathvariant="bold">J</mi><mtext>ind</mtext></msub><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mtext> </mtext><mi>d</mi><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\mathbf{E}_{\text{scat}}(\mathbf{r}) = j\omega\mu \int_V \mathbf{G}(\mathbf{r}, \mathbf{r}&#x27;) \cdot \mathbf{J}_{\text{ind}}(\mathbf{r}&#x27;) \, d\mathbf{r}&#x27;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">scat</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2719em;vertical-align:-0.9119em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:-0.4336em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbf">G</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">ind</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Final expression:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">E</mi><mtext>tot</mtext></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi mathvariant="bold">E</mi><mtext>inc</mtext></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>−</mo><msup><mi>ω</mi><mn>2</mn></msup><mi>μ</mi><msub><mo>∫</mo><mi>V</mi></msub><mi mathvariant="bold">G</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo separator="true">,</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>⋅</mo><mi mathvariant="normal">Δ</mi><mi>ε</mi><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><msub><mi mathvariant="bold">E</mi><mtext>tot</mtext></msub><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mtext> </mtext><mi>d</mi><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\mathbf{E}_{\text{tot}}(\mathbf{r}) = \mathbf{E}_{\text{inc}}(\mathbf{r}) - \omega^2 \mu \int_V \mathbf{G}(\mathbf{r}, \mathbf{r}&#x27;) \cdot \Delta \varepsilon(\mathbf{r}&#x27;) \mathbf{E}_{\text{tot}}(\mathbf{r}&#x27;) \, d\mathbf{r}&#x27;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">tot</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">inc</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.2719em;vertical-align:-0.9119em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:-0.4336em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbf">G</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord">Δ</span><span class="mord mathnormal">ε</span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">tot</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="-pros-1">✅ Pros:</h3>
+<ul>
+<li>Accurate for scattering and inhomogeneous media</li>
+</ul>
+<h3 id="-cons-1">❌ Cons:</h3>
+<ul>
+<li>Volume meshing required</li>
+<li>Dense system matrix</li>
+</ul>
+<hr>
+<h2 id="️-3-boundary-integral-equation-bie-method">⚙️ 3. Boundary Integral Equation (BIE) Method</h2>
+<h3 id="key-idea">Key Idea:</h3>
+<p>Use <strong>surface equivalence</strong>:</p>
+<ul>
+<li>Replace scatterer by surface currents:
+( \mathbf{J}_s ), ( \mathbf{M}_s )</li>
+</ul>
+<h3 id="electric-field-from-surface-currents">Electric Field from Surface Currents:</h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">E</mi><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mo>∫</mo><mi>S</mi></msub><mo stretchy="false">[</mo><msub><mi mathvariant="bold">G</mi><mi>E</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo separator="true">,</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi mathvariant="bold">J</mi><mi>s</mi></msub><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>+</mo><msub><mi mathvariant="bold">G</mi><mi>H</mi></msub><mo stretchy="false">(</mo><mi mathvariant="bold">r</mi><mo separator="true">,</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi mathvariant="bold">M</mi><mi>s</mi></msub><mo stretchy="false">(</mo><msup><mi mathvariant="bold">r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo stretchy="false">]</mo><mtext> </mtext><mi>d</mi><msup><mi>S</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">\mathbf{E}(\mathbf{r}) = \int_S [\mathbf{G}_E(\mathbf{r}, \mathbf{r}&#x27;) \cdot \mathbf{J}_s(\mathbf{r}&#x27;) + \mathbf{G}_H(\mathbf{r}, \mathbf{r}&#x27;) \cdot \mathbf{M}_s(\mathbf{r}&#x27;)] \, dS&#x27;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">E</span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2719em;vertical-align:-0.9119em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:-0.4336em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord"><span class="mord mathbf">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)]</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="boundary-conditions">Boundary Conditions:</h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">n</mi><mo>×</mo><mo stretchy="false">(</mo><msub><mi mathvariant="bold">E</mi><mn>2</mn></msub><mo>−</mo><msub><mi mathvariant="bold">E</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mspace width="1em"/><mi mathvariant="bold">n</mi><mo>×</mo><mo stretchy="false">(</mo><msub><mi mathvariant="bold">H</mi><mn>2</mn></msub><mo>−</mo><msub><mi mathvariant="bold">H</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>=</mo><msub><mi mathvariant="bold">J</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{n} \times (\mathbf{E}_2 - \mathbf{E}_1) = 0, \quad
+\mathbf{n} \times (\mathbf{H}_2 - \mathbf{H}_1) = \mathbf{J}_s
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathbf">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbf">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8361em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Resulting system:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="bold">Z</mi><mi mathvariant="bold">J</mi></mrow><mo>=</mo><mi mathvariant="bold">V</mi></mrow><annotation encoding="application/x-tex">\mathbf{ZJ} = \mathbf{V}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord"><span class="mord mathbf">ZJ</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">V</span></span></span></span></span></p>
+<h3 id="-pros-2">✅ Pros:</h3>
+<ul>
+<li>Only surface meshing needed</li>
+<li>Open-region problems (antennas)</li>
+</ul>
+<h3 id="-cons-2">❌ Cons:</h3>
+<ul>
+<li>Requires homogeneous interiors</li>
+<li>Dense matrices</li>
+</ul>
+<hr>
+<h2 id="-classical-approaches">📚 Classical Approaches</h2>
+<h3 id="-poynting-vector">✅ Poynting Vector:</h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">S</mi><mo>=</mo><mi mathvariant="bold">E</mi><mo>×</mo><msup><mi mathvariant="bold">H</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">\mathbf{S} = \mathbf{E} \times \mathbf{H}^*
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">S</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7694em;vertical-align:-0.0833em;"></span><span class="mord mathbf">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7387em;"></span><span class="mord"><span class="mord mathbf">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7387em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Used for power flow, radiation, efficiency.</p>
+<h3 id="-pocklington-integral">✅ Pocklington Integral:</h3>
+<p>For thin wires:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><mrow><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msubsup><mfrac><msup><mi>d</mi><mn>2</mn></msup><mrow><mi>d</mi><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac><mrow><mo fence="true">[</mo><mfrac><msup><mi>e</mi><mrow><mi>j</mi><mi>k</mi><mi mathvariant="normal">∣</mi><mi>z</mi><mo>−</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∣</mi></mrow></msup><mrow><mi mathvariant="normal">∣</mi><mi>z</mi><mo>−</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∣</mi></mrow></mfrac><mo fence="true">]</mo></mrow><mi>I</mi><mo stretchy="false">(</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><msup><mi>E</mi><mtext>inc</mtext></msup><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\int_{-L/2}^{L/2} \frac{d^2}{dz^2} \left[ \frac{e^{jk|z - z&#x27;|}}{|z - z&#x27;|} \right] I(z&#x27;) dz&#x27; = -j\omega\mu E^{\text{inc}}(z)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6379em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.0869em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">[</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6195em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6779em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9425em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">jk</span><span class="mord mtight">∣</span><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">∣</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size4">]</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1305em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8805em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">inc</span></span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span></span></p>
+<ul>
+<li>Special case of BIE</li>
+<li>Solved via Method of Moments (MoM)</li>
+</ul>
+<hr>
+<h2 id="-final-comparison-table">🧮 Final Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Equation Type</th>
+<th>Domain</th>
+<th>Matrix</th>
+<th>Best For</th>
+<th>Drawbacks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DE (FDM)</strong></td>
+<td>Differential (PDE)</td>
+<td>Full volume</td>
+<td>Sparse</td>
+<td>Closed geometries</td>
+<td>Not open-space efficient</td>
+</tr>
+<tr>
+<td><strong>VIE</strong></td>
+<td>Volume integral</td>
+<td>Object vol</td>
+<td>Dense</td>
+<td>Dielectric scatterers</td>
+<td>High memory</td>
+</tr>
+<tr>
+<td><strong>BIE</strong></td>
+<td>Surface integral</td>
+<td>Object surf</td>
+<td>Dense</td>
+<td>Antennas, open space</td>
+<td>Homogeneous only</td>
+</tr>
+<tr>
+<td><strong>Poynting</strong></td>
+<td>Field-based vector</td>
+<td>Post-process</td>
+<td>N/A</td>
+<td>Power, gain, efficiency</td>
+<td>Not a solver</td>
+</tr>
+<tr>
+<td><strong>Pocklington</strong></td>
+<td>Integral for thin wire</td>
+<td>1D surface</td>
+<td>Dense (MoM)</td>
+<td>Wire antennas</td>
+<td>Only 1D, idealized geometry</td>
+</tr>
+</tbody>
+</table>
+<h1 id="-method-of-moments-mom--detailed-explanation">📐 Method of Moments (MoM) – Detailed Explanation</h1>
+<p>The <strong>Method of Moments (MoM)</strong> is a powerful numerical technique for solving <strong>integral equations</strong>, particularly in <strong>Computational Electromagnetics (CEM)</strong>. It is widely used to analyze <strong>antennas, scattering</strong>, and <strong>boundary problems</strong>.</p>
+<hr>
+<h2 id="-core-idea">🧠 Core Idea</h2>
+<p>MoM transforms a <strong>continuous integral equation</strong> into a <strong>discrete system of linear equations</strong>:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mo>∫</mo><mi>D</mi></msub><mi>K</mi><mo stretchy="false">(</mo><mi>r</mi><mo separator="true">,</mo><msup><mi>r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>f</mi><mo stretchy="false">(</mo><msup><mi>r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><msup><mi>r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>g</mi><mo stretchy="false">(</mo><mi>r</mi><mo stretchy="false">)</mo><mo>⇒</mo><mi mathvariant="bold">Z</mi><mo>⋅</mo><mi mathvariant="bold">I</mi><mo>=</mo><mi mathvariant="bold">V</mi></mrow><annotation encoding="application/x-tex">\int_D K(r, r&#x27;) f(r&#x27;) dr&#x27; = g(r)
+\Rightarrow
+\mathbf{Z} \cdot \mathbf{I} = \mathbf{V}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.2719em;vertical-align:-0.9119em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:-0.4336em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⇒</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">Z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">I</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">V</span></span></span></span></span></p>
+<p>Where:</p>
+<ul>
+<li>( K(r, r') ) is the <strong>kernel</strong> (often Green's function)</li>
+<li>( f(r') ) is the <strong>unknown function</strong> (e.g., current)</li>
+<li>( g(r) ) is the <strong>excitation</strong> (e.g., incident field)</li>
+</ul>
+<hr>
+<h2 id="️-steps-of-the-method">⚙️ Steps of the Method</h2>
+<h3 id="1-formulate-the-integral-equation">1. <strong>Formulate the Integral Equation</strong></h3>
+<p>Example (1D thin-wire antenna):</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><mrow><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msubsup><mi>G</mi><mo stretchy="false">(</mo><mi>z</mi><mo separator="true">,</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>I</mi><mo stretchy="false">(</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>V</mi><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\int_{-L/2}^{L/2} G(z, z&#x27;) I(z&#x27;) dz&#x27; = V(z)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.7248em;vertical-align:-1.0869em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6379em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.0869em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span></span></p>
+<p>Where:</p>
+<ul>
+<li>( I(z') ) is the unknown current</li>
+<li>( G(z, z') ) is the kernel (Green's function)</li>
+<li>( V(z) ) is the known excitation</li>
+</ul>
+<hr>
+<h3 id="2-discretize-the-geometry">2. <strong>Discretize the Geometry</strong></h3>
+<ul>
+<li>Divide the wire/surface into segments: ( z_1, z_2, \dots, z_N )</li>
+<li>Assume ( I(z) \approx \sum_{n=1}^N I_n f_n(z) )</li>
+</ul>
+<p>Where:</p>
+<ul>
+<li>( f_n(z) ) are <strong>basis functions</strong> (e.g., pulse, triangle)</li>
+</ul>
+<hr>
+<h3 id="3-testingweighting-procedure">3. <strong>Testing/Weighting Procedure</strong></h3>
+<ul>
+<li>Multiply the equation by <strong>test functions</strong> ( w_m(z) )</li>
+<li>Integrate to enforce accuracy in a <strong>weighted sense</strong>:</li>
+</ul>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>∫</mo><mi>G</mi><mo stretchy="false">(</mo><mi>z</mi><mo separator="true">,</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>I</mi><mo stretchy="false">(</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>⋅</mo><msub><mi>w</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mi>d</mi><mi>z</mi><mo>=</mo><msub><mi>V</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">\int G(z, z&#x27;) I(z&#x27;) dz&#x27; \cdot w_m(z) dz = V_m
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.2222em;vertical-align:-0.8622em;"></span><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>This yields a linear system:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>Z</mi><mrow><mi>m</mi><mi>n</mi></mrow></msub><mo>=</mo><mo>∫</mo><mo>∫</mo><msub><mi>w</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mi>G</mi><mo stretchy="false">(</mo><mi>z</mi><mo separator="true">,</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><msub><mi>f</mi><mi>n</mi></msub><mo stretchy="false">(</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><mi>z</mi><mi>d</mi><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mtext> </mtext><mo separator="true">,</mo><mspace width="1em"/><msub><mi>V</mi><mi>m</mi></msub><mo>=</mo><mo>∫</mo><msub><mi>w</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mi>V</mi><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mi>d</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">Z_{mn} = \int \int w_m(z) G(z, z&#x27;) f_n(z&#x27;) dz dz&#x27; \, , \quad
+V_m = \int w_m(z) V(z) dz
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mn</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2222em;vertical-align:-0.8622em;"></span><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫∫</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mord mathnormal">G</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2222em;vertical-align:-0.8622em;"></span><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span></span></p>
+<hr>
+<h3 id="4-matrix-form">4. <strong>Matrix Form</strong></h3>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">Z</mi><mo>⋅</mo><mi mathvariant="bold">I</mi><mo>=</mo><mi mathvariant="bold">V</mi></mrow><annotation encoding="application/x-tex">\mathbf{Z} \cdot \mathbf{I} = \mathbf{V}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">Z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">I</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">V</span></span></span></span></span></p>
+<ul>
+<li>( \mathbf{Z} ): <strong>Impedance matrix</strong> (interaction between elements)</li>
+<li>( \mathbf{I} ): Unknown current coefficients</li>
+<li>( \mathbf{V} ): Excitation vector</li>
+</ul>
+<hr>
+<h2 id="-basis-and-test-functions">🧾 Basis and Test Functions</h2>
+<h3 id="common-choices">Common Choices:</h3>
+<table>
+<thead>
+<tr>
+<th>Basis Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pulse</td>
+<td>Constant in each segment</td>
+</tr>
+<tr>
+<td>Piecewise Linear</td>
+<td>Triangle-shaped, better accuracy</td>
+</tr>
+<tr>
+<td>Sinusoidal</td>
+<td>Used in spectral domain</td>
+</tr>
+</tbody>
+</table>
+<h3 id="testing-methods">Testing Methods:</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Galerkin</td>
+<td>Use same functions for test &amp; basis</td>
+</tr>
+<tr>
+<td>Collocation</td>
+<td>Test at discrete points</td>
+</tr>
+<tr>
+<td>Least Squares</td>
+<td>Minimize global error</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-example-pocklington-integral-for-a-thin-wire">💡 Example: Pocklington Integral for a Thin Wire</h2>
+<p>Pocklington's Equation:</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><mrow><mi>L</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msubsup><mfrac><msup><mi mathvariant="normal">∂</mi><mn>2</mn></msup><mrow><mi mathvariant="normal">∂</mi><msup><mi>z</mi><mn>2</mn></msup></mrow></mfrac><mrow><mo fence="true">(</mo><mfrac><msup><mi>e</mi><mrow><mi>j</mi><mi>k</mi><mi mathvariant="normal">∣</mi><mi>z</mi><mo>−</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∣</mi></mrow></msup><mrow><mi mathvariant="normal">∣</mi><mi>z</mi><mo>−</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∣</mi></mrow></mfrac><mo fence="true">)</mo></mrow><mi>I</mi><mo stretchy="false">(</mo><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi>d</mi><msup><mi>z</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mo>−</mo><mi>j</mi><mi>ω</mi><mi>μ</mi><msup><mi>E</mi><mtext>inc</mtext></msup><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\int_{-L/2}^{L/2} \frac{\partial^2}{\partial z^2} \left( \frac{e^{jk|z - z&#x27;|}}{|z - z&#x27;|} \right) I(z&#x27;) dz&#x27; = -j\omega\mu E^{\text{inc}}(z)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6379em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mtight">/2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.0869em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6195em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6779em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9425em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">jk</span><span class="mord mtight">∣</span><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8278em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord mtight">∣</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size4">)</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1305em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03588em;">jω</span><span class="mord mathnormal">μ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8805em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">inc</span></span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span></span></p>
+<p>Apply MoM:</p>
+<ul>
+<li>Discretize current ( I(z) )</li>
+<li>Use triangle basis functions</li>
+<li>Compute interaction integrals</li>
+<li>Solve for ( I_n ) using matrix inversion</li>
+</ul>
+<hr>
+<h2 id="-advantages">✅ Advantages</h2>
+<ul>
+<li>Very accurate for <strong>conducting scatterers</strong> and <strong>thin wires</strong></li>
+<li>Good for problems with <strong>known Green’s functions</strong></li>
+<li>Naturally integrates with <strong>BIE formulations</strong></li>
+</ul>
+<hr>
+<h2 id="-disadvantages">❌ Disadvantages</h2>
+<ul>
+<li>Matrix is <strong>dense</strong>: ( O(N^2) ) memory and time</li>
+<li>Not ideal for <strong>very large</strong> problems (unless using Fast MoM or FMM)</li>
+<li>Needs <strong>analytical expressions</strong> for Green’s functions</li>
+</ul>
+<hr>
+<h2 id="-summary">📊 Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equation Type</td>
+<td>Integral Equations</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Boundary or Volume</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Dense linear system</td>
+</tr>
+<tr>
+<td>Best For</td>
+<td>Wires, patches, open-region radiation problems</td>
+</tr>
+<tr>
+<td>Solving Method</td>
+<td>Matrix inversion or iterative solver</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Let me know if you'd like an implementation in Python/Matlab or an example solved step-by-step!</p>
+<table>
+<thead>
+<tr>
+<th><strong>Category</strong></th>
+<th><strong># Questions</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Typical Questions</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Side Questions (Conceptual Theory)</strong></td>
+<td>13</td>
+<td>Key oral theory concepts: phase center, grating lobes, mutual coupling, miniaturization, and CEM methods.</td>
+<td>- What is the phase center?  <br> - What are grating lobes? <br> - What's the Wheeler-Chu limit? <br> - What's the difference between DE and IE methods? <br> - Why is miniaturizing antennas difficult? <br> - What is mutual coupling?</td>
+</tr>
+<tr>
+<td><strong>Antenna Fundamentals (λ, f, Friis, Gain)</strong></td>
+<td>6</td>
+<td>Core topics: frequency-wavelength, Friis, gain, effective area.</td>
+<td>- What is the wavelength at 3GHz? <br> - Derive and explain the Friis equation. <br> - How can Pr &gt; Pt be explained? <br> - Can aperture efficiency exceed 1?</td>
+</tr>
+<tr>
+<td><strong>Scattering &amp; Electromagnetic Theory</strong></td>
+<td>5</td>
+<td>Modeling materials in EM fields, relation of scattered and total fields.</td>
+<td>- What happens when a scatterer is a PEC or dielectric? <br> - Solve E_tot = E_inc + E_scat. <br> - Describe the role of induced currents.</td>
+</tr>
+<tr>
+<td><strong>Slot and Microstrip Antennas</strong></td>
+<td>5</td>
+<td>Radiation from slots, patch resonance, equivalence use.</td>
+<td>- Explain how a microstrip antenna works. <br> - What resonates and in which direction? <br> - Use equivalence theorem to analyze a slot.</td>
+</tr>
+<tr>
+<td><strong>Dipole and PEC Image Problems</strong></td>
+<td>4</td>
+<td>Image theory and PECs affecting dipole fields.</td>
+<td>- Draw the image of a dipole over PEC. <br> - What is the far field of a dipole near PEC? <br> - What height gives optimal directivity?</td>
+</tr>
+<tr>
+<td><strong>Far Field Radiation &amp; Antenna Patterns</strong></td>
+<td>4</td>
+<td>Calculate radiated E and H fields from simple sources.</td>
+<td>- Use elementary dipole formulas to find far field. <br> - What is the pattern in the phi = π/2 plane? <br> - Derive F(r) for a radiating dipole.</td>
+</tr>
+<tr>
+<td><strong>Nulls and Directivity</strong></td>
+<td>4</td>
+<td>Placing nulls, shaping beam with geometry and phase.</td>
+<td>- Find smallest h to get a null at θ = 60°. <br> - How can antenna placement create nulls? <br> - Optimize h for main lobe targeting.</td>
+</tr>
+<tr>
+<td><strong>Equivalence Theorems &amp; Boundary Conditions</strong></td>
+<td>3</td>
+<td>Use of surface equivalence and physical meaning of boundary conditions.</td>
+<td>- What does the equivalence theorem state? <br> - Explain surface currents at PEC. <br> - Why must E and H fields be continuous?</td>
+</tr>
+<tr>
+<td><strong>Uniform Linear Array (ULA) Theory</strong></td>
+<td>2</td>
+<td>Element count vs pattern shaping, gain, and aperture.</td>
+<td>- What happens to main lobe as N→∞? <br> - How do grating lobes appear? <br> - Prove scaling laws for gain and aperture.</td>
+</tr>
+</tbody>
+</table>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

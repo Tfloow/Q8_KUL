@@ -8,7 +8,7 @@ output: pdf_document
 - [1 - Trust what is it ?](#1---trust-what-is-it-)
   - [Evolution of the trust model](#evolution-of-the-trust-model)
   - [Design methods](#design-methods)
-  - [2 - Hardware attacks](#2---hardware-attacks)
+- [2 - Hardware attacks](#2---hardware-attacks)
   - [Overview](#overview)
     - [Side channel attack](#side-channel-attack)
     - [Fault attack](#fault-attack)
@@ -82,6 +82,7 @@ output: pdf_document
     - [Evict + Reload](#evict--reload)
     - [Prime + probe](#prime--probe)
   - [Cache covert channels](#cache-covert-channels)
+  - [Summary Cache attack](#summary-cache-attack)
   - [Transient Execution Attacks](#transient-execution-attacks)
     - [Spectre](#spectre)
     - [Meltdown](#meltdown)
@@ -137,7 +138,7 @@ We need to apply security at all level ! A **root of trust** is a component at l
 
 We try to reduce this footprint of attack and model what the attacker can or could do on your root of trust. Then we need to build some interface to communicate with higher level.
 
-## 2 - Hardware attacks
+# 2 - Hardware attacks
 
 ## Overview
 
@@ -706,6 +707,14 @@ But we need to protect some nonvolatile key storage and need a TEE implementatio
 
 We will try to minimize the Trusted Computing Base and will move towards RoT with one single pont of failure. There isn't a one-fit-all solution, we need to create one for each threat we want to protect against.
 
+| **Goal**                             | **Technique**       | **When to Use**                                  |
+| ------------------------------------ | ------------------- | ------------------------------------------------ |
+| Only vendor-approved code runs       | Secure Boot         | Prevent tampering/piracy on boot                 |
+| Log software state cryptographically | Measured Boot       | Detect software changes; support attestation     |
+| Isolate secrets from the OS          | TEE (TrustZone/SGX) | Secure data/apps against OS or other apps        |
+| Prove software identity remotely     | Remote Attestation  | Enforce remote policy (DRM, anti-cheat, banking) |
+
+
 # 8 - Micro-Architectural attacks and defense
 
 Micro-architecture is something pretty subtle as it is not software nor really hardware. I sits right between the Software and ISA and the Hardware. It is something that differentiates each generation of processor between each other.
@@ -786,6 +795,16 @@ Some counter-measures can involve:
 The idea is to communicate between a sender a receiver without using an official channel. But we use the cache to send those data since the two are running on the same cpu.
 
 For example, we have a large buffer, we can flush all of the data from the cache and then the transmitter can do a dummy access to a specific offset in this array. Then the receiver scan the access time to every $a_i$.
+
+## Summary Cache attack
+
+| **Attack**         | **Principle**                                                            | **Shared Memory Required** | **Flush Instruction Needed** | **Attacker Control Over Cache** | **Resolution/Granularity** | **Typical Use Case**                          |
+| ------------------ | ------------------------------------------------------------------------ | -------------------------- | ---------------------------- | ------------------------------- | -------------------------- | --------------------------------------------- |
+| **Flush+Reload**   | Flush shared memory, let victim execute, reload, and time access         | ✅ Yes                      | ✅ Yes                        | Direct (flush + measure)        | Fine-grained (cache line)  | Key extraction (e.g., RSA), spyware detection |
+| **Evict+Reload**   | Evict shared memory by cache eviction, then reload and time access       | ✅ Yes                      | ❌ No                         | Indirect (evict + measure)      | Fine-grained               | When flush instruction is unavailable         |
+| **Prime+Probe**    | Prime a cache set, let victim execute, then probe timing of eviction set | ❌ No                       | ❌ No                         | Indirect (measure set state)    | Coarser (cache set)        | Sandbox breaking, timing leakage              |
+| **Covert Channel** | Deliberate cache use to leak data between isolated processes/VMs         |  ✅ Often                   | Varies                       | Cooperative sender/receiver     | Byte-wise possible         | Cross-domain leakage, VM escape               |
+
 
 ## Transient Execution Attacks
 
