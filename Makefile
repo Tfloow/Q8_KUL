@@ -15,9 +15,10 @@ all :
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
 		echo "Processing $$VAL..."; \
-		pandoc -s -o $$VAL.pdf $$VAL/summary.md; \
+		cd $$VAL; pandoc -s -o $$VAL.pdf summary.md; cd ..;\
 		echo "Created $$VAL.pdf"; \
 	done
+	cp */*.pdf .
 
 create_summary :
 # takes course name and author name as arguments
