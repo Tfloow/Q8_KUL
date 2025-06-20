@@ -14,10 +14,10 @@ all :
 # iterate over each subdirectory and use pandoc to create summary
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
-		cd $$i; pandoc -s -o $(VAL).pdf summary.md; cd ..; \
+		echo "Processing $$VAL..."; \
+		pandoc -s -o $$VAL.pdf $$VAL/summary.md; \
 		echo "Created $$VAL.pdf"; \
 	done
-	cp */*.pdf .
 
 create_summary :
 # takes course name and author name as arguments
