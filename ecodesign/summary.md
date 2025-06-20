@@ -1,5 +1,5 @@
 ---
-title: "Hardware Security - Summary"
+title: "Ecodesign - Summary"
 author: Thomas Debelle
 geometry: margin=2cm
 output: pdf_document

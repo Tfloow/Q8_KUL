@@ -1,27 +1,9 @@
-alsoletter=., alsodigit=0x, morekeywords=\[1\] lb, lh, lw, lbu, lhu, sb,
-sh, sw, sll, slli, srl, srli, sra, srai, add, addi, sub, lui, auipc,
-xor, xori, or, ori, and, andi, slt, slti, sltu, sltiu, beq, bne, blt,
-bge, bltu, bgeu, j, jr, jal, jalr, ret, scall, break, nop ,
-morekeywords=\[2\] .align, .ascii, .asciiz, .byte, .data, .double,
-.extern, .float, .globl, .half, .kdata, .ktext, .set, .space, .text,
-.word , morekeywords=\[3\] zero, ra, sp, gp, tp, s0, fp, t0, t1, t2, t3,
-t4, t5, t6, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, a0, a1, a2,
-a3, a4, a5, a6, a7, ft0, ft1, ft2, ft3, ft4, ft5, ft6, ft7, fs0, fs1,
-fs2, fs3, fs4, fs5, fs6, fs7, fs8, fs9, fs10, fs11, fa0, fa1, fa2, fa3,
-fa4, fa5, fa6, fa7 , morecomment=\[l\];, morecomment=\[l\]\#,
-morestring=\[b\]\", morestring=\[b\]'
-
-::: titlepage
-<figure id="fig:my_label">
-<p><img src="KULlogo.png" style="height:2cm" alt="image" /> <span
-id="fig:my_label" data-label="fig:my_label"></span></p>
-</figure>
-
-**Summary Computer Architecture**\
-Compiled on 2025-06-20\
-Noms des Auteurs\
-Juin 2023
-:::
+---
+title: "Hardware Security - Summary"
+author: Thomas Debelle
+geometry: margin=2cm
+output: pdf_document
+---
 
 # Recap of pipelined processor
 

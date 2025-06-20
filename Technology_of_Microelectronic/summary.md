@@ -1,24 +1,9 @@
-::: titlepage
-<figure id="fig:my_label">
-<p><img src="KULlogo.png" style="height:2cm" alt="image" /> <span
-id="fig:my_label" data-label="fig:my_label"></span></p>
-</figure>
-
-**Summary - Technology for Micro-electronics**\
-Compiled on 2025-06-20\
-Thomas Debelle\
-June 2025
-:::
-
-# Basic IC production steps, Silicon, wafers, cleanrooms
-
-:::: wrapfigure
-r0.5
-
-::: center
-![image](slice_wafer.png){width="95%"}
-:::
-::::
+---
+title: "Technology of Microelectronic- Summary"
+author: Thomas Debelle
+geometry: margin=2cm
+output: pdf_document
+---
 
 It is important to remember that the difference between a NMOS and a
 PMOS is the type of channel that appears between the drain and the
@@ -128,7 +113,7 @@ Silicon is one of the favorite material since it is :
 We can also use some GaAs, Quartz (which is just $SiO_2$ with other
 things), SiC, $Al_2O_3$. On the figure
 [\[resistivity_Si\]](#resistivity_Si){reference-type="ref"
-reference="resistivity_Si"}, we can see how the Silicium can deform
+reference="resistivity_Si": we can see how the Silicium can deform
 under pressure and come back to its original shape without breaking for
 large values. We can even make some wafer flexible using special
 processes to make it extra thin.\
@@ -593,7 +578,7 @@ specialized solutions or acetone, NaOH, \...
 
 We can also opt for O2 plasma etching.
 
-# Deposition: [pvd]{acronym-label="pvd" acronym-form="singular+short"}, [cvd]{acronym-label="cvd" acronym-form="singular+short"}, Epitaxial growth, [ald]{acronym-label="ald" acronym-form="singular+short"}
+# Deposition: [pvd]{acronym-label="pvd" acronym-form="singular+short": [cvd]{acronym-label="cvd" acronym-form="singular+short": Epitaxial growth, [ald]{acronym-label="ald" acronym-form="singular+short"}
 
 To deposit a thin film layer we can use some [pvd]{acronym-label="pvd"
 acronym-form="singular+short"} with evaporation or sputtering. Another
@@ -1226,7 +1211,7 @@ course, masking is used so we can create the desired pattern and not
 simply bombard the full wafer. We can either use some silicon dioxide or
 photoresist.
 
-In [\[eq:ion\]](#eq:ion){reference-type="ref" reference="eq:ion"},
+In [\[eq:ion\]](#eq:ion){reference-type="ref" reference="eq:ion":
 $\phi$ is the *ion dose per unit area* and $R_p$ is the distance to the
 peak from the surface and is called the *projected range*. $\Delta R_p$
 is the *projected straggle* is the distance from the peak where the
@@ -1312,8 +1297,8 @@ In etching, we distinguish two types:
 -   Anisotropic: the etching prefers one orientation of the lattice
 
     -   Plasma, [rie]{acronym-label="rie"
-        acronym-form="singular+short"}, Ion milling,
-        [drie]{acronym-label="drie" acronym-form="singular+short"}, KOH
+        acronym-form="singular+short": Ion milling,
+        [drie]{acronym-label="drie" acronym-form="singular+short": KOH
         wet
 
 ## Wet Etching
@@ -1420,7 +1405,7 @@ we use a chemical and mechanical process.
 
 The setup is pretty similar as depicted in
 [5.2](#fig:rie-setup-label){reference-type="ref"
-reference="fig:rie-setup-label"}, we use the asymmetry between
+reference="fig:rie-setup-label": we use the asymmetry between
 electrodes to create a self-bias to accelerate the ions towards the
 substrate. We can also add additional electrodes to create a DC electric
 field.
@@ -1808,3 +1793,80 @@ acronym-form="singular+short"} to realize this technique.
 ![Gate MOSFET](gate_MOSFET.png){#fig:enter-label width="50%"}
 
 # Guest Lecture
+
+# Glossary
+
+- Mean Free Path (MFP):
+    - The average distance a particle (such as an electron, atom, or molecule) travels between collisions. In semiconductors and thin films, it influences transport phenomena.
+
+- Chemical Vapor Deposition (CVD):
+    - A process where gaseous precursors chemically react or decompose on a substrate surface to form a solid material, often used for thin-film fabrication in semiconductor manufacturing.
+
+
+- Physical Vapor Deposition (PVD):
+    - A vacuum-based process in which material is physically vaporized and deposited onto a substrate to form thin films.
+
+- Molecular Beam Epitaxy (MBE):
+    - An ultra-high vacuum technique where atomic or molecular beams are directed at a heated substrate to grow highly controlled epitaxial layers.
+
+- Atomic Layer Deposition (ALD):
+    - A vapor-phase technique for depositing thin films one atomic layer at a time using sequential, self-limiting reactions. Offers excellent conformality.
+
+- Shallow Trench Isolation (STI):
+    - A process used to isolate CMOS transistors on a silicon wafer by etching shallow trenches and filling them with dielectric material.
+
+- Deep Trench Isolation (DTI):
+    - An isolation method using deep etched trenches filled with insulators, used in 3D integration and high-voltage devices.
+
+- LOCal Oxidation of Silicon (LOCOS):
+    - A technique for selectively growing oxide on silicon for isolation by locally exposing regions to thermal oxidation.
+
+- TEtraethylorthOSilicate (TEOS):
+    - A silicon precursor used in CVD to deposit silicon dioxide films. TEOS provides good conformality and uniformity.
+
+
+- Chemical-Mechanical Polishing (CMP):
+    - A planarization process combining chemical slurry and mechanical abrasion to produce flat surfaces in semiconductor fabrication.
+
+
+- Low-temperature Oxidation (LTO):
+    - A thermal oxidation process performed at lower temperatures to form silicon dioxide, used when high-temperature processing is not feasible.
+
+
+- High-temperature Oxidation (HTO):
+    - An oxidation process performed at high temperatures to produce high-quality oxide films on silicon.
+
+- Plasma Enhanced CVD (PECVD):
+    - A variant of CVD where plasma is used to enhance chemical reactions, enabling deposition at lower temperatures.
+
+- Low Pressure CVD (LPCVD):
+    - A CVD process carried out under reduced pressure, leading to better uniformity and fewer contaminants.
+
+- Anti Reflective Coating (ARC):
+    - A thin film applied to reduce reflections and improve pattern fidelity in photolithography.
+
+- Rapid Thermal Annealing (RTA):
+    - A process of quickly heating wafers to activate dopants or repair damage without significantly affecting the rest of the structure.
+
+- Secondary Ion eMission Spectroscopy (SIMS):
+    - An analytical technique that sputters a sample surface and detects secondary ions to determine composition and depth profiles.
+
+- Spreading Resistance Profilometry (SRP):
+    - A technique for measuring the resistivity and doping profile of semiconductors by placing probes along a beveled surface.
+
+- Reactive Ion Etching (RIE):
+    - A plasma-based etching technique using reactive gases to anisotropically etch materials with fine resolution.
+
+- Deep Reactive Ion Etching (DRIE):
+    - An advanced RIE process capable of etching deep, high-aspect-ratio features, especially in MEMS and silicon micromachining.
+
+- Capacitively Coupled Plasma (CCP):
+    - A plasma generation method used in etching where power is capacitively coupled through electrodes. Often used in RIE.
+
+- Inductively Coupled Plasma (ICP):
+    - A high-density plasma source where power is inductively coupled through coils, providing high etch rates and better control.
+
+- Epitaxy (EPI):
+    - The process of epitaxy allows the growth of a higher purity layer on a substrate of the same material. The goal of the epitaxy process is to make electron transmission more effective through the device.
+
+
