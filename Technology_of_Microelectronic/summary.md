@@ -36,7 +36,7 @@ P-type Si wafer.
     poly-crystalline silicon using [cvd]{acronym-label="cvd"
     acronym-form="singular+short"}.
 
-3.  [$1^\circ$ photoresist :]{.underline} we use some organic
+3.  [First photoresist :]{.underline} we use some organic
     photoresist and to evenly disperse it we will spin the wafer. This
     will help spreading evenly the photoresist and making it thinner.
     Many version and purity of this compound exists.
@@ -154,14 +154,14 @@ $a$ then we can write $[1 \quad 0 \quad 0]$ if we normalize $a$ as the
 *cubic cell constant*.\
 We have various notation each with its own rule:
 
--   [$[100]$ :]{.underline} **direction** in crystal coordinate
+-   [100 :]{.underline} **direction** in crystal coordinate
 
--   [$<100>$ :]{.underline} set of *symmetrically equivalent*
+-   [\<100\> :]{.underline} set of *symmetrically equivalent*
     **direction** in crystal coordinate
 
--   [$(100)$ :]{.underline} **plane** *perpendicular* to a direction
+-   [(100) :]{.underline} **plane** *perpendicular* to a direction
 
--   [$\{100\}$ :]{.underline} set of *symmetrically equivalent*
+-   [\{100\} :]{.underline} set of *symmetrically equivalent*
     **plane** in crystal coordinate
 
 To find the angle between two crystallographic directions we use the
