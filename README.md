@@ -2,31 +2,45 @@
 
 - [Q8 KUL](#q8-kul)
   - [What is this ?](#what-is-this-)
-  - [Classes](#classes)
-    - [Ecodesign](#ecodesign)
-    - [IC](#ic)
   - [Compilation](#compilation)
+  - [Add a summary](#add-a-summary)
 
 ## What is this ?
 
 It is a small collection of summaries I am making for my classes this semester. For classes that do not have a lot of equation, I prefer using markdown compiled in pdf with pandoc. It is faster than simply using $\LaTeX$ on overleaf.
 
-## Classes
+It gets compiled automatically by github and pushed on main after ~5 minutes so be sure to always 
 
-### Ecodesign
+```
+git pull
+```
 
-Lot of schematics and text and not a lot of equations.
+or 
 
-[pdf](ecodesign.pdf)
+```
+git pull -f
+```
 
-### IC
-
-Some equations but no need to be ultra clean and I will use a lot of screenshots. Good basis for the open book exam
-
-[pdf](IC.pdf)
+If needed.
 
 ## Compilation
 
 You can clone this repo and compile locally with the `make` command. You will need *pandoc* and the base version of *texlive* installed.
 
+```
+make
+```
+
+Will compile all of the summaries locally.
+
 You can also simply grabbed the already compiled pdf that gets compiled each time someone push to the main branch.
+
+## Add a summary
+
+First clone this repo. Then to create a new summary please run a this command:
+
+```
+make create_summary DIR=CLASS_FOLDER TITLE="CLASS TITLE" AUTHOR="AUTHOR OF THE SUMMARY"
+```
+
+And replace the placeholder with your given class and name.
