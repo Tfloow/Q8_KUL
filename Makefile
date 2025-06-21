@@ -14,9 +14,13 @@ all :
 # iterate over each subdirectory and use pandoc to create summary
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
-		echo "Processing $$VAL..."; \
-		cd $$VAL; pandoc -s -o ../$$VAL.pdf summary.md; cd ..;\
-		echo "Created $$VAL.pdf"; \
+		cd $$VAL; pandoc -s -o ../$$VAL.pdf summary.md;\
+		if [ $$? -ne 0 ]; then \
+			echo "[LOG]: $$VAL	X"; \
+			exit 1; \
+		fi; \
+		echo "[LOG]: $$VAL	V"; \
+		cd ..; \
 	done
 
 create_summary :
