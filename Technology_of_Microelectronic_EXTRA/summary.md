@@ -47,7 +47,7 @@ Positive etch mask = exposed area will be removed. Negative vice versa.
 
 Cheap and strong, fragile. Resistivity 0.001 - 20 $k\Omega /cm$. Can be SCS, poly or amorphous. Can deform without cracking for quite some time.
 
-![Resistivity](image.png){.width=50%}
+![Resistivity](image.png){ width=50% }
 
 In a Si cube we have 8 atoms inside the cell. with:
 
@@ -70,17 +70,17 @@ First we have to cut then to get a perfect wafer we will have:
 3. Etching (chemical): $20 \mu m$/side
 4. Polishing (CMP): $25 \mu m$/side
 
-![For fully doped wafer](image-1.png){.width=50%}
+![For fully doped wafer](image-1.png){ width=50% }
 
 A boat can contain between 12 to 24 wafer.
 
-![Source of non-idealitites](image-2.png){.width=50%}
+![Source of non-idealitites](image-2.png){ width=50% }
 
 We drop some die on the chips that aren't good due to a defect. Lower defect ratio allows to put bigger transistor. But going smaller isn't always the best as the interconnect cost can quickly ramp up as we go too small. So optimization process between Packaging and reliability (yield).
 
-![ISO clasification](image-3.png){.width=50%}
+![ISO clasification](image-3.png){ width=50% }
 
-![ISO and FS209](image-4.png){.width=50%}
+![ISO and FS209](image-4.png){ width=50% }
 
 Class ISO:
 
@@ -91,9 +91,9 @@ Class ISO:
 
 ## 2 Lithography
 
-![Various type of etching](image-5.png){.width=50%}
+![Various type of etching](image-5.png){ width=50% }
 
-![RCA clean sequence](image-6.png){.width=50%}
+![RCA clean sequence](image-6.png){ width=50% }
 
 After this we can apply some HMDS to remove the OH group at the top of the wafer to make the photoresist sticks better. We must also apply some anti-reflective coating to avoid the UV light to strike unwanted area.
 
@@ -107,7 +107,7 @@ $$
 
 The thickness is $0.05-100 \mu m$. The thickness varies due to step on the wafer (previously deposited material).
 
-![Takes around a minute to apply resist](image-7.png){.width=50%}
+![Takes around a minute to apply resist](image-7.png){ width=50% }
 
 We can also use some *spray coating* to spray and rinse through a nozzle. The step coverage is better and more uniform. There is also dip coating and laminating while they are less used in this industry.
 
@@ -141,7 +141,7 @@ The most important metrics are:
 - **Numerical Aperture**: $NA = n sin(\theta)$
 - **Depth of Focus**: $DOF = k_2 \lambda/NA^2$ where $k_2 < 1$
 
-![Lens](image-8.png){.width=50%}
+![Lens](image-8.png){ width=50% }
 
 So clearly, we can see why having a small wavelength matters to get better precision. To improve again we can use a wider $\theta$.
 
@@ -149,7 +149,7 @@ With the DOF, some part could be in focus while other not which is really proble
 
 ### Lights
 
-![Important lights value](image-9.png){.width=50%}
+![Important lights value](image-9.png){ width=50% }
 
 ### Double patterning
 
@@ -226,7 +226,7 @@ Wet oxi creating bird beak and then removing those oxide.
 
 Use CVD for the oxidation and CMP of the oxide avoids bird's beak and mechanical stress.
 
-![STI process](image-10.png){.width=50%}
+![STI process](image-10.png){ width=50% }
 
 Better precision, the width drawn is the actual width. We also use some dry oxidation which makes it better for large drive current. 
 
@@ -303,11 +303,11 @@ stage is much smaller than the diffusion length of the drive-in
 diffusion. This allows to make deep junctions, e.g. for wells for CMOS.
 
 
-![Resistivity vs Doping](image-11.png){.width=50%}
+![Resistivity vs Doping](image-11.png){ width=50% }
 
 We also need a minimum mask width to be able to absorb all those ions in the doping process.
 
-![Ion Implanter](image-12.png){.width=50%}
+![Ion Implanter](image-12.png){ width=50% }
 
 ### Ion Implantation
 
@@ -330,21 +330,21 @@ Wet etching is quite simple using a bath and a quick dump to stop precisely the 
 
 It has a prefered lattice orientation that will be etched faster. Dry etching is a combination of temperature and vacuum.
 
-![Main type of Dry Etching](image-13.png){.width=50%}
+![Main type of Dry Etching](image-13.png){ width=50% }
 
 #### Plasma Etching
 
 Same amount of positive and negative charges but a different number of unionized molecules. Large electric field applied to a gas up to the **breakdown of the gas**.
 
-![6 steps of Plasma Etching](image-14.png){.width=50%}
+![6 steps of Plasma Etching](image-14.png){ width=50% }
 
 Needs **high kinetic energy and chemical reactions**. There are about $10^{15} cm^{-3}$ neutral species and $10^8 - 10^{12} cm^{-3}$. Ions go on the surface and strike it to remove some molecules.
 
-![Pressure: PE = Isotropic Chemical Etching](image-15.png){.width=50%}
+![Pressure: PE = Isotropic Chemical Etching](image-15.png){ width=50% }
 
 RIE will create a DC bias to accelerate the ions and add some extra kinetic energy towards the substrate. This is a combination of **chemical and sputter etching**. The chemical is purely isotropic and with little electrical damage while the sputtering is anisotropic and slower (this is ion milling). 
 
-![RIE possibilities](image-16.png){.width=50%}
+![RIE possibilities](image-16.png){ width=50% }
 
 RIE is a sophisticated and complex process where changing a single parameters could impact the total chain of the reaction leading to issues.
 
@@ -374,7 +374,7 @@ But at some point, Al is not fast enough, too much delay for a small feature siz
 
 So we have to add a **seed layer** to avoid this diffusion. This seed layer is a thin conductive layer and then we can put the big chunk of copper.
 
-![Electroplating](image-17.png){.width=50%}
+![Electroplating](image-17.png){ width=50% }
 
 Dual damascene is used when creating those wider form of via. Good for vias and interconnect traces.
 
@@ -396,19 +396,19 @@ For poly, we first deposit the gate and then dope the wafer. This will make sure
 
 Here, we still do some LOCOS operation to isolate our PMOS and NMOS. And then once the base is laid down we can start adding our poly-gate. We apply all the tips and informations we have seen in the course to build a good transistor.
 
-![Process of such transistor](image-18.png){.width=50%}
+![Process of such transistor](image-18.png){ width=50% }
 
 ### Latch-up issue
 
 For this, it is important to use some good EPI and STI to avoid any cross connection resulting in a possible *thyristor*.
 
-![Advanced CMOS process 1](image-19.png){.width=24%}
+![Advanced CMOS process 1](image-19.png){{ width=24% }}
 
-![Advanced CMOS process 2](image-20.png){.width=24%}
+![Advanced CMOS process 2](image-20.png){{ width=24% }}
 
-![Advanced CMOS process 3](image-21.png){.width=24%}
+![Advanced CMOS process 3](image-21.png){{ width=24% }}
 
-![Advanced CMOS process 4](image-22.png){.width=24%}
+![Advanced CMOS process 4](image-22.png){{ width=24% }}
 
 ### Hot carrier effect
 
