@@ -3,13 +3,16 @@
 compile : all
 
 SUBDIRS = $(wildcard */.)
+LAST_COMMIT_MESSAGE = $(git log -1 --pretty=%B)
 
-test:
+test:	
+	@echo $(LAST_COMMIT_MESSAGE) Compiled
 	@echo $(SUBDIRS)
 	@for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
 		echo "$$VAL"; \
 	done
+
 all :
 # iterate over each subdirectory and use pandoc to create summary
 	for i in $(SUBDIRS); do \

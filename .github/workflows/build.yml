@@ -27,7 +27,13 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git add *.pdf
-          git commit -m "Generated PDFs from CI/CD" || echo "No changes to commit"
+          # Get the last commit message
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+
+          # Construct the new commit message
+          NEW_COMMIT_MESSAGE="[Compiled]: ${LAST_COMMIT_MESSAGE}"
+
+          git commit -m "${NEW_COMMIT_MESSAGE}" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
