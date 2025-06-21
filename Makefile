@@ -15,8 +15,10 @@ test:
 
 all :
 # iterate over each subdirectory and use pandoc to create summary
+	echo $(PWD)
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
+		echo "[LOG]: $$VAL"; \
 		cd $$VAL; pandoc -s -o ../$$VAL.pdf summary.md;\
 		if [ $$? -ne 0 ]; then \
 			echo "[LOG]: $$VAL	X"; \
