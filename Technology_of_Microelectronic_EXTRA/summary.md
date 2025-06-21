@@ -15,6 +15,7 @@ output: pdf_document
   - [Lights](#lights)
   - [Double patterning](#double-patterning)
   - [EUV](#euv)
+- [3 Deposition](#3-deposition)
 - [4 Oxidation, wet, dry](#4-oxidation-wet-dry)
   - [Thermal oxidation](#thermal-oxidation)
   - [LOCOS](#locos)
@@ -170,6 +171,10 @@ For etching:
 
 - wet etching: using acetone, IPA, water rinse. 2% NaOH for positive resists
 - plasma etching: O2 plasma
+
+## 3 Deposition
+
+
 
 ## 4 Oxidation, wet, dry
 
@@ -402,13 +407,13 @@ Here, we still do some LOCOS operation to isolate our PMOS and NMOS. And then on
 
 For this, it is important to use some good EPI and STI to avoid any cross connection resulting in a possible *thyristor*.
 
-![Advanced CMOS process 1](image-19.png){{ width=24% }}
+![Advanced CMOS process 1](image-19.png){ width=24% }
 
-![Advanced CMOS process 2](image-20.png){{ width=24% }}
+![Advanced CMOS process 2](image-20.png){ width=24% }
 
-![Advanced CMOS process 3](image-21.png){{ width=24% }}
+![Advanced CMOS process 3](image-21.png){ width=24% }
 
-![Advanced CMOS process 4](image-22.png){{ width=24% }}
+![Advanced CMOS process 4](image-22.png){ width=24% }
 
 ### Hot carrier effect
 
