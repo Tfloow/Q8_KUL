@@ -3,6 +3,7 @@
 - [Q8 KUL](#q8-kul)
   - [What is this ?](#what-is-this-)
   - [Compilation](#compilation)
+    - [Pro tip](#pro-tip)
   - [Add a summary](#add-a-summary)
 
 ## What is this ?
@@ -33,7 +34,11 @@ make
 
 Will compile all of the summaries locally.
 
-You can also simply grabbed the already compiled pdf that gets compiled each time someone push to the main branch.
+You can also simply grabbed the already compiled pdf that gets compiled each time someone push to the main branch. 
+
+### Pro tip
+
+If you tend to forget pulling before commiting, you can create a new branch like "working" and add all of your summaries, the bot won't compile summaries that aren't on main. And once you are ready to fully compile everything you can merge in main (I just advise you to run locally `make` first to make sure everything is in order).
 
 ## Add a summary
 

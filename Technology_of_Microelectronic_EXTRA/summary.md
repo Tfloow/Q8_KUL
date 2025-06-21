@@ -174,7 +174,13 @@ For etching:
 
 ## 3 Deposition
 
+![Slide of presentation](image-23.png){ width=50% }
 
+![CVD](image-24.png){ width=50% }
+
+![Liquid Phase deposition](image-25.png){ width=50% }
+
+![Measurements](image-26.png){ width=50% }
 
 ## 4 Oxidation, wet, dry
 
@@ -417,7 +423,14 @@ For this, it is important to use some good EPI and STI to avoid any cross connec
 
 ### Hot carrier effect
 
-TODO
+It happens when a strong EM field is applied and when an electron has
+enough *kinetic energy* to break lattice bonds and hence create another
+electron-hole pair. They have an energy over $kT$. This will increase
+the current in the channel but the holes will be absorbed by the
+substrate creating a little current that can be monitored. This creates
+a sort of BJT.
+
+This is why we often add some spacer to help with this effect.
 
 ### Contacting issues
 
