@@ -68,15 +68,16 @@ output: pdf_document
     - [Advanced CMOS process](#advanced-cmos-process)
     - [Salicide](#salicide)
 - [Guest Lecture](#guest-lecture)
+- [Extra notes: Important numbers and figures](#extra-notes-important-numbers-and-figures)
 - [Glossary](#glossary)
 
 
 It is important to remember that the difference between a NMOS and a
 PMOS is the type of channel that appears between the drain and the
 source. Namely in a NMOS we have the appearance of a n-channel
-(electrons) among a P-type doped silicum.\
+(electrons) among a P-type doped silicium.\
 Most schematics of this course are not *up to scale* ! so it is
-important to remmeber some typical values :
+important to remember some typical values :
 
 -   Wafer diameter & Thickness:
 
@@ -195,7 +196,7 @@ r0.5 ![image](crystal_si.png){width="95%"}
 :::
 
 Silicon atoms have *4 valance electrons* and their *covalent bonds* are
-in a *pryamid like structure* (**tetrahedron**). For doping we can use :
+in a *pyramid like structure* (**tetrahedron**). For doping we can use :
 
 -   [N-type :]{.underline} use 5a group : Arsenic, Phosphorous, \...
 
@@ -236,7 +237,7 @@ $$cos(\theta) = \frac{h_1 h_2+k_1k_2+l_1l_2}{\sqrt{(h_1^2+k_1^2+l_1^2)(h_2^2+k_2
 
 ## Production of wafers
 
-Single crystal silicon is one of the purest material made artifically
+Single crystal silicon is one of the purest material made artificially
 with a purity of $99.999999999$ %. We have a FCC lattices displaced by
 $.25$ Å in the 3 directions.
 
@@ -415,7 +416,7 @@ substrate.
 #### IMEC clean
 
 The RCA-clean is quite an aggressive process and requires lot of
-chenical products. The IMEC clean is a bit more nature friendly and uses
+chemical products. The IMEC clean is a bit more nature friendly and uses
 drying to force the particules to stay in the bath and not on the wafer.
 
 ### Anti-reflective coating and adhesion promoter
@@ -502,7 +503,7 @@ layers.
 
 The main issue is the diffraction effects. Indeed, we have effects where
 we could have some destructive or constructive waves that can be
-unforseen. That's why some mask can have special patterns that will
+unforeseen. That's why some mask can have special patterns that will
 result in the desired effect.
 
 Those special patterns are Phase Shifting Mask where we will have some
@@ -1182,7 +1183,7 @@ when compared with reality. Moreover, the atoms vibrate and there is a
 non-zero chance that a silicon atom moves from its lattice site which
 will leave a vacancy.
 
-Dopants diffuse in combination with silicon interstitials or vacancies
+Dopants diffuse in combination with silicon interstitial or vacancies
 and the diffusion coefficient is therefore strongly influenced by the
 concentration of interstitials or vacancies.
 
@@ -1208,14 +1209,14 @@ creating deep n-type junction. Arsenic is preferred over phosphorous.
   Highly doped           n$^{+}$, p$^{+}$            10$^{18}$--10$^{19}$                       0.01--0.03/0.005--0.02
   Very highly doped     n$^{++}$, p$^{++}$                10$^{19}$                      0.001$<$`<!-- -->`{=html}0.01/0.005
 
-  : Doping levels, designations, concentrations, and resistivities.
+  : Doping levels, designations, concentrations, and resistivity.
 :::
 
 Here, we are always talking in $\Omega / cm$ resistance that relates to
 the sheet resistance.
 
 For diffusion we can either have diffusion through substitutional or
-interstial diffusion.
+intersticial diffusion.
 
 #### Using $SiO_2$ for masking
 
@@ -1263,7 +1264,7 @@ width="75%"}
 
 Something important to note is the fact that the ions will hit the wafer
 pretty straight but it will go through a random path in the wafer. This
-will lead to a gaussian distribution of the particles around a certain
+will lead to a Gaussian distribution of the particles around a certain
 depth.
 
 $$N(x) = N_p exp \left( - \frac{(x-R_p)^2}{2 \Delta R_p^2} \right) \qquad N_p = \frac{\phi}{\sqrt{2 \pi} \Delta R_p}
@@ -1324,7 +1325,7 @@ to produce a quick and rapid heating of the substrate.
 
 One thing that can happen if we have a perfect lattice is the fact that
 an ion may not bounce and will went through the lattice directly. So
-instead of having a nice gaussian we will see some odd shapes and
+instead of having a nice Gaussian we will see some odd shapes and
 multiple peaks.
 
 #### Solutions
@@ -1678,7 +1679,7 @@ It can be used to:
 ![[cmp]{acronym-label="cmp" acronym-form="singular+short"}
 principle](cmp_lucent.png){#fig:enter-label width="75%"}
 
-It is a pretty staight-forward process, we can also have some
+It is a pretty straight-forward process, we can also have some
 *multiwafer* machinery that allows us to process multiple wafer in
 parallel.
 
@@ -1859,6 +1860,10 @@ acronym-form="singular+short"} to realize this technique.
 ![Gate MOSFET](gate_MOSFET.png){#fig:enter-label width="50%"}
 
 # Guest Lecture
+
+# Extra notes: Important numbers and figures
+
+
 
 # Glossary
 
