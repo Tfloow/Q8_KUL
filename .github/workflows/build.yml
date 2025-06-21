@@ -21,7 +21,7 @@ jobs:
       - name: Run Make Command
         run: |
           echo $(pwd)
-          docker run --rm --volume "$(pwd)/data" --entrypoint make pandoc/extra 
+          docker run --rm --volume "$(pwd)/data" pandoc/extra make
 
       - name: Commit and Push PDFs
         run: |
