@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: texlive/texlive
+    container: pandoc/extra # Use a container with Pandoc pre-installed
 
     steps:
       - name: Checkout Repository
