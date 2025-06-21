@@ -20,7 +20,8 @@ jobs:
 
       - name: Run Make Command
         run: |
-          docker run --rm --volume ${{ github.workspace }}:/data pandoc/extra make
+          echo $(pwd)
+          docker run --rm --volume "$(pwd)/data" --entrypoint make pandoc/extra 
 
       - name: Commit and Push PDFs
         run: |
