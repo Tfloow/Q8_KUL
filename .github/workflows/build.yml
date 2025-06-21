@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/extra # Use a container with Pandoc pre-installed
+    #container: pandoc/extra # Use a container with Pandoc pre-installed
 
     steps:
       - name: Checkout Repository
@@ -19,7 +19,8 @@ jobs:
         run: echo Not needed #apt update && apt install -y pandoc
 
       - name: Run Make Command
-        run: make
+        run: |
+          docker run --rm --volume ${{ github.workspace }}:/data pandoc/extra make
 
       - name: Commit and Push PDFs
         run: |
