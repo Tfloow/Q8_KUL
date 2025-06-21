@@ -26,6 +26,7 @@ all :
 		fi; \
 		echo "[LOG]: $$VAL	V"; \
 		cp $$VAL.pdf ../; \
+		rm -f $$VAL.pdf; \
 		cd ..; \
 	done
 	zip -r summaries.zip *.pdf

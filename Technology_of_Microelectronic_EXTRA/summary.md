@@ -11,36 +11,6 @@ titlepage-logo: KULlogo.png
 template: eisvogel
 ---
 
-- [First Chapter](#first-chapter)
-  - [Silicon properties](#silicon-properties)
-  - [Boule making](#boule-making)
-- [2 Lithography](#2-lithography)
-  - [Resist spinning](#resist-spinning)
-  - [Optic](#optic)
-  - [Mask and formulas](#mask-and-formulas)
-  - [Lights](#lights)
-  - [Double patterning](#double-patterning)
-  - [EUV](#euv)
-- [3 Deposition](#3-deposition)
-- [4 Oxidation, wet, dry](#4-oxidation-wet-dry)
-  - [Thermal oxidation](#thermal-oxidation)
-  - [LOCOS](#locos)
-  - [STI](#sti)
-  - [Doping](#doping)
-  - [Ion Implantation](#ion-implantation)
-- [5 Etching, wet, dry, plasma, DRIE](#5-etching-wet-dry-plasma-drie)
-  - [Anisotropic](#anisotropic)
-- [6 Interconnect](#6-interconnect)
-  - [Electromigration](#electromigration)
-  - [Interconnect](#interconnect)
-- [7 Ic Processing Overview](#7-ic-processing-overview)
-  - [Al vs poly](#al-vs-poly)
-  - [Latch-up issue](#latch-up-issue)
-  - [Hot carrier effect](#hot-carrier-effect)
-  - [Contacting issues](#contacting-issues)
-- [8 Packaging](#8-packaging)
-
-
 ## First Chapter
 
 Positive etch mask = exposed area will be removed. Negative vice versa.
