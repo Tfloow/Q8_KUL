@@ -98,7 +98,7 @@ Exit:
 r0.28
 
 ::: center
-![image](caller_callee.png){width="90%"} []{#fig:caller-callee
+![image](caller_callee.png){width="50%"} []{#fig:caller-callee
 label="fig:caller-callee"}
 :::
 ::::

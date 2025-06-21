@@ -19,7 +19,7 @@ all :
 	echo $(PWD)
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
-		cd $$VAL; docker run --rm --volume "$$PWD:/data" pandoc/extra summary.md -o $$VAL.pdf --template eisvogel --listings;\
+		cd $$VAL; docker run --rm --volume "$$PWD:/data" pandoc/extra summary.md -o $$VAL.pdf --template eisvogel --listings --number-sections;\
 		if [ $$? -ne 0 ]; then \
 			echo "[LOG]: $$VAL	X"; \
 			exit 1; \
