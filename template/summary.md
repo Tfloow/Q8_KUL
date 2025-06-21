@@ -5,6 +5,8 @@ geometry: margin=2cm
 date: \today
 toc: true
 toc-depth: 3
+titlepage: true
+titlepage-logo: KULlogo.png
 template: eisvogel
 output: pdf_document
 ---

@@ -3,6 +3,12 @@ title: "Technology of Microelectronic- Important values"
 author: Thomas Debelle
 geometry: margin=2cm
 output: pdf_document
+date: \today
+toc: true
+toc-depth: 3
+titlepage: true
+titlepage-logo: KULlogo.png
+template: eisvogel
 ---
 
 - [First Chapter](#first-chapter)

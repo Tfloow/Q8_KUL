@@ -4,6 +4,7 @@ compile : all
 
 SUBDIRS = $(wildcard */.)
 LAST_COMMIT_MESSAGE = $(git log -1 --pretty=%B)
+pandoc_run = $(docker run --rm --volume "$(pwd):/data" pandoc/extra)
 
 test:	
 	@echo $(LAST_COMMIT_MESSAGE) Compiled
@@ -18,15 +19,16 @@ all :
 	echo $(PWD)
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
-		echo "[LOG]: $$VAL"; \
-		cd $$VAL; pandoc -s -o ../$$VAL.pdf summary.md;\
+		cd $$VAL; docker run --rm --volume "$$PWD:/data" pandoc/extra summary.md -o $$VAL.pdf --template eisvogel --listings;\
 		if [ $$? -ne 0 ]; then \
 			echo "[LOG]: $$VAL	X"; \
 			exit 1; \
 		fi; \
 		echo "[LOG]: $$VAL	V"; \
+		cp $$VAL.pdf ../; \
 		cd ..; \
 	done
+	zip -r summaries.zip *.pdf
 
 create_summary :
 # takes course name and author name as arguments
