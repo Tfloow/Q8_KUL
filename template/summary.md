@@ -43,4 +43,4 @@ For the full legal text of the license, please visit:
 
 ---
 
-**© 2025 AUTHOR. Some Rights Reserved.**
+**© 2025 Authors of the Summary, Professor of the course and possible book's authors. Some Rights Reserved.**
