@@ -223,6 +223,7 @@ Better precision, the width drawn is the actual width. We also use some dry oxid
 We use either:
 
 - gas, coating or ion implementation
+
 ### Diffusion Theory
 
 We have a diffusion *flux* of *impurities* in one dimension. (We are
@@ -420,3 +421,23 @@ Here we first add a dummy gate and at the end att eh contact of the gate using s
 #  Packaging
 
 Not seen this year.
+
+# Extra table -- Used Gemini / Notebook LM
+
+Here is a summary of the growth and etching rates, presented in a table for clarity. This response incorporates information from both the newly provided sources and our conversation history, with clear indications where information from the previous summary is not directly supported by the current set of source documents.
+
+### Growth and Etching Rates in Microfabrication Processes
+
+| Process/Material | Type | Rate/Parameter | Source(s) in Current Set | Note |
+| :---------------------------------- | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Photoresist Coating** | Growth/Deposition | Spin coating forms a uniform layer, typically around **5 nm uniform thickness**, with total thicknesses ranging from **0.05 µm to 100 µm**. A typical spin speed is **3500 rpm**, resulting in a layer a few microns thick. | | Directly supported by the current sources. |
+| **PVD Evaporation** | Growth/Deposition | 0.1-1 nm/s | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **PVD Sputtering** | Growth/Deposition | 1-10 nm/s | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **CVD Polysilicon from Silane (SiH4)** | Growth/Deposition | Approximately **10 nm/min** at 630°C and 400 mTorr | Not found in current sources | This specific numerical rate and conditions were mentioned in the previous summary in our conversation history, but they are not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Dry Oxidation** | Growth/Deposition | About **0.5 µm** in approximately **6 hours** at 1200°C | Not found in current sources | This specific numerical rate and conditions were mentioned in the previous summary in our conversation history, but they are not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Wet Oxidation** | Growth/Deposition | About **0.5 µm** in approximately **1 hour** at 1200°C | Not found in current sources | This specific numerical rate and conditions were mentioned in the previous summary in our conversation history, but they are not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Wet Etching (HF 49% for SiO2/PSG)** | Etching | Greater than **1 µm/min** | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Wet Etching (Dilute HF 1% for native oxide)** | Etching | Approximately **10 nm/min** | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Wet Etching (Silicon with HNO3:HF:CH3COOH)** | Etching | Greater than **10 µm/min** is possible | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+| **Deep Reactive Ion Etching (DRIE)** | Etching | Can be greater than **10 µm/min** | Not found in current sources | This specific numerical rate was mentioned in the previous summary in our conversation history, but it is not directly supported by the details provided in the current source documents. You may want to independently verify this information. |
+
