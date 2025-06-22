@@ -12,7 +12,7 @@ template: eisvogel
 subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
 ---
 
-## First Chapter
+# First Chapter
 
 Positive etch mask = exposed area will be removed. Negative vice versa.
 
@@ -21,7 +21,7 @@ Positive etch mask = exposed area will be removed. Negative vice versa.
 |     4"     | 400 $\mu m$ |
 |   8-12"    |   1.2 mm    |
 
-### Silicon properties
+## Silicon properties
 
 Cheap and strong, fragile. Resistivity 0.001 - 20 $k\Omega /cm$. Can be SCS, poly or amorphous. Can deform without cracking for quite some time.
 
@@ -35,11 +35,11 @@ $$
 
 SCS has a purity up to 11 nines ! and is 2 FCC lattices displaced by .25, .25, .25.
 
-### Boule making
+## Boule making
 
 To create a Boule we can use a Czochralski pulling at 1420C. The pull rate is around **mm/min**. 30 hours for 2m + 30 hours for cooling!
 
-#### Wafer treatment
+### Wafer treatment
 
 First we have to cut then to get a perfect wafer we will have:
 
@@ -67,7 +67,7 @@ Class ISO:
 - 100: MEMS, RF/Photonic ICs
 - 10: IC
 
-## 2 Lithography
+#  Lithography
 
 ![Various type of etching](image-5.png){ width=50% }
 
@@ -75,7 +75,7 @@ Class ISO:
 
 After this we can apply some HMDS to remove the OH group at the top of the wafer to make the photoresist sticks better. We must also apply some anti-reflective coating to avoid the UV light to strike unwanted area.
 
-### Resist spinning
+## Resist spinning
 
 We drop a little bit of the photoresist and then spin it faster to make it a nice and even coat:
 
@@ -94,7 +94,7 @@ After this we usually do some soft baking to improve resolution. If too long we 
 - few mins at 100C
 - 30 mins in a convection oven
 
-### Optic
+## Optic
 
 PSM is a prime example to improve resolution. With ARC we also trap some lights in the resist creative some over exposed and ripple in the sidewalls.
 
@@ -111,7 +111,7 @@ So we usually bake PEB to improve the sidewalls ripple ! We use some OPC to corr
 3. Project printing: uses a set of lenses to focus on the mask and then on the wafer
     * Expensive technique but best of both
 
-### Mask and formulas
+## Mask and formulas
 
 The most important metrics are:
 
@@ -125,11 +125,11 @@ So clearly, we can see why having a small wavelength matters to get better preci
 
 With the DOF, some part could be in focus while other not which is really problematic. We can't have a nice and uniform resolution accross multiple lengths.
 
-### Lights
+## Lights
 
 ![Important lights value](image-9.png){ width=50% }
 
-### Double patterning
+## Double patterning
 
 We can use two mask to get virtually smaller features by combining those two together.
 
@@ -138,7 +138,7 @@ We can use two mask to get virtually smaller features by combining those two tog
 - LFLE: based on a freezing process.
 - SAQP: close to SADP but pitches less than $38 nm$
 
-### EUV
+## EUV
 
 We can't use lenses anymore. **7 mirrors with 70% reflection per mirror!** No pellicles that are EUV transparent yet.
 
@@ -149,7 +149,7 @@ For etching:
 - wet etching: using acetone, IPA, water rinse. 2% NaOH for positive resists
 - plasma etching: O2 plasma
 
-## 3 Deposition
+#  Deposition
 
 ![Slide of presentation](image-23.png){ width=50% }
 
@@ -159,7 +159,7 @@ For etching:
 
 ![Measurements](image-26.png){ width=50% }
 
-## 4 Oxidation, wet, dry
+#  Oxidation, wet, dry
 
 SiO2 is forming a *tetrahedral arrangement*. Can create some amorphous structure too. The quality is determined based on the ratio of bridging to non-bridging elements.
 
@@ -173,7 +173,7 @@ In elec, we use some amorphous.
 |         Breakdown field          |    $10^7 V/cm$    |
 | Trap/defect density at interface | $10^{11} cm^{-2}$ |
 
-### Thermal oxidation
+## Thermal oxidation
 
 Natural growth of a oxide exposed to air and enhanced by temperature. Useful for:
 
@@ -201,7 +201,7 @@ We can have some interface issue as the step is not exactly the same and so the 
 |        0.41         | Light orange |
 |        0.47         |    Violet    |
 
-### LOCOS
+## LOCOS
 
 To have some isolation between transistor. Reduces topography by 56%. use some Nitrite which has a higher thermal expansion than Si. Add padoxide as stress release.
 
@@ -210,7 +210,7 @@ To have some isolation between transistor. Reduces topography by 56%. use some N
 
 Wet oxi creating bird beak and then removing those oxide.
 
-### STI
+## STI
 
 Use CVD for the oxidation and CMP of the oxide avoids bird's beak and mechanical stress.
 
@@ -218,12 +218,12 @@ Use CVD for the oxidation and CMP of the oxide avoids bird's beak and mechanical
 
 Better precision, the width drawn is the actual width. We also use some dry oxidation which makes it better for large drive current. 
 
-### Doping
+## Doping
 
 We use either:
 
 - gas, coating or ion implementation
-#### Diffusion Theory
+### Diffusion Theory
 
 We have a diffusion *flux* of *impurities* in one dimension. (We are
 always using x as the vertical direction of diffusion).
@@ -258,7 +258,7 @@ There are 2 methods of diffusion:
 2.  [Constant-total-dopant:]{.underline} thin layer, we have constant
     amount of impurity at the surface.
 
-#### Constant-surface-concentration
+### Constant-surface-concentration
 
 $$\begin{aligned}
     \text{Init: } C(x,0) &= 0 & C(0,t) &= Cs & C(\infty, t) &=0\\
@@ -271,7 +271,7 @@ semiconductor is given by:
 
 $$Q(t) = \int_{0}^\infty C(x,t) dx = \frac{2}{\sqrt{\pi}} C_s \sqrt{Dt} \approx 1.13 C_s \sqrt{Dt}$$
 
-#### Constant-total-dopant
+### Constant-total-dopant
 
 $$\begin{aligned}
     C(x,0) &= 0 & \int_0^\infty C(x,t) dx &= \phi & C(\infty, t) &= 0\\
@@ -297,7 +297,7 @@ We also need a minimum mask width to be able to absorb all those ions in the dop
 
 ![Ion Implanter](image-12.png){ width=50% }
 
-### Ion Implantation
+## Ion Implantation
 
 The source is at around $25 kV$ and the high voltage accelerator goes above $> 5MeV$. There will be some undercut as the path traveled inside won't be straight and it will bounce. So th depth is a gaussian. Can have special behavior where the ion travels all the way through the lattice without bouncing.
 
@@ -308,19 +308,19 @@ $\Delta R_p$ being the *projected straggle* distance from the peak with concentr
 
 Need some **rapid annealing** to repear the lattice after, will spread out the concentration sadly.
 
-## 5 Etching, wet, dry, plasma, DRIE
+# Etching, wet, dry, plasma, DRIE
 
 Wet etching is cheaper **10k** while dry etching is **1M**. But wet etching is mostly isotropic meaning it goes into all direction which leads to al ot of undercut.
 
 Wet etching is quite simple using a bath and a quick dump to stop precisely the etching and using some nozzle to stop any reaction. This limits the feature size as too close gaps can be bridged during the process $< 3 \mu m$. We use **HF** for SiO2 **WATCH OUT** it will get through your skin without any pain but starts attacking your bones after.
 
-### Anisotropic
+## Anisotropic
 
 It has a prefered lattice orientation that will be etched faster. Dry etching is a combination of temperature and vacuum.
 
 ![Main type of Dry Etching](image-13.png){ width=50% }
 
-#### Plasma Etching
+### Plasma Etching
 
 Same amount of positive and negative charges but a different number of unionized molecules. Large electric field applied to a gas up to the **breakdown of the gas**.
 
@@ -336,21 +336,21 @@ RIE will create a DC bias to accelerate the ions and add some extra kinetic ener
 
 RIE is a sophisticated and complex process where changing a single parameters could impact the total chain of the reaction leading to issues.
 
-#### DRIE
+### DRIE
 
 With this method we can obtain an **aspect ratio of 20-50** and the etch rate is around $> 10 \mu m/min$. 
 
-## 6 Interconnect
+# Interconnect
 
 Aluminium has a fairly low melting point at around $577 C$. The interconnect and contact Al is done during the same step. But Al has the tendency to fall into the crevices left by the Si that diffuses inside th Al. So add 1% of Si in Al or use barrier material like TiW.
 
 We want to further reduce the contact resistance so we must employ some alloy mixed with Si. We are using the fact that Si diffuses into the metal so then we can remove the non-reacted metal and boom we got some nice salicide.
 
-### Electromigration
+## Electromigration
 
 If the track is not made thick enough, the electrons can take with them some bits of the material and move them further. Creating gaps and increasing the resistance. One solution is to add 4% copper to the mix making the interconnect Al-Cu-Si, 95-4-1.
 
-### Interconnect
+## Interconnect
 
 For stack up layer we may be misaligned so we must make the via wider each time as we go up or add some offset.
 
@@ -368,7 +368,7 @@ Dual damascene is used when creating those wider form of via. Good for vias and 
 
 It is often hard to etch metal so we can use lift off where we first apply the photoresist and then the metal. Finally we simply need to etch the mask and everything should come off. Here we want a **bad step coverage**.
 
-## 7 Ic Processing Overview
+# Ic Processing Overview
 
 *up to slide 47*
 
@@ -376,7 +376,7 @@ The biggest issue currently is the non-aligning gate. With the Aluminium gate we
 
 We ditched it to go for some nice polygate, can use fancier process and they are self aligning. Good for $< 10 \mu m$.
 
-### Al vs poly
+## Al vs poly
 
 Here, we first need to dope the substrate before depositing the gate as we usually go into melting point order. From high to low.
 
@@ -386,7 +386,7 @@ Here, we still do some LOCOS operation to isolate our PMOS and NMOS. And then on
 
 ![Process of such transistor](image-18.png){ width=50% }
 
-### Latch-up issue
+## Latch-up issue
 
 For this, it is important to use some good EPI and STI to avoid any cross connection resulting in a possible *thyristor*.
 
@@ -398,7 +398,7 @@ For this, it is important to use some good EPI and STI to avoid any cross connec
 
 ![Advanced CMOS process 4](image-22.png){ width=24% }
 
-### Hot carrier effect
+## Hot carrier effect
 
 It happens when a strong EM field is applied and when an electron has
 enough *kinetic energy* to break lattice bonds and hence create another
@@ -409,14 +409,14 @@ a sort of BJT.
 
 This is why we often add some spacer to help with this effect.
 
-### Contacting issues
+## Contacting issues
 
 For this we again use some salacides, by blanket depositing, a bit of the metal will react and simply diffuse. The other non-reacted can be targeted and removed. Contact is now made easy. We usually do some **annealing** to improve the resistivity of the contact.
 
-#### Gate last
+### Gate last
 
 Here we first add a dummy gate and at the end att eh contact of the gate using some metal, replacement of poly-silicon.
 
-## 8 Packaging
+#  Packaging
 
 Not seen this year.
