@@ -9,6 +9,7 @@ toc-depth: 3
 titlepage: true
 titlepage-logo: KULlogo.png
 template: eisvogel
+subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
 ---
 
 # First part

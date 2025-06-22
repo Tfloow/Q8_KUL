@@ -1,5 +1,5 @@
 ---
-title: "Hardware Security - Summary"
+title: "Computer Architecture - Summary"
 author: Thomas Debelle
 geometry: margin=2cm
 output: pdf_document
@@ -9,6 +9,7 @@ toc-depth: 3
 titlepage: true
 titlepage-logo: KULlogo.png
 template: eisvogel
+subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
 ---
 
 # Recap of pipelined processor

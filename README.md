@@ -26,7 +26,7 @@ If needed.
 
 ## Compilation
 
-You can clone this repo and compile locally with the `make` command. You will need *pandoc* and the base version of *texlive* installed.
+You can clone this repo and compile locally with the `make` command. You will need **[docker](https://docs.docker.com/engine/install/)** installed. This allows that everyone is compiling on the same platform with little requirements (first compilation may take some times to pull the image).
 
 ```
 make
@@ -35,6 +35,14 @@ make
 Will compile all of the summaries locally.
 
 You can also simply grabbed the already compiled pdf that gets compiled each time someone push to the main branch. 
+
+Each pdf's are located at:
+
+```
+https://raw.githubusercontent.com/Tfloow/Q8_KUL/main/FOLDER_NAME.pdf
+```
+
+Like this https://raw.githubusercontent.com/Tfloow/Q8_KUL/main/template.pdf .
 
 ### Pro tip
 
