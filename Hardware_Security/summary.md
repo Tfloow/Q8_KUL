@@ -12,7 +12,7 @@ template: eisvogel
 subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
 ---
 
-# 1 - Trust what is it ?
+#  Trust what is it ?
 
 Trust (R. Anderson in "Security Engineering", after NSA):
 * "Trusted system or component is one whose failure can break the security
@@ -40,7 +40,7 @@ We need to apply security at all level ! A **root of trust** is a component at l
 
 We try to reduce this footprint of attack and model what the attacker can or could do on your root of trust. Then we need to build some interface to communicate with higher level.
 
-# 2 - Hardware attacks
+#  Hardware attacks
 
 ## Overview
 
@@ -128,7 +128,7 @@ It is important that those intermediate values we can target will influence the 
 
 We can also use some CPA that is more robust against noise !
 
-# 3 - Physically Unclonable Function (PUFs)
+#  Physically Unclonable Function (PUFs)
 
 ## Introduction
 
@@ -209,7 +209,7 @@ We can use some *helper data* to get a specific type of key. See course slide to
 * Secret key generation using weak PUFs
 * Lightweight entity authentication using strong PUFs – still an open question
 
-# 4 - Random Number Generators for Security
+#  Random Number Generators for Security
 
 ## Why do we need random numbers?
 
@@ -220,8 +220,14 @@ A system is secure even if everything is known about it besides the key. So we s
 It is all about minimizing the bias. The Shannon entropy is also important as it measures the disorder. Finally the min-entropy reveals the amount of truly random bits produce by one mean.
 
 $$
-bias(X) = \left| Pr[X=1] - \frac{1}{2} \right| = \left| Pr[X=0] - \frac{1}{2} \right|\\
-H_1 (X) = - \sum_{i=0}^{N-1} (Pr[X=x_i] log_2(Pr[X=x_i]))\\
+bias(X) = \left| Pr[X=1] - \frac{1}{2} \right| = \left| Pr[X=0] - \frac{1}{2} \right|
+$$
+
+$$
+H_1 (X) = - \sum_{i=0}^{N-1} (Pr[X=x_i] log_2(Pr[X=x_i]))
+$$
+
+$$
 H_\infty (X) = - log_2 (\max_{x_i} Pr[X=x_i])
 $$
 
@@ -308,7 +314,7 @@ There exists some non invertible algorithm usually based on the Elliptic curve !
   2. The state update function
   3. The output function
 
-# 5 - Cryptographic Key
+#  Cryptographic Key
 
 ## Block cipher
 
@@ -420,7 +426,7 @@ The third column indicates how we encrypt or decrypt.
 
 The counter mode, we don't have any pipelining anymore.
 
-# 6 - Countermeasures against physical attacks
+#  Countermeasures against physical attacks
 
 To develop good countermeasure, we can't just focus on one area and then think it is good enough. No we need to add many layers of protection at all levels to be more resilient against attacks, we are applying it to **all level of abstraction**.
 
@@ -530,7 +536,7 @@ With the $\oplus$ we can recover the secret after reapplying the mask. In genera
 
 We can't do masking before going into a S-box since they are non-linear. We have to create a new S-box $S'$. We have to recompute based on our S-box the new S'-box based on the new mask.
 
-# 7 - Trusted Computing
+#  Trusted Computing
 
 It is the **assurance on running code**, we need to prove its identity, authenticity and secrecy. Making sure to keep sensitive data private. This is enable through **hardware support**.
 
@@ -617,7 +623,7 @@ We will try to minimize the Trusted Computing Base and will move towards RoT wit
 | Prove software identity remotely     | Remote Attestation  | Enforce remote policy (DRM, anti-cheat, banking) |
 
 
-# 8 - Micro-Architectural attacks and defense
+#  Micro-Architectural attacks and defense
 
 Micro-architecture is something pretty subtle as it is not software nor really hardware. I sits right between the Software and ISA and the Hardware. It is something that differentiates each generation of processor between each other.
 
@@ -700,11 +706,11 @@ For example, we have a large buffer, we can flush all of the data from the cache
 
 ## Summary Cache attack
 
-| **Attack**         | **Principle**                                                            | **Shared Memory Required** | **Flush Instruction Needed** | **Attacker Control Over Cache** | **Resolution/Granularity** | **Typical Use Case**                          |
+| **Attack**         | **Principle**                                                            | **Shared Memory Required** | **Flush Instruction Needed** | **Attacker Control Over Cache** | **Resolution / Granularity** | **Typical Use Case**                          |
 | ------------------ | ------------------------------------------------------------------------ | -------------------------- | ---------------------------- | ------------------------------- | -------------------------- | --------------------------------------------- |
-| **Flush+Reload**   | Flush shared memory, let victim execute, reload, and time access         | V Yes                      | V Yes                        | Direct (flush + measure)        | Fine-grained (cache line)  | Key extraction (e.g., RSA), spyware detection |
-| **Evict+Reload**   | Evict shared memory by cache eviction, then reload and time access       | V Yes                      | X No                         | Indirect (evict + measure)      | Fine-grained               | When flush instruction is unavailable         |
-| **Prime+Probe**    | Prime a cache set, let victim execute, then probe timing of eviction set | X No                       | X No                         | Indirect (measure set state)    | Coarser (cache set)        | Sandbox breaking, timing leakage              |
+| **Flush + Reload**   | Flush shared memory, let victim execute, reload, and time access         | V Yes                      | V Yes                        | Direct (flush + measure)        | Fine-grained (cache line)  | Key extraction (e.g., RSA), spyware detection |
+| **Evict + Reload**   | Evict shared memory by cache eviction, then reload and time access       | V Yes                      | X No                         | Indirect (evict + measure)      | Fine-grained               | When flush instruction is unavailable         |
+| **Prime + Probe**    | Prime a cache set, let victim execute, then probe timing of eviction set | X No                       | X No                         | Indirect (measure set state)    | Coarser (cache set)        | Sandbox breaking, timing leakage              |
 | **Covert Channel** | Deliberate cache use to leak data between isolated processes/VMs         |  V Often                   | Varies                       | Cooperative sender/receiver     | Byte-wise possible         | Cross-domain leakage, VM escape               |
 
 
@@ -771,7 +777,7 @@ We have on die ECC, less refresh intervals so less time to hammer the rows. But 
 Correct execution doesn't mean it is safe. We have to often reduce performance to enhance security since performance can introduce vulnerabilities.
 
 
-# 9 - Introduction to Software Security
+#  Introduction to Software Security
 
 ## Introduction and Motivation
 
