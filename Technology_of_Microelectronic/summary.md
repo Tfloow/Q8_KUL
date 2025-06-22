@@ -12,14 +12,23 @@ template: eisvogel
 subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
 ---
 
-# First part
+
+# Basic IC production steps, Silicon, wafers, cleanrooms
+
+:::: wrapfigure
+r0.5
+
+::: center
+![image](slice_wafer.png){width="95%"}
+:::
+::::
 
 It is important to remember that the difference between a NMOS and a
 PMOS is the type of channel that appears between the drain and the
 source. Namely in a NMOS we have the appearance of a n-channel
-(electrons) among a P-type doped silicium.\
+(electrons) among a P-type doped silicum.\
 Most schematics of this course are not *up to scale* ! so it is
-important to remember some typical values :
+important to remmeber some typical values :
 
 -   Wafer diameter & Thickness:
 
@@ -122,7 +131,7 @@ Silicon is one of the favorite material since it is :
 We can also use some GaAs, Quartz (which is just $SiO_2$ with other
 things), SiC, $Al_2O_3$. On the figure
 [\[resistivity_Si\]](#resistivity_Si){reference-type="ref"
-reference="resistivity_Si": we can see how the Silicium can deform
+reference="resistivity_Si"}, we can see how the Silicium can deform
 under pressure and come back to its original shape without breaking for
 large values. We can even make some wafer flexible using special
 processes to make it extra thin.\
@@ -138,7 +147,7 @@ r0.5 ![image](crystal_si.png){width="95%"}
 :::
 
 Silicon atoms have *4 valance electrons* and their *covalent bonds* are
-in a *pyramid like structure* (**tetrahedron**). For doping we can use :
+in a *pryamid like structure* (**tetrahedron**). For doping we can use :
 
 -   [N-type :]{.underline} use 5a group : Arsenic, Phosphorous, \...
 
@@ -163,14 +172,14 @@ $a$ then we can write $[1 \quad 0 \quad 0]$ if we normalize $a$ as the
 *cubic cell constant*.\
 We have various notation each with its own rule:
 
--   [100 :]{.underline} **direction** in crystal coordinate
+-   [$[100]$ :]{.underline} **direction** in crystal coordinate
 
--   [\<100\> :]{.underline} set of *symmetrically equivalent*
+-   [$<100>$ :]{.underline} set of *symmetrically equivalent*
     **direction** in crystal coordinate
 
--   [(100) :]{.underline} **plane** *perpendicular* to a direction
+-   [$(100)$ :]{.underline} **plane** *perpendicular* to a direction
 
--   [\{100\} :]{.underline} set of *symmetrically equivalent*
+-   [$\{100\}$ :]{.underline} set of *symmetrically equivalent*
     **plane** in crystal coordinate
 
 To find the angle between two crystallographic directions we use the
@@ -179,7 +188,7 @@ $$cos(\theta) = \frac{h_1 h_2+k_1k_2+l_1l_2}{\sqrt{(h_1^2+k_1^2+l_1^2)(h_2^2+k_2
 
 ## Production of wafers
 
-Single crystal silicon is one of the purest material made artificially
+Single crystal silicon is one of the purest material made artifically
 with a purity of $99.999999999$ %. We have a FCC lattices displaced by
 $.25$ Å in the 3 directions.
 
@@ -243,7 +252,7 @@ orientation](crystal_orientation.png){#fig:crystal-orientation-label
 width="75%"}
 
 ::: wrapfigure
-r0.55 ![image](silicium_non_idealities.png){width="95%"}
+r0.55 ![image](silicium_non_idealities.png){width="50%"}
 :::
 
 But nowadays, we are using notches and not really using fully doped
@@ -358,7 +367,7 @@ substrate.
 #### IMEC clean
 
 The RCA-clean is quite an aggressive process and requires lot of
-chemical products. The IMEC clean is a bit more nature friendly and uses
+chenical products. The IMEC clean is a bit more nature friendly and uses
 drying to force the particules to stay in the bath and not on the wafer.
 
 ### Anti-reflective coating and adhesion promoter
@@ -445,11 +454,12 @@ layers.
 
 The main issue is the diffraction effects. Indeed, we have effects where
 we could have some destructive or constructive waves that can be
-unforeseen. That's why some mask can have special patterns that will
+unforseen. That's why some mask can have special patterns that will
 result in the desired effect.
 
-Those special patterns are Phase Shifting Mask where we will have some
-special pattern to change the phase.
+Those special patterns are [psm]{acronym-label="psm"
+acronym-form="singular+short"} where we will have some special pattern
+to change the phase.
 
 The process of making the wafer reflective can sometimes lead to create
 some standing waves. Those standing waves can lead to uneven development
@@ -458,11 +468,13 @@ and rippled sidewalls. A solution for this is to use
 exposure bake. This can also lead to linewidth variations due to
 reflection.
 
-![Optical Proximity Correction](OPC.png){#fig:enter-label width="50%"}
+![[opc]{acronym-label="opc"
+acronym-form="singular+short"}](OPC.png){#fig:OPC-label width="50%"}
 
 ### Different printing techniques
 
-![Printing techniques](printing_techniques.png){#fig:enter-label
+![Printing
+techniques](printing_techniques.png){#fig:printng-techniques-label
 width="65%"}
 
 Usually we use stepper to print successively a pattern on the wafer.
@@ -587,7 +599,7 @@ specialized solutions or acetone, NaOH, \...
 
 We can also opt for O2 plasma etching.
 
-# Deposition: [pvd]{acronym-label="pvd" acronym-form="singular+short": [cvd]{acronym-label="cvd" acronym-form="singular+short": Epitaxial growth, [ald]{acronym-label="ald" acronym-form="singular+short"}
+# Deposition: PVD, CVD, Epitaxial growth,ALD
 
 To deposit a thin film layer we can use some [pvd]{acronym-label="pvd"
 acronym-form="singular+short"} with evaporation or sputtering. Another
@@ -598,12 +610,12 @@ With evaporation (heat + vacuum) we can reach a growth rate of
 $0.1-1 nm/s$. With sputtering (vacuum + plasma) we have a rate of
 $1-10nm/s$.
 
-## [pvd]{acronym-label="pvd" acronym-form="singular+short"}
+## PVD
 
 ### Vacuum
 
 ::: wrapfigure
-r0.5 ![image](vacuum.png){width="95%"}
+r0.5 ![image](vacuum.png){width="50%"}
 :::
 
 To realize deposition we need certain grade of vacuum. They are graded
@@ -705,7 +717,7 @@ Using sputtering can be quite beneficial especially for multi-components
 thin-films. It is also better for lateral thickness uniformity. We have
 a superposition of multiple point sources.
 
-## [cvd]{acronym-label="cvd" acronym-form="singular+short"}
+## CVD
 
 The idea here is to use some chemical reaction to go from a gas phase to
 a solid phase. Typically we will use a sort of boundary layer which will
@@ -773,7 +785,7 @@ At higher temperature the deposition pattern will create bigger
 ### Epitaxial growth
 
 ::: wrapfigure
-r0.5 ![image](mechanical_stress_epitaxy.png){width="95%"}
+r0.5 ![image](mechanical_stress_epitaxy.png){width="50%"}
 :::
 
 We can grow some layer with the epitaxial technique. We can have :
@@ -789,7 +801,7 @@ new method we can deposit some complex stack of material on our wafer.
 It is still in development and so there is not yet a wide industry
 adoption of industrial workstation.
 
-### [ald]{acronym-label="ald" acronym-form="singular+short"}
+### ALD
 
 With this method we can literally deposit **1 layer of molecules** at a
 time ! We use some cycle consisting of a sequential precursor gas
@@ -864,7 +876,7 @@ To measure the thickness of the layer we can :
 # Oxidation, wet, dry
 
 ::: wrapfigure
-r0.5 ![image](sio2_structure.png){width="95%"}
+r0.5 ![image](sio2_structure.png){width="50%"}
 :::
 
 Sand is an abundant material that contains $SiO_2$ or Silicon dioxide.
@@ -900,7 +912,7 @@ excellent insulating of its oxide, low defect at the interface.
 ## Thermal oxidation
 
 ::: wrapfigure
-r0.5 ![image](growth_of_oxide.png){width="95%"}
+r0.5 ![image](growth_of_oxide.png){width="50%"}
 :::
 
 Silicium will naturally form an oxide and will grow a thin layer of it.
@@ -956,10 +968,11 @@ which has multiple temperature zone for better control.
 For a growth of $0.5\mu m$ of oxide at $1200 C^\circ$ it takes around 6
 hours for dry and around 1 hour for wet oxidation.
 
-### [locos]{acronym-label="locos" acronym-form="singular+short"}
+### LOCOS
 
-It is a process used for *isolation between transistor*. We can simply
-use *patterned oxide* as the steps (the transistor) are too high and we
+[locos]{acronym-label="locos" acronym-form="singular+short"} is a
+process used for *isolation between transistor*. We can simply use
+*patterned oxide* as the steps (the transistor) are too high and we
 can't do spin coating or metallisation. Reduction of topography by about
 $56\%$.
 
@@ -980,13 +993,14 @@ as a stress release layer.
 
 4.  Etching of pad-oxide with HF
 
-### [sti]{acronym-label="sti" acronym-form="singular+short"} and [dti]{acronym-label="dti" acronym-form="singular+short"}
+### STI AND DTI
 
-#### [sti]{acronym-label="sti" acronym-form="singular+short"}
+#### STI
 
-With this method we can avoid the *bird's beak* phenomena. We can do
-from about $0.25 \mu m$ nodes without much stress. The process flow is
-as follow :
+With this method, [sti]{acronym-label="sti"
+acronym-form="singular+short"}, we can avoid the *bird's beak*
+phenomena. We can do from about $0.25 \mu m$ nodes without much stress.
+The process flow is as follow :
 
 1.  Anisotropic etching of $Si$
 
@@ -998,7 +1012,7 @@ as follow :
 
 4.  [cmp]{acronym-label="cmp" acronym-form="singular+short"} of oxide
 
-#### [sti]{acronym-label="sti" acronym-form="singular+short"} vs. [locos]{acronym-label="locos" acronym-form="singular+short"}
+#### STI vs. LOCOS
 
 -   [sti]{acronym-label="sti" acronym-form="singular+short"}: The drawn
     width is almost the effective width. Can place transistor closer
@@ -1125,7 +1139,7 @@ when compared with reality. Moreover, the atoms vibrate and there is a
 non-zero chance that a silicon atom moves from its lattice site which
 will leave a vacancy.
 
-Dopants diffuse in combination with silicon interstitial or vacancies
+Dopants diffuse in combination with silicon interstitials or vacancies
 and the diffusion coefficient is therefore strongly influenced by the
 concentration of interstitials or vacancies.
 
@@ -1151,14 +1165,14 @@ creating deep n-type junction. Arsenic is preferred over phosphorous.
   Highly doped           n$^{+}$, p$^{+}$            10$^{18}$--10$^{19}$                       0.01--0.03/0.005--0.02
   Very highly doped     n$^{++}$, p$^{++}$                10$^{19}$                      0.001$<$`<!-- -->`{=html}0.01/0.005
 
-  : Doping levels, designations, concentrations, and resistivity.
+  : Doping levels, designations, concentrations, and resistivities.
 :::
 
 Here, we are always talking in $\Omega / cm$ resistance that relates to
 the sheet resistance.
 
 For diffusion we can either have diffusion through substitutional or
-intersticial diffusion.
+interstial diffusion.
 
 #### Using $SiO_2$ for masking
 
@@ -1206,7 +1220,7 @@ width="75%"}
 
 Something important to note is the fact that the ions will hit the wafer
 pretty straight but it will go through a random path in the wafer. This
-will lead to a Gaussian distribution of the particles around a certain
+will lead to a gaussian distribution of the particles around a certain
 depth.
 
 $$N(x) = N_p exp \left( - \frac{(x-R_p)^2}{2 \Delta R_p^2} \right) \qquad N_p = \frac{\phi}{\sqrt{2 \pi} \Delta R_p}
@@ -1220,7 +1234,7 @@ course, masking is used so we can create the desired pattern and not
 simply bombard the full wafer. We can either use some silicon dioxide or
 photoresist.
 
-In [\[eq:ion\]](#eq:ion){reference-type="ref" reference="eq:ion":
+In [\[eq:ion\]](#eq:ion){reference-type="ref" reference="eq:ion"},
 $\phi$ is the *ion dose per unit area* and $R_p$ is the distance to the
 peak from the surface and is called the *projected range*. $\Delta R_p$
 is the *projected straggle* is the distance from the peak where the
@@ -1267,7 +1281,7 @@ to produce a quick and rapid heating of the substrate.
 
 One thing that can happen if we have a perfect lattice is the fact that
 an ion may not bounce and will went through the lattice directly. So
-instead of having a nice Gaussian we will see some odd shapes and
+instead of having a nice gaussian we will see some odd shapes and
 multiple peaks.
 
 #### Solutions
@@ -1306,8 +1320,8 @@ In etching, we distinguish two types:
 -   Anisotropic: the etching prefers one orientation of the lattice
 
     -   Plasma, [rie]{acronym-label="rie"
-        acronym-form="singular+short": Ion milling,
-        [drie]{acronym-label="drie" acronym-form="singular+short": KOH
+        acronym-form="singular+short"}, Ion milling,
+        [drie]{acronym-label="drie" acronym-form="singular+short"}, KOH
         wet
 
 ## Wet Etching
@@ -1397,7 +1411,7 @@ reaction to happen at an optimal point.
 To have some idea about the type of gases we can use look at the various
 tables chapter 5 page 30-32.
 
-### Ion milling - [drie]{acronym-label="drie" acronym-form="singular+short"}
+### Ion milling - DRIE
 
 Ion milling is a sort of *sputter etching* where the wafer is coupled to
 a voltage source. It also uses some plasma gas but the added voltage to
@@ -1406,15 +1420,16 @@ the wafer add some acceleration to the positive ions.
 ![[rie]{acronym-label="rie" acronym-form="singular+short"}
 setup](rie_setup.png){#fig:rie-setup-label width="75%"}
 
-### [rie]{acronym-label="rie" acronym-form="singular+short"}
+### RIE
 
-It is a combination of plasma etching and sputter etching/ion milling
-since we use some plasma and accelerate it towards the susbtrate. Again
-we use a chemical and mechanical process.
+[rie]{acronym-label="rie" acronym-form="singular+short"} is a
+combination of plasma etching and sputter etching/ion milling since we
+use some plasma and accelerate it towards the susbtrate. Again we use a
+chemical and mechanical process.
 
 The setup is pretty similar as depicted in
 [5.2](#fig:rie-setup-label){reference-type="ref"
-reference="fig:rie-setup-label": we use the asymmetry between
+reference="fig:rie-setup-label"}, we use the asymmetry between
 electrodes to create a self-bias to accelerate the ions towards the
 substrate. We can also add additional electrodes to create a DC electric
 field.
@@ -1503,7 +1518,7 @@ some very high plasma density.
 acronym-form="singular+short"}](Setup_plasma_rie.png){#fig:enter-label
 width="75%"}
 
-### [drie]{acronym-label="drie" acronym-form="singular+short"}
+### DRIE
 
 We also use some [drie]{acronym-label="drie"
 acronym-form="singular+short"} or Bosh process that allows us to draw
@@ -1597,7 +1612,7 @@ $$2 WF_6 (g) + 3 Si (s) \longrightarrow 2 W (s) + 3SiF_4 (g)$$
 ![Several ways to create interlayer
 contacts](contact.png){#fig:enter-label width="75%"}
 
-### [cmp]{acronym-label="cmp" acronym-form="singular+short"}
+### CMP
 
 #### Planirize the surface
 
@@ -1621,7 +1636,7 @@ It can be used to:
 ![[cmp]{acronym-label="cmp" acronym-form="singular+short"}
 principle](cmp_lucent.png){#fig:enter-label width="75%"}
 
-It is a pretty straight-forward process, we can also have some
+It is a pretty staight-forward process, we can also have some
 *multiwafer* machinery that allows us to process multiple wafer in
 parallel.
 
@@ -1659,7 +1674,7 @@ width="50%"}
 #### Damascene process
 
 ::: wrapfigure
-r0.24 ![image](dual_damascene.png){width="90%"}
+r0.24 ![image](dual_damascene.png){width="50%"}
 :::
 
 The idea behind this process, is to simply add this protective layer
@@ -1802,8 +1817,6 @@ acronym-form="singular+short"} to realize this technique.
 ![Gate MOSFET](gate_MOSFET.png){#fig:enter-label width="50%"}
 
 # Guest Lecture
-
-# Extra notes: Important numbers and figures
 
 
 
