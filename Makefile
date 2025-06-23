@@ -9,9 +9,10 @@ PWD = $(shell pwd)
 
 % : %/summary.md
 	@echo "Compiling $@"
-	@cd $@; ls; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
+	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
 	@cp $@/$@.pdf . 
 	@rm -f $@/$@.pdf
+	@echo "[LOG]: $@	V"
 
 all_NEW : $(SUBDIRS)
 
@@ -47,7 +48,7 @@ create_summary :
 # takes course name and author name as arguments
 	@echo "Creating summary files..."
 	mkdir $(DIR)
-	cp template/summary.md $(DIR)/summary.md
+	cp template/* $(DIR)
 	sed -i "s/TITLE NAME/$(TITLE)/g" $(DIR)/summary.md
 	sed -i "s/AUTHOR/$(AUTHOR)/g" $(DIR)/summary.md
 
