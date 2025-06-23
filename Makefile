@@ -1,10 +1,19 @@
 # go over each folder and compile the markdown into pdf with pandoc
 
-compile : all
+compile : all_NEW
 
-SUBDIRS = $(wildcard */.)
+SUBDIRS = $(wildcard *)
 LAST_COMMIT_MESSAGE = $(git log -1 --pretty=%B)
 pandoc_run = $(docker run --rm --volume "$(pwd):/data" pandoc/extra)
+PWD = $(shell pwd)
+
+% : %/summary.md
+	@echo "Compiling $@"
+	@cd $@; ls; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
+	@cp $@/$@.pdf . 
+	@rm -f $@/$@.pdf
+
+all_NEW : $(SUBDIRS)
 
 test:	
 	@echo $(LAST_COMMIT_MESSAGE) Compiled
