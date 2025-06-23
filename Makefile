@@ -29,7 +29,10 @@ all :
 		rm -f $$VAL.pdf; \
 		cd ..; \
 	done
+
+zip :
 	zip -r summaries.zip *.pdf
+
 
 create_summary :
 # takes course name and author name as arguments
