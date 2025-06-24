@@ -123,7 +123,8 @@ Bootstrapped switches are important components in switched-capacitor (SC) circui
 * With a regular T&H circuit, the signal transfer function should be 1. This means that the sampling capacitor should be equal to the feedback capacitor. This results in a feedback factor of 1/2, so a closed loop gain of two. 
 * An alternative is the flip-around T&H, which uses no feedback capacitor. During both phases, the opamp is in unity gain feedback. The offset and low frequency noise are cancelled out, because they affect both the V_C_hold and the output voltage. The high frequency noise is amplified by a factor of two.
 * The offset voltage cancels out because the opamp creates its own virtual ground in both phases. Noise transfer function from opamp input node to output. The sampled thermal noise on C_hold is still present.
-* ![Equations for Flip around](image.png){ width=75% }
+
+![Equations for Flip around](image.png){ width=75% }
 
 
 ##  Discuss the effect of the impedance variation in a resistor ladder in resistive DACs
@@ -188,7 +189,8 @@ In a latch-based comparator, the regeneration process, where a small input diffe
 * In a folding circuit, multiple input pairs are cross coupled to ‘fold’ the linear input voltage of a regular comparator. This reduces the range, so less comparators are needed to convert the output of the folding circuit to bits. The conversion is divided into a coarse part (the folding itself, pre-processing) and a fine part (flash conversion of the folding output). This reduces the amount of input pairs: $2^3 + 2^5$ instead of $2^8$. One input pair of the folding circuit will be active (other ones saturated) and which pair will determine the MSB’s.
 * The desired transfer curve of the folding circuit contains non-linearities in the peaks (**distortion at crossover points**). It is not possible to realize this in practice, so when the input voltage is in this range, it will be distorted. A solution to this is by using double the amount of input pairs in two folding circuits. Then we either **interpolate** those two folding circuits or take the one that is working in its **linear** region.
 * There is some delay, and we need some good amplifier to realize the fine conversion.
-* ![Folding circuits](image-1.png){ width=75% }
+
+![Folding circuits](image-1.png){ width=75% }
 
 
 ## Advantages and Disadvantages of a 1.5-bit Pipeline Converter Compared to a 1-bit Pipeline Converter:
@@ -196,6 +198,7 @@ In a latch-based comparator, the regeneration process, where a small input diffe
 Pipeline converters break down the analog-to-digital conversion into multiple stages, each processing a certain number of bits. The comparison between 1-bit and 1.5-bit stages primarily revolves around trade-offs in speed, complexity, and accuracy.
 
 **1-bit Pipeline Converter:**
+
 * Straight forward, check if value is above or below $V_{ref}/2$, multiply by 2, next stage, repeat. If an error before, will ripple through the chain.
 *   **Advantages:**
     *   **Maximum speed**: With its subrange limited to a single bit, it typically uses an amplifier with a 2x gain, which can achieve high conversion speeds.
@@ -208,9 +211,13 @@ Pipeline converters break down the analog-to-digital conversion into multiple st
     *   **Good and accurate settling in all the stages**
 
 **1.5-bit Pipeline Converter (a type of Multi-Bit MDAC Pipeline Converter):**
+
 * Will have $\pm V_{ref}/4$ if 2 positive decision, subtract $V_{ref}$, 2 negative add $V_{ref}$ else do nothing.
-* ![Offset doesn't impact precision since added reliability](image-2.png){ width=75% }
-* ![Redundancy](image-3.png){ width=75% }
+
+![Offset doesn't impact precision since added reliability](image-2.png){ width=75% }
+
+![Redundancy](image-3.png){ width=75% }
+
 *   **Advantages:**
     *   **More aggressive stage-scaling**: By processing more than one bit per stage (e.g., 1.5 bits, 2.5-4 bits), these converters allow for a reduction in the total number of stages required for a given resolution. This can lead to more compact designs.
     *   **Error Correction Margin**: Having more levels per stage (e.g., six segments for 2.5 bits) provides a margin to correct errors that might occur in the comparators.
@@ -226,6 +233,7 @@ Pipeline converters break down the analog-to-digital conversion into multiple st
 The opamp sharing technique in pipeline converters allows a single operational amplifier (opamp) to be used in two subsequent stages of the converter. This approach is implemented by adapting the Multiply-Digital-to-Analog Converter (MDAC) structure to share the opamp between channels.
 
 The main advantage of this technique is a **significant reduction in power consumption, often by a factor of 2x**. However, this comes with certain trade-offs:
+
 *   **Offset voltage is not compensated**. No auto-zeroing technique
 *   It can introduce a **memory effect between subsequent samples**.
 *   It is only feasible if the opamp is not required to create a virtual ground during its operation.
@@ -235,6 +243,7 @@ The main advantage of this technique is a **significant reduction in power consu
 In the context of charge-redistribution converters, sampling involves connecting the input signal to a capacitor bank. The sources describe two primary methods:
 
 **Top-Plate Sampling:**
+
 *   **No attenuation of the sampled voltage** occurs.
 *   However, it causes an **attenuation of the reference voltage**.
 *   The Most Significant Bit (MSB) can be determined directly after sampling.
@@ -242,6 +251,7 @@ In the context of charge-redistribution converters, sampling involves connecting
 Problematic for high accuracy as not same attenuation between ref and input but faster.
 
 **Bottom-Plate Sampling:**
+
 *   This method results in **the same attenuation for both the input and reference voltages**.
 *   A key advantage is that the **input voltage range can be made equal to the reference voltage range**.
 *   A common-mode voltage (VCM) is employed to maintain the comparator input at the desired level.
@@ -253,6 +263,7 @@ Trickier setup with the common mode, will be slower but really good for high acc
 Both dual-slope converters and straightforward slope (or linear approximation/counting) converters belong to the category of linear search converters. They differ significantly in their operation and characteristics:
 
 **Straightforward Slope (Linear Approximation/Counting) Converter:**
+
 *   **Operation Principle:** The converter uses a counter to linearly increase the output of a Digital-to-Analog Converter (DAC). A comparator continuously compares this increasing DAC output (V_DAC) with the sampled input signal (V_signal). Once V_DAC exceeds V_signal, the comparator toggles, and the current counter value is stored as the digital output; the counter is then reset.
 *   **Conversion Time:** The output is ready after **$2^N$ clock cycles**, where N is the number of bits. This is considerably slower compared to flash (1 clock cycle) or pipeline (N clock cycles) converters.
 *   **Input Handling:** An input Sample & Hold (S/H) circuit is required to keep the input signal constant during the conversion period.
@@ -260,6 +271,7 @@ Both dual-slope converters and straightforward slope (or linear approximation/co
 *   **Applications:** Often used in applications like image sensor readouts, where one ADC per column shares a DAC and counter. Small transistors in comparators in such applications can lead to offset and 1/f noise, necessitating correlated double sampling to measure a known reference and the signal, then digitally subtract the values. Can be used as a tracking converter with minimum changes.
 
 **Dual-Slope Converter:**
+
 *   **Operation Principle:** This converter operates in two distinct phases:
     1.  **Integration Phase:** The input signal is integrated for a fixed sample period.
     2.  **Discharge Phase:** The integrated capacitor is then discharged by a fixed reference current. The time taken for discharge is proportional to the integrated input signal, and this time is measured to determine the digital output.
@@ -295,9 +307,11 @@ DWA will cycle through the cells and so will smooth out the error, it will trans
 Using a higher order (stability problems with classical topology so use cascade) or using multi-bit DACs in the feedback path. 
 
 **Single-bit Sigma-Delta Converters:**
+
 *   **Advantage:** A 1-bit DAC (Digital-to-Analog Converter) is **inherently linear**. This eliminates non-linearity errors that can arise from element mismatch in multi-bit DACs in the feedback path.
 
 **Multi-bit Sigma-Delta Converters:**
+
 *   **Advantages:**  indicating high performance in these areas, especially compared to "Single Loop" and "Cascade". Multi-bit converters, particularly Delta-Sigma converters with low Over-Sampling Ratio (OSR), are considered suitable for "High-Resolution High-Speed AD converters".
 *   **Disadvantage:** The main problem with multi-bit Delta-Sigma converters is the **linearity of the multi-bit DAC in the feedback path**. Mismatch between the individual DAC elements will generate non-linearity errors. Techniques like Data-Weighted Averaging (DWA) are employed to mitigate this issue by making the signal-dependent error noise-like so it can be filtered out by oversampling. Typically we need a DAC in the return which was not needed in 1-bit ADC !
 *   **Solutions:** can use chopping, dynamic element matching. Offset is okay if we can one time add it then remove it so on average it is null and can be seen as a noise that the OSR nature of SD will take care of.
@@ -325,16 +339,16 @@ Where n is the number of stages. The factor 2 comes from one cycle for integrati
 
 * **Advantage of oversampling for anti-alias filters:** In Delta-Sigma converters, **oversampling** is a fundamental principle that allows the quantization noise to be spread over a wider frequency band. This noise is then shaped, meaning it's pushed out of the desired signal band. The "loop filter" within the Delta-Sigma modulator helps in this noise shaping. As a result, the demanding requirements on the **anti-alias filter** are relaxed. For example, a **continuous-time Delta-Sigma converter itself can function as an anti-alias filter**, which also helps in saving power. This is because the oversampling and noise shaping inherently provide significant attenuation for out-of-band signals, reducing the need for a steep, high-order external analog anti-alias filter.
 
-    When no oversampling is used, the input signal should not have frequencies larger than $f_s/2$. Otherwise, the higher frequency components will be folded on top of the lower ones when the signal is sampled, which results in aliasing. This LPF should ideally be a perfect brick-wall filter with a cutoff frequency of $f_s/2$. This is not possible to realize in practice. 
+When no oversampling is used, the input signal should not have frequencies larger than $f_s/2$. Otherwise, the higher frequency components will be folded on top of the lower ones when the signal is sampled, which results in aliasing. This LPF should ideally be a perfect brick-wall filter with a cutoff frequency of $f_s/2$. This is not possible to realize in practice. 
 
-    With an oversampling converter, the sampling happens at a higher frequency than the Nyquist frequency. Frequency components (a bit) higher than Nyquist frequency will not result in aliasing. This relaxes the requirements of the analog low-pass filter while spreading out the noise quantity. The converted digital signal will be down sampled to return to the Nyquist frequency, and this might result in aliasing if the signal is not properly filtered first. But this filtering operation can be done in the digital domain, which is easier.
+With an oversampling converter, the sampling happens at a higher frequency than the Nyquist frequency. Frequency components (a bit) higher than Nyquist frequency will not result in aliasing. This relaxes the requirements of the analog low-pass filter while spreading out the noise quantity. The converted digital signal will be down sampled to return to the Nyquist frequency, and this might result in aliasing if the signal is not properly filtered first. But this filtering operation can be done in the digital domain, which is easier.
 
-    In continuous-time converters, the loop filter runs continuously using resistors, capacitors, and amplifiers. This gives a natural anti-aliasing effect without extra filtering stages and saves power, but comes with drawbacks: it’s more sensitive to clock jitter, component variation (like resistor mismatch), and offers less flexibility for tuning or reconfiguration.
+In continuous-time converters, the loop filter runs continuously using resistors, capacitors, and amplifiers. This gives a natural anti-aliasing effect without extra filtering stages and saves power, but comes with drawbacks: it’s more sensitive to clock jitter, component variation (like resistor mismatch), and offers less flexibility for tuning or reconfiguration.
 
-    *   **Difference between discrete and continuous time DS converters:**
-        *   The sources implicitly differentiate between discrete and continuous-time Delta-Sigma (DS) converters.
-        *   A **continuous-time Delta-Sigma converter** has the advantage that its loop filter **can also function as an anti-alias filter**, potentially saving power. However, it is susceptible to clock jitter, which can add noise, and the use of resistors for feedback (to combat jitter) can lead to wide variations over different process corners and a less **flexible architecture**.
-        * **CHECK LECTURE CAUSE I AM PRETTY SURE HE SAID SOMETHING**
+*   **Difference between discrete and continuous time DS converters:**
+    *   The sources implicitly differentiate between discrete and continuous-time Delta-Sigma (DS) converters.
+    *   A **continuous-time Delta-Sigma converter** has the advantage that its loop filter **can also function as an anti-alias filter**, potentially saving power. However, it is susceptible to clock jitter, which can add noise, and the use of resistors for feedback (to combat jitter) can lead to wide variations over different process corners and a less **flexible architecture**.
+    * **CHECK LECTURE CAUSE I AM PRETTY SURE HE SAID SOMETHING**
 
 ## What happens if, instead of a lowpass filter, a bandpass filter is used as noise shaping filter in a sigma-delta ADC?
     
@@ -349,6 +363,7 @@ If a **bandpass filter** is used as the noise shaping filter (also referred to a
 The sources present a schematic for a low voltage bandgap reference which incorporates "folded resistors" and sums proportional to absolute temperature (PTAT) and complementary to absolute temperature (CTAT) components in the current domain. This design addresses the challenge of implementing a 1.2V silicon bandgap in a 1.2V technology, such as 65nm.
 
 The circuit shown (identified as a "Static Start-up circuit" but also appearing as the core bandgap circuit) consists of:
+
 *   **Bipolar Junction Transistors (BJTs) Q1 and Q2:** These generate the temperature-dependent voltages. Q1 has a scaling factor of `<1>` and Q2 has a factor of `<1: N>`, indicating that Q2 is N times larger than Q1, or that N unit transistors are used for Q2. The difference in their base-emitter voltages, $\Delta V_{BE}$, is proportional to absolute temperature (PTAT).
 *   **Resistors R1 and R2:** R1 is used to generate the PTAT current. R2 generates a current that is complementary to absolute temperature (CTAT), as it is connected in series with Q1, whose $V_{BE}$ exhibits a negative temperature coefficient.
 *   **Operational Amplifier (OpAmp):** The OpAmp forces the voltage at its two input terminals to be equal. In this circuit, one input is connected to the collector of MP1 and the other to a node between R1 and the emitter of Q2.
@@ -356,6 +371,7 @@ The circuit shown (identified as a "Static Start-up circuit" but also appearing 
 
 **Current Generation and Summation:**
 The circuit operates by generating two primary currents:
+
 *   **$I_{CTAT}$ (Complementary To Absolute Temperature):** This current is defined as $I_{CTAT} = \frac{V_{BE1}}{R_2}$. Since $V_{BE}$ decreases with increasing temperature, $I_{CTAT}$ will also decrease with increasing temperature.
 *   **$I_{PTAT}$ (Proportional To Absolute Temperature):** This current is defined as $I_{PTAT} = \frac{\Delta V_{BE}}{R_1}$. The difference in base-emitter voltages ($\Delta V_{BE}$) between Q1 and Q2, due to their emitter area ratio, is proportional to absolute temperature. Thus, $I_{PTAT}$ increases with increasing temperature.
 
@@ -377,10 +393,12 @@ In summary, bandgap voltage references leverage a fundamental and stable physica
 ## Why do we need an amplitude control loop in the design of a Xtal oscillator?
 
 An amplitude control loop is crucial in the design of a Crystal (Xtal) oscillator due to significant variations that can occur during the production process. When designing a Xtal oscillator under nominal conditions, there can be **huge variations in production**, specifically:
+
 *   +/- 20% in capacitance.
 *   +/- 20% in transconductance (gm).
 
 These production variations can lead to several problematic conditions for the oscillator:
+
 *   The oscillator may **fail to start up**.
 *   The **drive power might exceed the rated limits of the crystal**, potentially causing lifetime issues for the crystal.
 
@@ -393,6 +411,7 @@ The sources outline key considerations for designing a **Crystal (Xtal) oscillat
 A Pierce oscillator, unlike a Colpitts or Santos oscillator, has its reference compared to GND. One great advantage of a Pierce oscillator is that its easily replaceable in case of defect. 
 
 **Key design parameters and considerations:**
+
 *   **Crystal parameters:** Start with the specific parameters of the crystal, including its series resonance frequency (fs), parallel resonance frequency (fp), series resistance (Rs), and parallel capacitance (Cp).
 *   **Capacitor selection:**
     *   **C3:** This capacitor should be chosen to be greater than the crystal's parallel capacitance (Cp), approximately 1 pF higher, to accommodate parasitic capacitances.
@@ -411,6 +430,7 @@ A Pierce oscillator, unlike a Colpitts or Santos oscillator, has its reference c
 A standard ring oscillator typically consists of an odd number of inverters connected in a loop, which produces a single oscillating output. To create a ring oscillator with a **quadrature output (90-degree phase difference)**, use **differential amplifiers** instead of simple inverters.
 
 Here's how it works:
+
 *   Instead of standard inverters, use **differential inverting amplifiers** as the stages of the ring oscillator.
 *   By **cross-coupling** the outputs from one stage to the inputs of a subsequent stage in a specific way, it becomes possible to use an **even number of amplifier stages**. This setup inherently allows for the generation of signals that are 90 degrees out of phase, thus providing quadrature outputs.
 *   Differential inverting amplifiers also offer advantages such as **high Power Supply Rejection Ratio (PSRR)** and **high Common Mode Rejection Ratio (CMRR)**. Using amplifiers with **low gain can help to smoothen the edges of the output signal, leading to lower distortion**. We must use the **Maneatis cell** with $A= \frac{g_{m,n}}{g_{m,p}}$.
@@ -445,7 +465,7 @@ Using TSPC logic so only one clock phase is needed.
 
 ## Discuss the sizing of the biasing transistors in a relaxation oscillator. Explain why a capacitor at the drain of the bias transistor can degrade the duty cycle.
 
-![Relaxation oscillator](image-10.png){ width=50% }
+![Relaxation oscillator](image-10.png){ width=40% }
 
 $$f = \frac{1}{RC + \tau_{comp}}$$
 
@@ -521,12 +541,15 @@ $$\eta_{C\_charge}(t) = \frac{E_{U_{in}\rightarrow C}(t)}{E_{U_{in}\rightarrow R
 Regarding energy flows during capacitor charging:
 
 When the capacitor starts with zero voltage ($U_C(0) = 0 \text{ V}$) and is charged for a finite time ($t < \infty$), **more energy is consumed in the series resistance (R) than is stored in the capacitor (C)**.
+
 *   However, if charged for an infinite time ($t = \infty$) from zero initial voltage, **as much energy is stored in the capacitor as is consumed in the resistor**. This implies a theoretical maximum efficiency of 50% for charging an uncharged capacitor to a new voltage level through a resistor in steady-state.
 
 If the capacitor has an initial positive voltage ($U_C(0) > 0 \text{ V}$) and is charged for a finite time ($t < \infty$), the energy consumed in the resistor can be **either higher or lower** than the energy stored in the capacitor.
+
 *   If charged from an initial positive voltage for an infinite time ($t = \infty$), **more energy can be stored in the capacitor than is consumed in the resistor**.
 
 To **maximise the charging efficiency** of a capacitor:
+
 *   It is crucial to **provide sufficient settling time** ($t \gg RC$) for the capacitor to fully charge.
 *   Ensure that the **initial voltage on the capacitor ($U_C(0)$) is close to the input voltage ($U_{in}$)**, as this reduces the amount of energy that needs to be transferred, thereby minimising losses.
 *   The charging efficiency ($\eta_{C\_charge}$) **can only approach 100% in a steady-state condition**. This highlights the inherent challenge of achieving high efficiency when quickly changing capacitor voltages.
@@ -538,12 +561,14 @@ To **maximise the charging efficiency** of a capacitor:
 In contrast to capacitors, charging and discharging an inductor with a voltage source is **NOT intrinsically lossy**. The charging efficiency of an inductor, $\eta_{L\_charge}$, depends on the **initial current through the inductor ($I_L(0)$) and the charging time ($t$)**. The equations are **complex** it doesn't saturate nicely as it did for the cap !
 
 Regarding energy flows during inductor charging:
+
 *   When the charging time is relatively short ($t < 1.15 \cdot \tau_L$, where $\tau_L = L/R$ is the inductive time constant), **more energy is stored in the inductor (L) than is consumed in the series resistance (R)**.
 *   Conversely, if the charging time is long ($t > 1.15 \cdot \tau_L$), **more energy is consumed in the resistor than is stored in the inductor**. This is because the energy consumed in the resistor continuously increases with time, while the energy stored in the inductor eventually saturates.
 
 $$\lim_{\frac{tR}{L} \rightarrow \infty} E_{U_{in} \rightarrow L} (t) = \frac{L}{2} \left( \left( \frac{U_{in}}{R} \right)^2 - I_L (0) \right)$$
 
 To **maximise the charging efficiency** of an inductor:
+
 *   **Minimise the charge time** ($t \ll L/R$) to ensure less energy is stored per cycle, which helps reduce resistive losses.
 *   Ensure that the **initial current ($I_L(0)$) is minimal**.
 *   For an ideal inductor (where the series resistance $R = 0$), the charging efficiency ($\eta_{L\_charge}$) is **100% for all times ($t$)**, especially when $t \ll L/R$.
@@ -555,6 +580,7 @@ A key comparison highlights that **inductive DC-DC converters are theoretically 
 ![Equivalent model](image-16.png){ width=70% }
 
 Based on transfer function analysis, the behaviour of a simple two-phase SC DC-DC converter can be represented by an **equivalent circuit model**. This model consists of:
+
 *   An **ideal transformer**: For the two-phase converter example, the **ideal Voltage Conversion Ratio (iVCR) is $\frac{1}{2}$**. This means it effectively functions as a 2:1 step-down transformer when the load resistance ($R_{load}$) is infinite. The voltage conversion ratio is given by $\frac{U_{out}}{U_{in}} = \frac{1}{2}$ when $R_{load} = \infty$.
 *   A **series resistor** connected to the load resistance ($R_{load}$). For the two-phase converter, this equivalent series resistance is calculated as $\frac{1}{4 \cdot C_{fly} \cdot f_{sw}}$.
 
@@ -562,6 +588,7 @@ Therefore, the complete equivalent model is essentially an **ideal transformer f
 $\frac{U_{out}}{U_{in}} = \frac{1}{2} \cdot \frac{R_{load}}{R_{load} + \frac{1}{4 \cdot C_{fly} \cdot f_{sw}}}$.
 
 The total output impedance ($R_{out}$) of the SC converter, which directly contributes to intrinsic losses, can be approximated using two primary components derived from branch analysis:
+
 *   **Slow-switching approximation (RSSL)**: This component accounts for the switched-capacitor behaviour and is inversely proportional to the switching frequency ($f_{sw}$) and the flying capacitance ($C_{fly}$). In this region, $R_{out}$ decreases as $f_{sw}$ or $C_{fly}$ increases.
 *   **Fast-switching approximation (RFSL)**: This component primarily considers resistive behaviour (e.g., the on-resistance of the switches) and is largely independent of the switching frequency. In this region, $R_{out}$ decreases with increased switch size.
 
@@ -645,9 +672,11 @@ The primary challenge of designing a **current-mode driver** in low-voltage tech
 * **Requirement for Saturation:** In a high-impedance current-mode driver, it is critical to keep the main transistor ($M_1$) in saturation. This means the voltage at the receiver ($V_{RX}$) must be greater than the saturation voltage ($V_{DSsat,M1}$) of the transistor. Furthermore, the driver transistor ($M_1$) needs to have a high output impedance ($r_{DS} \gg R_T$), which often necessitates using cascode configurations.
 * **Voltage Headroom Limitation:** Current-mode drivers, especially those utilising cascode current sources for improved output impedance and linearity (e.g., N-bit cascoded current-mode DACs), require sufficient voltage headroom for all transistors in the current path to operate in their saturation region. In low-voltage technologies, the available power supply voltage ($V_{DD}$) is reduced. This reduced $V_{DD}$ limits the voltage across the series-connected transistors (e.g., the current source $M_{CS}$, cascode $M_{cas}$, and switches $M_{sw}$ and $M_{cas2}$).
 * **Impact of Insufficient Headroom:** If transistors fall out of saturation due to insufficient voltage headroom:
+
     * Their output conductance ($g_{ds}$) increases, meaning their output impedance decreases ($r_{DAC}$ is no longer high).
     * This leads to input-dependent effective output impedance variation ($R_{T,eff} < R_T$).
     * This variation ultimately results in DAC non-linearity and signal distortion, such as **third-order harmonic distortion (HD3)**.
+
 * **Common Mode Voltage:** For Current-Mode Logic (CML) drivers, a "high output common mode" is necessary to keep the current source in saturation. In low-voltage systems, maintaining this high common mode voltage while still allowing for adequate differential signal swing can be problematic.
 * **Linearisation Techniques:** While techniques like applying a small, code-independent current ($I_{Bias}$) can linearise cascode transistors by keeping them in saturation, these also contribute to the overall voltage drop and complicate the design under strict voltage headroom constraints.
 
@@ -674,6 +703,7 @@ Current-mode drivers are simple and robust but not power efficient while voltage
 A **silicon photodiode** is a crucial component in optical receivers, responsible for converting incoming light (photons) into an electrical current (electron-hole pairs).
 
 **Behaviour:**
+
 *   When photons strike the photodiode, they generate electron-hole pairs.
 *   These light-generated electron-hole pairs are then **separated by the electric field within the depletion region** of the photodiode. This separation leads to the generation of current.
 *   To ensure efficient and fast operation, a **wide depletion region is required**. This promotes charge carriers to move via **drift** (which is fast) rather than **diffusion** (which is slow), and also minimises recombination, leading to a larger response. A wide depletion region also contributes to a low depletion layer capacitance.
@@ -683,11 +713,13 @@ A **silicon photodiode** is a crucial component in optical receivers, responsibl
     *   A **Speed-Enhanced CMOS Photodiode** introduces an electric field in the substrate by applying a voltage difference between two substrate contacts. This field actively **drains slow electrons from deep within the substrate**, improving speed. This technique allows for a trade-off between speed and current amplitude and avoids the 50% light reflection issue encountered with differential photodiodes.
 
 **Important Parameters:**
+
 *   **Responsivity ('gain')**: This parameter quantifies the efficiency of the photodiode in converting optical power into electrical current.
 *   **Conversion (optical) bandwidth**: This defines the range of optical frequencies over which the photodiode can effectively operate and convert light to electrical signals.
 *   **Parasitic capacitance (electrical bandwidth)**: The inherent capacitance of the photodiode junction limits its electrical bandwidth. A lower parasitic capacitance generally leads to higher speed.
 *   **Optimal Wavelength**: For silicon photodiodes, **850 nm** is considered the optimal trade-off wavelength. At shorter wavelengths, the absorption coefficient is larger, but there are fewer photons per Watt. At longer wavelengths, the absorption coefficient is smaller, but there are more photons per Watt.
 *   **Optical Transmission Coefficient**: For integrated photodiodes, light must pass through a **dielectric stack** before reaching the silicon substrate. The fraction of impinging photons reaching the substrate, known as the optical transmission coefficient ($T = 1 - |\Gamma_{1,n}|^2$, where $\Gamma$ is the reflection coefficient between layers), is critical. This coefficient is highly dependent on:
+
     *   The **wavelength** of the light.
     *   The **number of dielectric layers**.
     *   The **thickness of the dielectric layers**.
