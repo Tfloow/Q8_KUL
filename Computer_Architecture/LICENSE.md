@@ -19,6 +19,10 @@ Under the following terms:
 For the full legal text of the license, please visit:
 [https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
 
+## Modification
+
+To contribute to this work or any other one from this project please find more information at the [Github repository](https://github.com/Tfloow/Q8_KUL).
+
 ---
 
 **© 2025 Authors of the Summary, Professors of the Course and possible book's authors. Some Rights Reserved.**

@@ -7,7 +7,7 @@ LAST_COMMIT_MESSAGE = $(git log -1 --pretty=%B)
 pandoc_run = $(docker run --rm --volume "$(pwd):/data" pandoc/extra)
 PWD = $(shell pwd)
 
-% : %/summary.md
+% : %/summary.md %/LICENSE.md
 	@echo "Compiling $@"
 	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
 	@cp $@/$@.pdf . 

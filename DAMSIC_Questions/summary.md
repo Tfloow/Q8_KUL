@@ -101,7 +101,7 @@ This section is based on the previous work of *Robin Geens* and *Sander Crols*. 
 
 # H05E3A - Exam Questions
 
-Here is a comprehensive response to your query, drawing on the provided sources:
+This document has the ambition to be extensive, so don't be afraid by the amount of text for some questions. For each question, we try to provide as much background knowledge as needed to properly understand and answer the question.
 
 ## Describe the pedestal step and a possible solution for the problem.
 
@@ -615,26 +615,25 @@ In essence, insertion loss is about the signal going forward and losing strength
 
 The primary challenge to achieving **broadband termination** in a wireline receiver lies in effectively managing parasitic elements that cause frequency-dependent impedance mismatches.
 
-* **Goal of Termination:** The termination resistor ($R_T$) is an integral part of receiver designs. Its purpose is to achieve broadband matching ($R_T = Z_L$) to minimise signal reflection and maximise power transfer from the channel to the receiver. Ideally, $R_T$ is a tunable component integrated on-chip.
-* **Challenge with Off-Chip Termination:** If the termination resistor is implemented off-chip, the **package parasitics** (such as inductance $L_p$ and capacitance $C_p$, as depicted in the sources) become a significant issue. These parasitics act as an unterminated stub, which introduces reflections. This makes it difficult to maintain a constant impedance match across a wide range of frequencies, compromising broadband performance.
+* **Goal of Termination:** The termination resistor ($R_T$) is an integral part of receiver designs. Its purpose is to achieve broadband matching ($R_T = Z_L$) to minimise signal reflection and maximise power transfer from the channel to the receiver. Ideally, $R_T$ is a tunable component integrated on-chip. So reducing the **Return loss**.
+* **Challenge with Off-Chip Termination:** If the termination resistor is implemented off-chip, the **package parasitics** (such as inductance $L_p$ and capacitance $C_p$, as depicted in the sources) become a significant issue. We can't match **parasitic in the package**.
 * **Impact of Receiver Input Parasitics:** Specifically, the sources mention that "parasitic inductance and capacitance at receiver input impact RL [Return Loss] at high frequencies". This means that even with an on-chip termination resistor, the inherent parasitic elements associated with the receiver's input structure can cause the overall input impedance ($Z_{in}$) to deviate from the channel's characteristic impedance ($Z_L$) as frequency increases. This deviation results in an increased reflection coefficient ($\Gamma_R$) and, consequently, degraded return loss at higher frequencies, making true broadband matching difficult to achieve.
+* Moreover, we have an output pole at $1/(2\pi R_T C_{tot})^{-1}$
 * **Benefit of On-Chip Termination (Mitigation):** While challenging, implementing termination on-chip offers an advantage because package parasitics can be incorporated into the termination network. This allows for a more integrated design approach that can potentially compensate for some of these parasitic effects, leading to better broadband matching compared to off-chip solutions.
 
 ## Discuss a technique to extend the bandwidth at the output of a transmitter.
 
-A common technique to extend the bandwidth at the output of a transmitter (TX) is **shunt peaking**.
+A common technique to extend the bandwidth at the output of a transmitter (TX) is **shunt peaking**. We had an inductor between VDD and the RT.
 
 * **The Bandwidth Limitation Problem:** The TX output has a finite bandwidth, which leads to a finite settling error ($e_{TX}$) by the end of the bit interval. This finite settling causes inter-symbol interference (ISI), meaning that the current high and low signal levels are influenced by previous bits. This bandwidth limitation is primarily due to an output pole at $1/(2\pi R_T C_{tot})$, where $C_{tot}$ represents the total capacitance at the output. $C_{tot}$ comprises various contributions, including the TX output and routing capacitance ($C_{p,TX}$), IO pad capacitance ($C_{pad}$), ESD capacitance ($C_{ESD}$), and package parasitics like bond wire capacitance. For instance, a 56 Gb/s system with $R_T = 50 \ \Omega$ needs $C_{tot}$ to be $\le 80 \ fF$ to achieve a $f_{-3dB}$ of $0.7R_b$.
 * **Shunt Peaking Technique:**
-    * **Mechanism:** Shunt peaking involves adding an additional inductor ($L_T$) in series with the termination resistor ($R_T$) at the TX output. This inductor is used to "charge load capacitance" by making "more current... available for a longer time".
-    * **Effect on Impedance:** This inductor introduces an additional zero ($z_1 = - R_T /L_T$) and a pole ($p_2 = - (1/(R_T C_{tot}) + R_T /L_T)$) in the output impedance function $Z_0(s)$. By carefully selecting the inductance value, these poles and zeros can be manipulated to extend the frequency response.
+    * **Mechanism:** Shunt peaking involves adding an additional inductor ($L_T$) in series with the termination resistor ($R_T$) at the TX output. This inductor is used to "charge load capacitance" by making "more current available for a longer time".
+    * **Effect on Impedance:** This inductor introduces an **additional zero** ($z_1 = - R_T /L_T$) and a **pole** ($p_2 = - (1/(R_T C_{tot}) + R_T /L_T)$) in the output impedance function $Z_0(s)$. By carefully selecting the inductance value, these poles and zeros can be manipulated to extend the frequency response.
     * **Damping Factor ($\zeta$):** To avoid resonance and achieve desired frequency characteristics, the damping factor $\zeta = L_T /(R_T^2 C_{tot})$ needs to be less than 1 ($p_1 < z_1$).
     * **Bandwidth Improvement:** Shunt peaking can significantly increase the -3dB bandwidth. For example, with $R_T=50\Omega$ and $C_{tot}=80fF$, the bandwidth without shunt peaking might be 39 GHz. With shunt peaking, it can be extended to:
         * 67 GHz for a "maximum flat response" (where $L_T /(R_T^2 C_{tot}) = 1/(1 + \sqrt{2}) \approx 1/2.828$).
         * 72 GHz for "maximum BW" (where $L_T /(R_T^2 C_{tot}) = 2/\sqrt{2} \approx 0.707$), achieving a maximum bandwidth extension of $1.84x$.
 * **Advanced Variation: Bridged T-Coil:** An even more effective method is the bridged T-coil. This configuration, which involves two inductors and a capacitor, can provide an "effective output impedance" of $R_T$ and achieves a "maximum bandwidth extension of $2.83x$" for $\zeta = \sqrt{2} / 2$.
-
-In summary, shunt peaking, by strategically adding an inductor to counteract the capacitive loading at the transmitter output, effectively extends the bandwidth, thereby reducing ISI and improving signal integrity.
 
 
 ## What is the challenge of designing a current-mode driver in low-voltage technologies?
