@@ -638,6 +638,8 @@ A common technique to extend the bandwidth at the output of a transmitter (TX) i
 
 ## What is the challenge of designing a current-mode driver in low-voltage technologies?
 
+With a current-mode driver, different current sources are switched on/off to generate the required voltage amplitude. The current sources should have a very high output impedance. Otherwise, the output impedances are seen in parallel with the termination resistor which influences matching. To get a large R_out, circuit techniques such as cascading can be used. However, this requires a large voltage headroom which is not available in low-voltage techniques. The driver will thus have a lower R_out.
+
 The primary challenge of designing a **current-mode driver** in low-voltage technologies is ensuring that the transistors within the driver, particularly the current sources and switches, remain in **saturation** to maintain high output impedance and prevent signal distortion, given the limited voltage headroom.
 
 * **Requirement for Saturation:** In a high-impedance current-mode driver, it is critical to keep the main transistor ($M_1$) in saturation. This means the voltage at the receiver ($V_{RX}$) must be greater than the saturation voltage ($V_{DSsat,M1}$) of the transistor. Furthermore, the driver transistor ($M_1$) needs to have a high output impedance ($r_{DS} \gg R_T$), which often necessitates using cascode configurations.
@@ -649,11 +651,9 @@ The primary challenge of designing a **current-mode driver** in low-voltage tech
 * **Common Mode Voltage:** For Current-Mode Logic (CML) drivers, a "high output common mode" is necessary to keep the current source in saturation. In low-voltage systems, maintaining this high common mode voltage while still allowing for adequate differential signal swing can be problematic.
 * **Linearisation Techniques:** While techniques like applying a small, code-independent current ($I_{Bias}$) can linearise cascode transistors by keeping them in saturation, these also contribute to the overall voltage drop and complicate the design under strict voltage headroom constraints.
 
-In essence, low-voltage technologies squeeze the available voltage budget, making it difficult to satisfy the saturation requirements of multiple stacked transistors in a current-mode driver, leading to linearity degradation and signal distortion.
-
 ## Why is the power efficiency of a voltage-mode driver better than that of a current-mode driver?
 
-The power efficiency of a **voltage-mode driver** is generally better than that of a **current-mode driver**, particularly for differential configurations, due to the way current is drawn from the power supply and how the signal swing is generated relative to that current.
+Current-mode drivers are simple and robust but not power efficient while voltage-mode drivers are power efficient but more susceptible to power supply variations, process variations. With a voltage mode driver, the signal current can be lower for the same signal swing (amplitude). This is because the termination resistance is seen twice in the current path, in series.
 
 
 * In a typical **Current-Mode Logic (CML)** driver, a constant current ($I$) is drawn from the power supply ($V_{DD}$), regardless of the input data. This current is steered between the two differential output paths to create the signal.
@@ -667,7 +667,4 @@ The power efficiency of a **voltage-mode driver** is generally better than that 
     * Single-ended voltage-mode drivers consume $0.5x$ the normalised current ($V_{in,RX,pp}/(2 \cdot Z_L)$).
     * Differential voltage-mode drivers achieve the best efficiency, consuming only $0.25x$ the normalised current ($V_{in,RX,pp}/(4 \cdot Z_L)$).
 
-
-The sources explicitly state that a "Differential voltage-mode driver has potential to reduce power with $4x$" compared to current-mode drivers. This significant power reduction comes from the more efficient conversion of supply current into signal swing. While the actual driver power can also depend on factors like output impedance control, pre-driver power, and equalization implementation, the inherent current efficiency of voltage-mode drivers is superior.
-
-In essence, current-mode drivers draw a continuous current regardless of the signal state, leading to constant power dissipation, whereas voltage-mode drivers can modulate their current consumption more effectively, resulting in lower average power consumption for the same signal swing.
+![Differential Voltage-Mode Driver](image-19.png){ width=75% }
