@@ -1,7 +1,7 @@
 ---
 title: "TITLE NAME"
 author: AUTHOR
-geometry: margin=2cm
+geometry: "left=1cm,right=1cm,top=2cm,bottom=2cm"
 papersize: a4
 date: \today
 toc: true

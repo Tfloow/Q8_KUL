@@ -5,8 +5,9 @@ author:
     - Sjouke Spijkerman
     - Robin Geens
     - Sander Crols
-geometry: margin=2cm
+geometry: "left=1cm,right=1cm,top=2cm,bottom=2cm"
 papersize: a4
+#fontsize: 11pt
 date: \today
 toc: true
 toc-depth: 3
@@ -14,7 +15,6 @@ titlepage: true
 titlepage-logo: KULlogo.png
 template: eisvogel
 subtitle: "[An Open-Source Summary](https://github.com/Tfloow/Q8_KUL)"
-copyright: "© 2025 Thomas Debelle. This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License."
 copyright-link: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 output: pdf_document
 ---
@@ -452,12 +452,12 @@ Here is a comprehensive response to your query, drawing on the provided sources:
     A **conduction angle** is a metric that describes the fraction of a period during which an active device in a power amplifier conducts current. It is expressed as an angle, where a full period of conduction corresponds to a 360° conduction angle.
 
 
-    | Power Amplifier Class | Conduction Angle                                                                                                                 | Efficiency                                                                                                                                                                                                                                                                                          | Distortion                                                                                                                                                                                                                                                                                                                                                                                                      |
+    | Class | Conduction Angle                                                                                                                 | Efficiency                                                                                                                                                                                                                                                                                          | Distortion                                                                                                                                                                                                                                                                                                                                                                                                      |
     | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | **Class A**           | Conducts for a **full period**, equating to a **360°** conduction angle.                                                         | Efficiency is theoretically limited to $\le$ **50%**, with normal operating efficiency typically $\le$ **25%**. This is due to its linear topology. A characteristic is that the bias current ($I_B$) is often much greater than the maximum load current ($I_{max}$), leading to lower efficiency. | **Can** exhibit **distortion** when the MOSFET is pushed into different operating regions, especially with limited gain. The continuous conduction (as seen in its output voltage (V) and current (uA) waveforms) does not inherently prevent distortion if the operating point is not carefully managed. On average, has **low distortion**.                                                                   |
-    | **Class B**           | Conducts for **half of the period**, specifically a **180°** conduction angle. Ideally, there is no DC bias current ($I_B = 0$). | Has a maximum theoretical efficiency of **$\pi/4$**, which is approximately **78%**. This class often uses push-pull topologies to increase output power ($P_{out}$).                                                                                                                               | Is prone to **cross-over distortion**, also known as a "dead zone". This distortion occurs because each active device only conducts for half of the signal cycle, resulting in a *brief period where neither device is fully active during the signal transition*. A transient response plot for Class B clearly illustrates this dead zone in the current waveforms, causing distortion in the output voltage. |
-    | **Class AB**          | The conduction angle is set **between 180° and 360°**.                                                                           | Represents a **trade-off** between efficiency and distortion. The efficiency will be less than Class B but greater than Class A.                                                                                                                                                                    | It is designed to **reduce or eliminate cross-over distortion** present in Class B amplifiers. This is achieved by allowing a small amount of current to flow even in the absence of an input signal (quiescent current), which keeps both output devices slightly "on" during the signal transitions.                                                                                                          |
-    | **Class C**           | The conduction angle is **less than 180°**.                                                                                      | Higher efficiency, voltage can swing up to **twice the supply voltage** thanks to the energy stored in the LC tank                                                                                                                                                                                  | **Higher distortion**                                                                                                                                                                                                                                                                                                                                                                                           |
+    | **A**           | Conducts for a **full period**, equating to a **360°** conduction angle.                                                         | Efficiency is theoretically limited to $\le$ **50%**, with normal operating efficiency typically $\le$ **25%**. This is due to its linear topology. A characteristic is that the bias current ($I_B$) is often much greater than the maximum load current ($I_{max}$), leading to lower efficiency. | **Can** exhibit **distortion** when the MOSFET is pushed into different operating regions, especially with limited gain. The continuous conduction (as seen in its output voltage (V) and current (uA) waveforms) does not inherently prevent distortion if the operating point is not carefully managed. On average, has **low distortion**.                                                                   |
+    | **B**           | Conducts for **half of the period**, specifically a **180°** conduction angle. Ideally, there is no DC bias current ($I_B = 0$). | Has a maximum theoretical efficiency of **$\pi/4$**, which is approximately **78%**. This class often uses push-pull topologies to increase output power ($P_{out}$).                                                                                                                               | Is prone to **cross-over distortion**, also known as a "dead zone". This distortion occurs because each active device only conducts for half of the signal cycle, resulting in a *brief period where neither device is fully active during the signal transition*. A transient response plot for Class B clearly illustrates this dead zone in the current waveforms, causing distortion in the output voltage. |
+    | **AB**          | The conduction angle is set **between 180° and 360°**.                                                                           | Represents a **trade-off** between efficiency and distortion. The efficiency will be less than Class B but greater than Class A.                                                                                                                                                                    | It is designed to **reduce or eliminate cross-over distortion** present in Class B amplifiers. This is achieved by allowing a small amount of current to flow even in the absence of an input signal (quiescent current), which keeps both output devices slightly "on" during the signal transitions.                                                                                                          |
+    | **C**           | The conduction angle is **less than 180°**.                                                                                      | Higher efficiency, voltage can swing up to **twice the supply voltage** thanks to the energy stored in the LC tank                                                                                                                                                                                  | **Higher distortion**                                                                                                                                                                                                                                                                                                                                                                                           |
 
     Table: Comparing Tuned Amplifiers Class
 
@@ -469,10 +469,10 @@ Here is a comprehensive response to your query, drawing on the provided sources:
     The output admittance has three terms: $Y_r, Y_L$ and $Y_C$. At resonance, $Y_L$ and $Y_C$ cancel each other out, meaning that $Y_{tot}$ is minimal, so $Z_{tot}$ is maximal and equal to $Z_r$. This way, a high gain can be achieved at high frequencies.
     Low selectivity: when $Y_r  >$ crossing point. The $Z_{tot}$ curve is flat
 
-    $$\begin{align}
+    $$\begin{aligned}
         Y_{out} &= \frac{1}{j \omega L_1} + j\omega C_1 + \frac{1}{r_{ds}}\\
         &= j\left( \frac{\omega^2 L_1 C_1 - 1}{\omega L_1} \right) + \frac{1}{r_{ds}}
-    \end{align}$$
+    \end{aligned}$$
 
     $$f_0 = \frac{1}{2 \pi \sqrt{L_1 C_1}}$$ 
 
@@ -499,3 +499,83 @@ Here is a comprehensive response to your query, drawing on the provided sources:
     ![Staggering of TA](image-13.png){ width=60% }
 
     Staggering tuned amplifiers can be used to either **increase selectivity** by placing the resonance peaks close together or to **widen the overall bandwidth** by spreading those peaks further apart. It’s actually not hard to position these peaks precisely: while a single capacitor might have around 20% tolerance, capacitors on the same chip typically match within about 1%, making it feasible to reliably place resonance peaks right next to each other.
+
+33. Charging Efficiency of a Capacitor
+
+    ![Capacitor energy flow](image-14.png){ width=70% }
+
+    Charging and discharging a capacitor using a voltage source is **inherently lossy** (but not with a current source only with a voltage source). The charging efficiency of a capacitor, $\eta_{C\_charge}$, is defined as the ratio of the energy stored in the capacitor, $E_{U_{in}\rightarrow C}$, to the total energy supplied from the input, $E_{U_{in}\rightarrow RC}$. This efficiency is **dependent on both the initial voltage across the capacitor ($U_C(0)$) and the charging time ($t$)**. The equation for charging efficiency is given by:
+
+    $$\eta_{C\_charge}(t) = \frac{E_{U_{in}\rightarrow C}(t)}{E_{U_{in}\rightarrow RC}(t)} = \frac{U_C(0) + U_{in} + (U_C(0) - U_{in})e^{-\frac{t}{RC}}}{2U_{in}}$$
+
+    Regarding energy flows during capacitor charging:
+
+    When the capacitor starts with zero voltage ($U_C(0) = 0 \text{ V}$) and is charged for a finite time ($t < \infty$), **more energy is consumed in the series resistance (R) than is stored in the capacitor (C)**.
+    *   However, if charged for an infinite time ($t = \infty$) from zero initial voltage, **as much energy is stored in the capacitor as is consumed in the resistor**. This implies a theoretical maximum efficiency of 50% for charging an uncharged capacitor to a new voltage level through a resistor in steady-state.
+    
+    If the capacitor has an initial positive voltage ($U_C(0) > 0 \text{ V}$) and is charged for a finite time ($t < \infty$), the energy consumed in the resistor can be **either higher or lower** than the energy stored in the capacitor.
+    *   If charged from an initial positive voltage for an infinite time ($t = \infty$), **more energy can be stored in the capacitor than is consumed in the resistor**.
+
+    To **maximise the charging efficiency** of a capacitor:
+    *   It is crucial to **provide sufficient settling time** ($t \gg RC$) for the capacitor to fully charge.
+    *   Ensure that the **initial voltage on the capacitor ($U_C(0)$) is close to the input voltage ($U_{in}$)**, as this reduces the amount of energy that needs to be transferred, thereby minimising losses.
+    *   The charging efficiency ($\eta_{C\_charge}$) **can only approach 100% in a steady-state condition**. This highlights the inherent challenge of achieving high efficiency when quickly changing capacitor voltages.
+
+34. Charging Efficiency of an Inductor
+
+    ![Inductance energy flow](image-15.png){ width=70% }
+
+    In contrast to capacitors, charging and discharging an inductor with a voltage source is **NOT intrinsically lossy**. The charging efficiency of an inductor, $\eta_{L\_charge}$, depends on the **initial current through the inductor ($I_L(0)$) and the charging time ($t$)**. The equations are **complex** it doesn't saturate nicely as it did for the cap !
+
+    Regarding energy flows during inductor charging:
+    *   When the charging time is relatively short ($t < 1.15 \cdot \tau_L$, where $\tau_L = L/R$ is the inductive time constant), **more energy is stored in the inductor (L) than is consumed in the series resistance (R)**.
+    *   Conversely, if the charging time is long ($t > 1.15 \cdot \tau_L$), **more energy is consumed in the resistor than is stored in the inductor**. This is because the energy consumed in the resistor continuously increases with time, while the energy stored in the inductor eventually saturates.
+
+    $$\lim_{\frac{tR}{L} \rightarrow \infty} E_{U_{in} \rightarrow L} (t) = \frac{L}{2} \left( \left( \frac{U_{in}}{R} \right)^2 - I_L (0) \right)$$
+
+    To **maximise the charging efficiency** of an inductor:
+    *   **Minimise the charge time** ($t \ll L/R$) to ensure less energy is stored per cycle, which helps reduce resistive losses.
+    *   Ensure that the **initial current ($I_L(0)$) is minimal**.
+    *   For an ideal inductor (where the series resistance $R = 0$), the charging efficiency ($\eta_{L\_charge}$) is **100% for all times ($t$)**, especially when $t \ll L/R$.
+
+    A key comparison highlights that **inductive DC-DC converters are theoretically more efficient than capacitive DC-DC converters, provided a high-quality inductor (one with low series resistance) is available**.
+
+35. Equivalent Model of an SC DC-DC Converter
+
+    ![Equivalent model](image-16.png){ width=70% }
+
+    Based on transfer function analysis, the behaviour of a simple two-phase SC DC-DC converter can be represented by an **equivalent circuit model**. This model consists of:
+    *   An **ideal transformer**: For the two-phase converter example, the **ideal Voltage Conversion Ratio (iVCR) is $\frac{1}{2}$**. This means it effectively functions as a 2:1 step-down transformer when the load resistance ($R_{load}$) is infinite. The voltage conversion ratio is given by $\frac{U_{out}}{U_{in}} = \frac{1}{2}$ when $R_{load} = \infty$.
+    *   A **series resistor** connected to the load resistance ($R_{load}$). For the two-phase converter, this equivalent series resistance is calculated as $\frac{1}{4 \cdot C_{fly} \cdot f_{sw}}$.
+
+    Therefore, the complete equivalent model is essentially an **ideal transformer followed by a resistive divider**. This model allows for the determination of the load-dependent gain factor of the converter. The output voltage ($U_{out}$) to input voltage ($U_{in}$) ratio for a non-infinite load is given by:
+    $\frac{U_{out}}{U_{in}} = \frac{1}{2} \cdot \frac{R_{load}}{R_{load} + \frac{1}{4 \cdot C_{fly} \cdot f_{sw}}}$.
+
+    The total output impedance ($R_{out}$) of the SC converter, which directly contributes to intrinsic losses, can be approximated using two primary components derived from branch analysis:
+    *   **Slow-switching approximation (RSSL)**: This component accounts for the switched-capacitor behaviour and is inversely proportional to the switching frequency ($f_{sw}$) and the flying capacitance ($C_{fly}$). In this region, $R_{out}$ decreases as $f_{sw}$ or $C_{fly}$ increases.
+    *   **Fast-switching approximation (RFSL)**: This component primarily considers resistive behaviour (e.g., the on-resistance of the switches) and is largely independent of the switching frequency. In this region, $R_{out}$ decreases with increased switch size.
+
+    The overall output impedance can be approximated as $R_{out} = \sqrt{R_{SSL}^2 + R_{FSL}^2}$. The internal power loss of the converter due to this output impedance is $P_{loss,internal} = R_{out} \cdot I_{load}^2$. To achieve a balance between reasonable regulation and minimal intrinsic losses, the switching frequency ($f_{sw}$) should be optimised to be approximately equal to $f_z$, the frequency where $R_{SSL}$ and $R_{FSL}$ intersect.
+
+36. Describe how a folding Dickson converter can be used as a wide input range converter.
+
+    ![Folding Dickson Converter](image-17.png){ width=70% }
+
+    A folding Dickson converter can be utilised as a wide input range converter primarily by changing the phase of its internal switches
+    . This modification results in different intrinsic Voltage Conversion Ratios (iVCRs). For example, a wide-range folding Dickson converter is shown to achieve iVCRs such as $1/5$ and $1/3$. This ability to alter its conversion ratio by reconfiguring its switch phases makes it a good candidate for wide-range conversion applications.
+
+37. Describe a control technique of an SC DC-DC converter.
+
+    ![Control of SC DCDC](image-18.png){ width=70% }
+
+    Capacitance modulation:
+
+    This only works in SSL. In FSL, the charge transfer is not limited by the size of the flying capacitors. The principle is the following: fragment the flying capacitors in smaller pieces. This has no influence on V_out whatsoever, but it allows the circuit to switch off certain capacitors. In an integrated circuit, fragmentation is not a problem since the area stays the same (discrete components: a lot of capacitors). By switching capacitors off, the amount of charge transferred each phase is changed. This technique is not continuous however: there is no in-between between turning a cap on/off. The switching happens when V_out crosses a certain threshold. There is less resolution (accuracy) than with continuous PWM for example. It’s easier to filter out the output voltage since f_sw is constant, so the noise spectrum is known. Switching will result in a transient ripple.
+
+    Topology reconfiguration allows for a high-level slow control of the iVCR. It does not allow fine tuning the output voltage so it should be used in combination with another modulation technique. 
+
+    Big changes can be solved by using the gearboxing technique with a couple of capacitors, small changes will be covered by the second modulation technique.
+
+    This technique allows to maintain a high efficiency for a broad range of VCR by always keeping the iVCR close to the VCR.
+
+    Not the best for regulation range and efficiency over load variation but good for noise and transient response.
