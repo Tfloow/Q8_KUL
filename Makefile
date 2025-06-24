@@ -15,6 +15,7 @@ PWD = $(shell pwd)
 	@echo "[LOG]: $@	V"
 
 all_NEW : $(SUBDIRS)
+	@echo "Finished compiling all summaries"
 
 test:	
 	@echo $(LAST_COMMIT_MESSAGE) Compiled

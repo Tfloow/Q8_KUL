@@ -1,6 +1,10 @@
 ---
 title: "DAMSIC Questions"
-author: Thomas Debelle
+author: 
+    - Thomas Debelle
+    - Sjouke Spijkerman
+    - Robin Geens
+    - Sander Crols
 geometry: margin=2cm
 papersize: a4
 date: \today
@@ -45,7 +49,7 @@ output: pdf_document
 | Q      |     page | Q      | page  |
 | :----- | -------: | :----- | :---- |
 | **14** | 35,42,45 | **15** | 53    |
-| **16** |    11,37 | **17** | 46-48 |
+| **16** | 11,37,46 | **17** | 46-48 |
 | **18** |    64-65 | **19** | 11,37 |
 | **20** |       XX |        |       |
 
@@ -93,7 +97,7 @@ output: pdf_document
 | **43** | 30-39 | **44** | XX   |
 | **45** |    XX |        |      |
 
-Used notebook LM on top of already answered questions:
+This section is based on the previous work of *Robin Geens* and *Sander Crols*. Sjouke and I added new questions and answered them partially. I used notebook LM on top of already answered questions to add more informations and verified its output.
 
 # H05E3A - Exam Questions
 
@@ -253,3 +257,79 @@ Here is a comprehensive response to your query, drawing on the provided sources:
     *   **Offset Cancellation:** A significant advantage is that **offsets are cancelled** due to the two-phase operation, as the same integrator and comparator are used for both the input signal and the reference current. This is an example of a "zero-crossing method" where linearity is primarily required around the zero level.
     *   **Linearity:** Linearity is only required around the zero level for the comparison, as the unknown signal is determined by comparing it to an equivalent signal from the DAC.
 
+14. Why are 1st order or higher-order single-loop sigma-delta topologies not advised?
+
+    Higher order loops are not inherently stable. Every low pass filter adds a ninety-degree phase shift which means that anything above second order can become unstable. Need a precise $b_1$ to counter balance and stabilize the loop.
+
+    ![Second order issue](image-4.png){ width=75% }
+
+    Stability can be shown with the limit cycle and we see that it shouldn't spiral out. If it spirals out, it will get limited by PSS and so create **distortion**.
+    
+    In the derivation of the sigma delta converter, we assumed a white noise distribution. This assumption is not correct for first order $\Sigma - \Delta$ converters. There is a lot of clicking and **pattern noise** because of deterministic quantization noise. This creates a **dead zone** in the DC function that spans 2 - 3 bits. Noise shaping doesn't work anymore
+
+    In higher order topologies, the intermediate signals must become smaller to limit signal swing after the next integrator. This means that the SNR ratio is inherently reduced. (not a problem in feedforward topologies) Furthermore, higher order topologies are unstable for certain combinations of filter coefficients. This makes the implementation very difficult. Truly dependent of the implementation and precision of the weights.
+
+    If there is an interest in increasing the order of a $\Sigma - \Delta$ converter, MASH converters are advised that cascade multiple lower order modulators and will decorrelate noise from its signal without becoming more unstable(n 1st order loops, instead of 1 n^th order loop)
+
+
+15. Explain the principle of data-weighted averaging.
+
+    **Data-Weighted Averaging (DWA)** is a noise shaping technique used in oversampling applications. Its main idea is to **modulate the error**. In a multi-bit Digital-to-Analog Converter (DAC) within the feedback path of a Delta-Sigma converter, mismatch between DAC elements can generate non-linearity errors.
+
+    While simple offset errors can be easily "chopped" (a modulation technique) and filtered by the zeros in the decimation filter, the errors caused by mismatch in multi-bit DACs are signal-dependent, leading to distortion. DWA addresses this problem by making these signal-dependent errors **noise-like**, allowing the oversampling process to filter them off.
+
+    DWA will cycle through the cells and so will smooth out the error, it will transform the distortion into an equivalent white noise pattern. It is the same idea as for SD
+
+16. Discuss the advantages and disadvantages of single-bit and multi-bit sigma-delta converters.
+
+    Using a higher order (stability problems with classical topology so use cascade) or using multi-bit DACs in the feedback path. 
+
+    **Single-bit Sigma-Delta Converters:**
+    *   **Advantage:** A 1-bit DAC (Digital-to-Analog Converter) is **inherently linear**. This eliminates non-linearity errors that can arise from element mismatch in multi-bit DACs in the feedback path.
+
+    **Multi-bit Sigma-Delta Converters:**
+    *   **Advantages:**  indicating high performance in these areas, especially compared to "Single Loop" and "Cascade". Multi-bit converters, particularly Delta-Sigma converters with low Over-Sampling Ratio (OSR), are considered suitable for "High-Resolution High-Speed AD converters".
+    *   **Disadvantage:** The main problem with multi-bit Delta-Sigma converters is the **linearity of the multi-bit DAC in the feedback path**. Mismatch between the individual DAC elements will generate non-linearity errors. Techniques like Data-Weighted Averaging (DWA) are employed to mitigate this issue by making the signal-dependent error noise-like so it can be filtered out by oversampling. Typically we need a DAC in the return which was not needed in 1-bit ADC !
+    *   **Solutions:** can use chopping, dynamic element matching. Offset is okay if we can one time add it then remove it so on average it is null and can be seen as a noise that the OSR nature of SD will take care of.
+
+17. Explain limit cycles in delta-sigma converters. Why do we need them but why do we want them to be random?
+
+    *   **The problem:** If there is **no noise** and the input signal to a Delta-Sigma converter is a "static" or near-DC signal, the "white noise approximation" for quantization does not hold up, and oversampling alone does not help in noise reduction. In such cases, the quantization error might become correlated with the input, leading to **predictable, undesired tones or patterns in the output spectrum** instead of spread-out noise. This is what is typically referred to as **limit cycles or idle tones**. Also they should be stable and non-repetitive to avoid distortion.
+
+    *   **The solution/why we want them random:** If they are not random, they will lead to a 2-3 bits LSB blindness. To overcome this limitation, the system needs to "store the error and add it to the previous sample". More broadly, the idea is to ensure that the quantization error is random and wideband, so it can be shaped and filtered.
+
+18. Describe CIC decimation filters and their latency when used in an incremental converter.
+
+    A CIC (Cascaded Integrator-Comb) filter is a simple (only additions/subtractions!) and efficient decimation filter used in SD converters. It consists of integrator stages followed by comb (differentiator) stages and acts like a low-pass sinc filter to remove out-of-band quantization noise while reducing the sample rate.
+    $$T_{\text{avg}} = \left( \frac{1}{M} \frac{1 - z^{-M}}{1 - z^{-1}} \right)^{n} \\ = \frac{1}{M} \left( \frac{1}{1 - z^{-1}} \right)^{n} \left( \frac{1 - z^{-M}}{1} \right)^{n}$$
+
+    ![CIC filter](image-5.png){ width=75% }
+    
+    In incremental sigma-delta converters, which operate over short measurement windows, CIC filters are still used for decimation, but their latency matters. The output becomes valid only after the full integration and comb operation is complete, resulting in a latency of roughly
+    $$ (n+2) \cdot OSR \cdot 2\cdot  T_s=latency \quad [time]$$
+    
+    Where n is the number of stages. The factor 2 comes from one cycle for integration, and one cycle for differentiation. Per sample an integration and decimation is needed. It is based on the sinc function which in frequency domain is an ideal brick wall filter. The idea is to combinate integrator and differentiator.
+
+
+19.  What is the advantage of oversampling sigma-delta techniques for the design of the anti-alias filters? What is the difference between discrete and continuous time DS converters?
+
+* **Advantage of oversampling for anti-alias filters:** In Delta-Sigma converters, **oversampling** is a fundamental principle that allows the quantization noise to be spread over a wider frequency band. This noise is then shaped, meaning it's pushed out of the desired signal band. The "loop filter" within the Delta-Sigma modulator helps in this noise shaping. As a result, the demanding requirements on the **anti-alias filter** are relaxed. For example, a **continuous-time Delta-Sigma converter itself can function as an anti-alias filter**, which also helps in saving power. This is because the oversampling and noise shaping inherently provide significant attenuation for out-of-band signals, reducing the need for a steep, high-order external analog anti-alias filter.
+
+    When no oversampling is used, the input signal should not have frequencies larger than $f_s/2$. Otherwise, the higher frequency components will be folded on top of the lower ones when the signal is sampled, which results in aliasing. This LPF should ideally be a perfect brick-wall filter with a cutoff frequency of $f_s/2$. This is not possible to realize in practice. 
+
+    With an oversampling converter, the sampling happens at a higher frequency than the Nyquist frequency. Frequency components (a bit) higher than Nyquist frequency will not result in aliasing. This relaxes the requirements of the analog low-pass filter while spreading out the noise quantity. The converted digital signal will be down sampled to return to the Nyquist frequency, and this might result in aliasing if the signal is not properly filtered first. But this filtering operation can be done in the digital domain, which is easier.
+
+    In continuous-time converters, the loop filter runs continuously using resistors, capacitors, and amplifiers. This gives a natural anti-aliasing effect without extra filtering stages and saves power, but comes with drawbacks: it’s more sensitive to clock jitter, component variation (like resistor mismatch), and offers less flexibility for tuning or reconfiguration.
+
+    *   **Difference between discrete and continuous time DS converters:**
+        *   The sources implicitly differentiate between discrete and continuous-time Delta-Sigma (DS) converters.
+        *   A **continuous-time Delta-Sigma converter** has the advantage that its loop filter **can also function as an anti-alias filter**, potentially saving power. However, it is susceptible to clock jitter, which can add noise, and the use of resistors for feedback (to combat jitter) can lead to wide variations over different process corners and a less **flexible architecture**.
+        * **CHECK LECTURE CAUSE I AM PRETTY SURE HE SAID SOMETHING**
+
+20. What happens if, instead of a lowpass filter, a bandpass filter is used as noise shaping filter in a sigma-delta ADC?
+    
+    If a **bandpass filter** is used as the noise shaping filter (also referred to as the "loop filter") in a Delta-Sigma ADC, the system becomes a **bandpass delta-sigma converter**. This means that instead of pushing the quantization noise to high frequencies (as a low-pass noise shaping filter does), the noise is shaped and moved away from a specific central frequency band, concentrating the signal within that band. An advantage of this approach is that **demodulation can be done directly on the bitstream in the digital domain** using simple operations like multiplication by +1 or -1. This implies that a bandpass Delta-Sigma ADC is suitable for signals that are already modulated around a carrier frequency, removing the need for a separate mixer.
+
+    ![Band pass](image-6.png){ width=75% }
+
+    
