@@ -446,3 +446,56 @@ Here is a comprehensive response to your query, drawing on the provided sources:
     Need a small R switch for a fast discharging! Add hysterisis to avoid a small variation around $V_{ref}$ would be problematic otherwise. Make circuit differential to help it. Steeper is the curve less noise so less jitter sensitive it is.
 
     Where R is set by the transistor. If the current in the transistor remains very constant, the frequency will stay constant. The parasitic $C_{drain}$ will prolong the loading time of the relaxation oscillator when in parallel with $C_{osc}$. This will cause a longer waiting period in a differential topology and therefore will either increase or decrease the duty cycle in a constant manner.
+
+29. What is a conduction angle? Make a connection between efficiency and distortion for all classes of power amplifiers seen in the course.
+
+    A **conduction angle** is a metric that describes the fraction of a period during which an active device in a power amplifier conducts current. It is expressed as an angle, where a full period of conduction corresponds to a 360° conduction angle.
+
+
+    | Power Amplifier Class | Conduction Angle                                                                                                                 | Efficiency                                                                                                                                                                                                                                                                                          | Distortion                                                                                                                                                                                                                                                                                                                                                                                                      |
+    | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | **Class A**           | Conducts for a **full period**, equating to a **360°** conduction angle.                                                         | Efficiency is theoretically limited to $\le$ **50%**, with normal operating efficiency typically $\le$ **25%**. This is due to its linear topology. A characteristic is that the bias current ($I_B$) is often much greater than the maximum load current ($I_{max}$), leading to lower efficiency. | **Can** exhibit **distortion** when the MOSFET is pushed into different operating regions, especially with limited gain. The continuous conduction (as seen in its output voltage (V) and current (uA) waveforms) does not inherently prevent distortion if the operating point is not carefully managed. On average, has **low distortion**.                                                                   |
+    | **Class B**           | Conducts for **half of the period**, specifically a **180°** conduction angle. Ideally, there is no DC bias current ($I_B = 0$). | Has a maximum theoretical efficiency of **$\pi/4$**, which is approximately **78%**. This class often uses push-pull topologies to increase output power ($P_{out}$).                                                                                                                               | Is prone to **cross-over distortion**, also known as a "dead zone". This distortion occurs because each active device only conducts for half of the signal cycle, resulting in a *brief period where neither device is fully active during the signal transition*. A transient response plot for Class B clearly illustrates this dead zone in the current waveforms, causing distortion in the output voltage. |
+    | **Class AB**          | The conduction angle is set **between 180° and 360°**.                                                                           | Represents a **trade-off** between efficiency and distortion. The efficiency will be less than Class B but greater than Class A.                                                                                                                                                                    | It is designed to **reduce or eliminate cross-over distortion** present in Class B amplifiers. This is achieved by allowing a small amount of current to flow even in the absence of an input signal (quiescent current), which keeps both output devices slightly "on" during the signal transitions.                                                                                                          |
+    | **Class C**           | The conduction angle is **less than 180°**.                                                                                      | Higher efficiency, voltage can swing up to **twice the supply voltage** thanks to the energy stored in the LC tank                                                                                                                                                                                  | **Higher distortion**                                                                                                                                                                                                                                                                                                                                                                                           |
+
+    Table: Comparing Tuned Amplifiers Class
+
+
+30. Discuss the impedance at resonance, the gain of the amplifier at resonance, and the bandwidth of an amplifier loaded with a parallel RLC network.
+
+    ![Set-up for parallel RLC tank](image-11.png){ width=60% }
+
+    The output admittance has three terms: $Y_r, Y_L$ and $Y_C$. At resonance, $Y_L$ and $Y_C$ cancel each other out, meaning that $Y_{tot}$ is minimal, so $Z_{tot}$ is maximal and equal to $Z_r$. This way, a high gain can be achieved at high frequencies.
+    Low selectivity: when $Y_r  >$ crossing point. The $Z_{tot}$ curve is flat
+
+    $$\begin{align}
+        Y_{out} &= \frac{1}{j \omega L_1} + j\omega C_1 + \frac{1}{r_{ds}}\\
+        &= j\left( \frac{\omega^2 L_1 C_1 - 1}{\omega L_1} \right) + \frac{1}{r_{ds}}
+    \end{align}$$
+
+    $$f_0 = \frac{1}{2 \pi \sqrt{L_1 C_1}}$$ 
+
+    Gain will be maximal since $Y$ is minimal at $A_v = -g_m r_{ds}$. Reducing this $r_{ds}$ will result to higher selectivity. 
+
+    Critically damped: when $Y_r =$ crossing point
+
+    High selectivity: $Y_r <$ crossing point. 
+    The bandwidth is a measure of selectivity and is characterized by $Q$-factor (depends on resonance frequency). This has an importance in telecom applications, where high selectivity is required to select the proper channel. A low Q factor will result into a large BW.
+    $$Q = R \sqrt{\frac{C}{L}}$$
+
+
+31. Explain how a high gain can be obtained with a class-A amplifier with a series RLC network as a load.
+
+    At DC, the amplifier behaves as a regular class-A amplifier since L and C are open. At high frequencies, L and C are shorted. At resonance, $Z_L$ will cancel out $Z_C$. The gain at resonance frequency equals $-g_m*R*Q$ which can be higher than the DC gain, due to the resonance peaking. 
+    This amplifier is a good candidate for low noise amplifiers because C and L are noiseless components.
+    $$Q = \frac{1}{R \sqrt{ \frac{C}{L} }}$$
+
+    ![RLC network of class A amplifier](image-12.png){ width=60% }
+
+
+32. Discuss two ways staggering of tuned amplifiers can be used.
+
+    ![Staggering of TA](image-13.png){ width=60% }
+
+    Staggering tuned amplifiers can be used to either **increase selectivity** by placing the resonance peaks close together or to **widen the overall bandwidth** by spreading those peaks further apart. It’s actually not hard to position these peaks precisely: while a single capacitor might have around 20% tolerance, capacitors on the same chip typically match within about 1%, making it feasible to reliably place resonance peaks right next to each other.
