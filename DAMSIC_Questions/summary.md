@@ -668,3 +668,64 @@ Current-mode drivers are simple and robust but not power efficient while voltage
     * Differential voltage-mode drivers achieve the best efficiency, consuming only $0.25x$ the normalised current ($V_{in,RX,pp}/(4 \cdot Z_L)$).
 
 ![Differential Voltage-Mode Driver](image-19.png){ width=75% }
+
+## Behavior and Important Parameters of a Silicon Photodiode
+
+A **silicon photodiode** is a crucial component in optical receivers, responsible for converting incoming light (photons) into an electrical current (electron-hole pairs).
+
+**Behaviour:**
+*   When photons strike the photodiode, they generate electron-hole pairs.
+*   These light-generated electron-hole pairs are then **separated by the electric field within the depletion region** of the photodiode. This separation leads to the generation of current.
+*   To ensure efficient and fast operation, a **wide depletion region is required**. This promotes charge carriers to move via **drift** (which is fast) rather than **diffusion** (which is slow), and also minimises recombination, leading to a larger response. A wide depletion region also contributes to a low depletion layer capacitance.
+*   Conventional **CMOS photodiodes** are often slow, with their photocurrent primarily dominated by the slow diffusion of electrons in the substrate, typically resulting in a -3dB frequency of around 10 MHz.
+*   To enhance speed in CMOS photodiodes:
+    *   A **Differential CMOS Photodiode** can be used. This design employs a pattern of illuminated and non-illuminated junctions. If the repetition length (`wp`) is sufficiently small, deeply generated electrons diffuse evenly towards both types of junctions. The resulting *difference current* then **does not contain the effect of these slow (deep) electrons**, leading to a significantly higher -3dB frequency, potentially exceeding 1 GHz. A notable disadvantage is that 50% of the light is reflected.
+    *   A **Speed-Enhanced CMOS Photodiode** introduces an electric field in the substrate by applying a voltage difference between two substrate contacts. This field actively **drains slow electrons from deep within the substrate**, improving speed. This technique allows for a trade-off between speed and current amplitude and avoids the 50% light reflection issue encountered with differential photodiodes.
+
+**Important Parameters:**
+*   **Responsivity ('gain')**: This parameter quantifies the efficiency of the photodiode in converting optical power into electrical current.
+*   **Conversion (optical) bandwidth**: This defines the range of optical frequencies over which the photodiode can effectively operate and convert light to electrical signals.
+*   **Parasitic capacitance (electrical bandwidth)**: The inherent capacitance of the photodiode junction limits its electrical bandwidth. A lower parasitic capacitance generally leads to higher speed.
+*   **Optimal Wavelength**: For silicon photodiodes, **850 nm** is considered the optimal trade-off wavelength. At shorter wavelengths, the absorption coefficient is larger, but there are fewer photons per Watt. At longer wavelengths, the absorption coefficient is smaller, but there are more photons per Watt.
+*   **Optical Transmission Coefficient**: For integrated photodiodes, light must pass through a **dielectric stack** before reaching the silicon substrate. The fraction of impinging photons reaching the substrate, known as the optical transmission coefficient ($T = 1 - |\Gamma_{1,n}|^2$, where $\Gamma$ is the reflection coefficient between layers), is critical. This coefficient is highly dependent on:
+    *   The **wavelength** of the light.
+    *   The **number of dielectric layers**.
+    *   The **thickness of the dielectric layers**.
+    *   The **dielectric constants** of these layers.
+    *   This dependency can introduce **uncertainty at the design stage**.
+
+## Noise Optimum in the Design of a Shunt-Shunt Feedback TIA
+
+![Shunt-Shunt Feedback TIA](image-20.png){ width=65% }
+
+The **noise optimum** in the design of a shunt-shunt feedback TIA involves balancing various parameters to minimise the overall input-referred noise, $C_{gs,M1}$ too low and Amplifier noise is dominant and if too large, $R_{TIA}$ noise dominant:
+
+*   **Input transistor noise reduction**: The noise from the input transistor can be reduced by **increasing its transconductance (gm,M1)**.
+*   **TIA noise dependence on input capacitance**: The TIA noise generally **reduces as the input capacitance (Cin) increases**, as long as Cin is predominantly determined by the photodiode capacitance (Cpd).
+*   **Impact of amplifier input capacitance**: However, if Cin becomes dominated by the amplifier's input capacitance (Cin,A), then **increasing Cin will lead to an increase in TIA noise**. This is because to maintain the desired TIA bandwidth (BWTIA), the **feedback resistor (RTIA) would need to be decreased, which can worsen the noise performance**.
+*   **Optimal Gate-Source Capacitance (Cgs,M1)**: For best noise performance, the gate-source capacitance of the input transistor (Cgs,M1) should typically be designed to be **0.4 to 0.6 times the photodiode capacitance (Cpd)**. This relationship is derived from the interplay between the input transistor's transconductance and its parasitic capacitances, which both contribute to the overall noise characteristics.
+
+In a shunt–shunt feedback TIA, the closed‐loop bandwidth is fixed by the relation
+
+$$f_{BW}=1/(2\pi R_F C_{in} )$$
+
+where Cin=Cpd+Cin,AMP. If one enlarges the input transistor to reduce its intrinsic current noise, the amplifier’s input capacitance Cin,AMP  increases, and in order to keep $f_{BW}$ constant one must reduce the feedback resistor according to:
+
+$$R_F=1/(2\pi C_{in} f_{BW} )$$
+
+However, the thermal noise current density of $R_F$ is
+
+$$i_{(n,R_F)}^2=4kT/R_F $$
+
+so reducing R_F forces 4kT/R_F to increase. As a result, beyond a certain transistor size the reduction in amplifier‐device noise is offset by the rise in resistor noise required to maintain bandwidth. At the noise‐optimum point, the resistor’s integrated Johnson noise becomes comparable to the transistor’s own noise contribution; any further increase in device size would only increase total input‐referred noise because the feedback resistor must shrink and its noise dominates.
+
+
+## Techniques to Extend the Bandwidth of a TIA
+
+*   **Self-Compensated TIA**:
+    *   This technique is designed such that the **transimpedance feedback resistor (RTIA) does not determine the bandwidth** of the TIA. This independence allows for extending the bandwidth beyond the typical RC-limited bandwidth of a simple TIA.
+    *   The bandwidth (BWSCTIA) can be expressed as $1 / (2\pi Rout,B * Cpd)$ if the gain 'B' of the second amplifier is unity.
+    *   A major drawback is that the second amplifier ('B') **adds significant noise and consumes considerable power**.
+    *   Furthermore, this architecture is **not suitable for CMOS photodiodes where the anode is inaccessible**.
+
+A technique for this is self-compensation. In this approach, the virtual ground of the shunt–shunt TIA is actively fed back to the bottom plate of Cpd, minimizing voltage variation across it. As a result, little to no current flows through the capacitor, and nearly all photocurrent is directed into the amplifier input, significantly improving bandwidth. This bootstrapping action effectively suppresses the photodiode capacitance’s influence on the input pole. However, if the bootstrapping amplifier’s gain slightly exceeds unity, the loop can become unstable, so precise gain control and careful stability analysis are essential for robust operation.
