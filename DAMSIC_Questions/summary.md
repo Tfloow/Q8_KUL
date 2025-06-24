@@ -364,3 +364,65 @@ Here is a comprehensive response to your query, drawing on the provided sources:
 
     In summary, bandgap voltage references leverage a fundamental and stable physical property of silicon, making them inherently more accurate. Current references, however, are typically *derived* from a voltage reference and a resistor, introducing additional dependencies and potential inaccuracies from the resistor's characteristics.
 
+23. **Why do we need an amplitude control loop in the design of a Xtal oscillator?**
+
+    An amplitude control loop is crucial in the design of a Crystal (Xtal) oscillator due to significant variations that can occur during the production process. When designing a Xtal oscillator under nominal conditions, there can be **huge variations in production**, specifically:
+    *   +/- 20% in capacitance.
+    *   +/- 20% in transconductance (gm).
+
+    These production variations can lead to several problematic conditions for the oscillator:
+    *   The oscillator may **fail to start up**.
+    *   The **drive power might exceed the rated limits of the crystal**, potentially causing lifetime issues for the crystal.
+
+    To mitigate these issues, especially when considering performance variations "over corners" (referring to different operating conditions and manufacturing variations), an amplitude control loop must be implemented. This ensures that the **amplitude is regulated**, preventing excessive power consumption and crystal damage while guaranteeing reliable startup. Without it, if the transconductance (gm) is too high (gm > gm_opt), more power is consumed to compensate for Rs, and if gm exceeds a certain critical value (gm > gmA), the amplitude will grow until the average gm drops back to gmA, which can lead to **distortion due to non-linear behavior**.
+
+24. **Describe the design of a Pierce oscillator.**
+
+    The sources outline key considerations for designing a **Crystal (Xtal) oscillator**, which commonly refers to a Pierce oscillator configuration, as indicated by the typical circuit diagram. The design process involves balancing several factors to ensure stable oscillation and desired performance.
+
+    **Key design parameters and considerations:**
+    *   **Crystal parameters:** Start with the specific parameters of the crystal, including its series resonance frequency (fs), parallel resonance frequency (fp), series resistance (Rs), and parallel capacitance (Cp).
+    *   **Capacitor selection:**
+        *   **C3:** This capacitor should be chosen to be greater than the crystal's parallel capacitance (Cp), approximately 1 pF higher, to accommodate parasitic capacitances.
+        *   **C1 and C2:** These capacitors should be significantly larger than C3 (C1, C2 >> C3) to achieve a **low pulling factor**. The pulling factor determines how much the oscillation frequency can be shifted by varying the load capacitance. However, there's a trade-off: larger C1 and C2 also lead to higher drive power, so their values must be limited. It's also important to account for parasitic capacitances from external pins, which can be at least 10 pF.
+    *   **Resonance type:** The goal is to achieve **series resonance**.
+    *   **Transconductance (gm):**
+        *   Calculate the **minimum required gm (gmA), also referred to as gm_crit**, to ensure oscillation. If gm is less than gmA, no oscillation will occur.
+        *   For reliable startup margin, it is recommended to use a gm value that is **10 times gmA**.
+    *   **Bias and Amplitude:**
+        *   **Vgs-VT:** This voltage is determined based on the acceptable distortion, phase noise (lower swing typically increases phase noise due to the post-amplifier), and the desired drive level.
+        *   **Ibias:** Calculate the bias current based on the chosen Vgs-VT.
+        *   **Amplitude Control Loop:** As discussed previously, an amplitude control loop is essential to manage maximum power levels across different manufacturing corners, preventing crystal damage and ensuring consistent operation.
+
+25. **How to create a ring oscillator with a quadrature output?**
+
+    A standard ring oscillator typically consists of an odd number of inverters connected in a loop, which produces a single oscillating output. To create a ring oscillator with a **quadrature output (90-degree phase difference)**, the sources indicate using **differential amplifiers** instead of simple inverters.
+
+    Here's how it works:
+    *   Instead of standard inverters, use **differential inverting amplifiers** as the stages of the ring oscillator.
+    *   By **cross-coupling** the outputs from one stage to the inputs of a subsequent stage in a specific way, it becomes possible to use an **even number of amplifier stages**. This setup inherently allows for the generation of signals that are 90 degrees out of phase, thus providing quadrature outputs.
+    *   Differential inverting amplifiers also offer advantages such as **high Power Supply Rejection Ratio (PSRR)** and **high Common Mode Rejection Ratio (CMRR)**. Using amplifiers with **low gain can help to smoothen the edges of the output signal, leading to lower distortion**.
+
+26. **Why doesn’t the noise of the VCO contribute to the output phase noise at low offset? Can you make a connection with other parts of the course?**
+
+    In a Phase-Locked Loop (PLL) system, the Voltage Controlled Oscillator (VCO) noise does not significantly contribute to the output phase noise at low offset frequencies *within the loop bandwidth* because of the **filtering action of the PLL's loop filter**.
+
+    A PLL typically consists of a Phase Detector, a Charge Pump, a Loop Filter, and a VCO. The loop filter, often incorporating a charge pump and a capacitor, provides an integrating function (1/s). When combined with the integrating characteristic of the VCO itself (which translates a control voltage into a frequency, and thus integrates frequency deviations to produce phase, leading to another 1/s in the phase domain), the overall open-loop transfer function can have an s-squared term (1/s^2), which is important for stability.
+
+    The **loop bandwidth** (e.g., 35 kHz for an integrated loop filter) defines the range of frequencies over which the PLL effectively tracks the reference signal. Inside this bandwidth, the loop acts as a **low-pass filter for the reference noise** and a **high-pass filter for the VCO's intrinsic noise**. Therefore, at low offset frequencies (i.e., within the loop bandwidth), the **phase noise of the reference signal** dominates the output phase noise, while the **VCO's own noise is suppressed** by the feedback action. Conversely, outside the loop bandwidth, the VCO's noise contributions become more significant because the loop can no longer track and suppress them effectively.
+
+    Connecting this to general course concepts, this phenomenon is a direct application of **feedback control theory** and **noise shaping in closed-loop systems**. The loop filter's design (e.g., using an R-C network, although the source notes "problem of noise!" with simple R-C) dictates the loop's bandwidth and its ability to suppress in-band noise from the VCO while maintaining stability and tracking the reference. The concept of how a feedback loop's bandwidth determines which noise sources dominate at different offset frequencies is fundamental in control systems and signal processing, ensuring that the output frequency precisely follows the reference frequency and that internal noise is attenuated within the desired band.
+
+27. **Explain the operating principle of a fractional-N PLL.**
+
+    The provided sources discuss various components of a Phase-Locked Loop (PLL), such as the phase detector, charge pump, loop filter, and Voltage Controlled Oscillator (VCO). It also mentions the need for adaptive frequencies in real systems through tuning, calibration, and clock recovery, where a VCO serves as the basic building block of a PLL.
+
+    However, the sources **do not contain any information or explanation regarding the specific operating principle of a fractional-N PLL**. They describe general PLL components and their roles but do not delve into the fractional-N architecture or its mechanism for achieving non-integer frequency division ratios.
+
+28. **Discuss the sizing of the biasing transistors in a relaxation oscillator. Explain why a capacitor at the drain of the bias transistor can degrade the duty cycle.**
+
+    Regarding the sizing of biasing transistors in a relaxation oscillator, the sources **do not provide specific details on how to size the biasing transistors in a relaxation oscillator**. While discussions on `Ibias` and `VGS - VT` are present in the context of a Pierce (crystal) oscillator, outlining their impact on transconductance (`gm`) and ensuring startup margin, this information is not directly translatable to the specific design considerations for biasing transistors within a relaxation oscillator, nor does it detail sizing methodologies for such. The sources only mention that "Relaxation oscillators have too much phase noise", but do not delve into their architectural design or component sizing.
+
+    Concerning why a capacitor at the drain of the bias transistor can degrade the duty cycle:
+    The sources indicate a general relationship in oscillators where a **high oscillation amplitude can lead to distortion**, and this distortion, in turn, can result in a **non-50% duty cycle**. While the sources do not explicitly detail the specific mechanism by which a capacitor at the drain of a bias transistor in a relaxation oscillator causes this degradation, they do establish the link that **excessive amplitude (potentially influenced by circuit components like capacitors or biasing arrangements) directly contributes to waveform distortion, which deviates the duty cycle from its ideal 50% value**. A well-designed oscillator aims for a specific amplitude to balance desired signal integrity with power consumption and phase noise. If the presence or value of a capacitor at the drain of a bias transistor contributes to an uncontrolled or excessively high oscillation amplitude, this can lead to the observed duty cycle degradation due to the resultant non-linear operation of the oscillator circuit. For instance, if the current is too high in a circuit, it can lead to higher distortion in the output waveform.
+    
