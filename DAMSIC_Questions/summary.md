@@ -61,11 +61,11 @@ output: pdf_document
 
 ## Oscillator
 
-| Q      | page | Q      | page |
-| :----- | ---: | :----- | :--- |
-| **23** |   XX | **24** | 44   |
-| **25** |   XX | **26** | XX   |
-| **27** |   28 | **28** | 45   |
+| Q      |  page | Q      | page |
+| :----- | ----: | :----- | :--- |
+| **23** | 41-43 | **24** | 43   |
+| **25** |    62 | **26** | 81   |
+| **27** |    80 | **28** | 45   |
 
 ## Tuned Amplifiers
 
@@ -380,28 +380,32 @@ Here is a comprehensive response to your query, drawing on the provided sources:
 
     The sources outline key considerations for designing a **Crystal (Xtal) oscillator**, which commonly refers to a Pierce oscillator configuration, as indicated by the typical circuit diagram. The design process involves balancing several factors to ensure stable oscillation and desired performance.
 
+    A Pierce oscillator, unlike a Colpitts or Santos oscillator, has its reference compared to GND. One great advantage of a Pierce oscillator is that its easily replaceable in case of defect. 
+
     **Key design parameters and considerations:**
     *   **Crystal parameters:** Start with the specific parameters of the crystal, including its series resonance frequency (fs), parallel resonance frequency (fp), series resistance (Rs), and parallel capacitance (Cp).
     *   **Capacitor selection:**
         *   **C3:** This capacitor should be chosen to be greater than the crystal's parallel capacitance (Cp), approximately 1 pF higher, to accommodate parasitic capacitances.
-        *   **C1 and C2:** These capacitors should be significantly larger than C3 (C1, C2 >> C3) to achieve a **low pulling factor**. The pulling factor determines how much the oscillation frequency can be shifted by varying the load capacitance. However, there's a trade-off: larger C1 and C2 also lead to higher drive power, so their values must be limited. It's also important to account for parasitic capacitances from external pins, which can be at least 10 pF.
+        *   **C1 and C2:** These capacitors should be larger than C3 (C1, C2 > C3) to achieve a **low pulling factor**. The pulling factor determines how much the oscillation frequency can be shifted by varying the load capacitance. However, there's a trade-off: larger C1 and C2 also lead to higher drive power, so their values must be limited. It's also important to account for parasitic capacitances from external pins, which can be at least 10 pF.
     *   **Resonance type:** The goal is to achieve **series resonance**.
     *   **Transconductance (gm):**
         *   Calculate the **minimum required gm (gmA), also referred to as gm_crit**, to ensure oscillation. If gm is less than gmA, no oscillation will occur.
-        *   For reliable startup margin, it is recommended to use a gm value that is **10 times gmA**.
+        *   For reliable startup margin, it is recommended to use a gm value that is **10 times gmA**. It will make the Xtal start at the left side up of the circle.
     *   **Bias and Amplitude:**
-        *   **Vgs-VT:** This voltage is determined based on the acceptable distortion, phase noise (lower swing typically increases phase noise due to the post-amplifier), and the desired drive level.
+        *   **Vgs-VT:** This voltage is determined based on the acceptable distortion, phase noise (lower swing typically increases phase noise due to the post-amplifier but less distortion), and the desired drive level.
         *   **Ibias:** Calculate the bias current based on the chosen Vgs-VT.
-        *   **Amplitude Control Loop:** As discussed previously, an amplitude control loop is essential to manage maximum power levels across different manufacturing corners, preventing crystal damage and ensuring consistent operation.
+        *   **Amplitude Control Loop:** add it if missing specs in one of the corners.
 
 25. **How to create a ring oscillator with a quadrature output?**
 
-    A standard ring oscillator typically consists of an odd number of inverters connected in a loop, which produces a single oscillating output. To create a ring oscillator with a **quadrature output (90-degree phase difference)**, the sources indicate using **differential amplifiers** instead of simple inverters.
+    A standard ring oscillator typically consists of an odd number of inverters connected in a loop, which produces a single oscillating output. To create a ring oscillator with a **quadrature output (90-degree phase difference)**, use **differential amplifiers** instead of simple inverters.
 
     Here's how it works:
     *   Instead of standard inverters, use **differential inverting amplifiers** as the stages of the ring oscillator.
     *   By **cross-coupling** the outputs from one stage to the inputs of a subsequent stage in a specific way, it becomes possible to use an **even number of amplifier stages**. This setup inherently allows for the generation of signals that are 90 degrees out of phase, thus providing quadrature outputs.
-    *   Differential inverting amplifiers also offer advantages such as **high Power Supply Rejection Ratio (PSRR)** and **high Common Mode Rejection Ratio (CMRR)**. Using amplifiers with **low gain can help to smoothen the edges of the output signal, leading to lower distortion**.
+    *   Differential inverting amplifiers also offer advantages such as **high Power Supply Rejection Ratio (PSRR)** and **high Common Mode Rejection Ratio (CMRR)**. Using amplifiers with **low gain can help to smoothen the edges of the output signal, leading to lower distortion**. We must use the **Maneatis cell** with $A= \frac{g_{m,n}}{g_{m,p}}$.
+  
+    ![Quadrature](image-9.png){ width=50% }
 
 26. **Why doesn’t the noise of the VCO contribute to the output phase noise at low offset? Can you make a connection with other parts of the course?**
 
@@ -411,18 +415,34 @@ Here is a comprehensive response to your query, drawing on the provided sources:
 
     The **loop bandwidth** (e.g., 35 kHz for an integrated loop filter) defines the range of frequencies over which the PLL effectively tracks the reference signal. Inside this bandwidth, the loop acts as a **low-pass filter for the reference noise** and a **high-pass filter for the VCO's intrinsic noise**. Therefore, at low offset frequencies (i.e., within the loop bandwidth), the **phase noise of the reference signal** dominates the output phase noise, while the **VCO's own noise is suppressed** by the feedback action. Conversely, outside the loop bandwidth, the VCO's noise contributions become more significant because the loop can no longer track and suppress them effectively.
 
-    Connecting this to general course concepts, this phenomenon is a direct application of **feedback control theory** and **noise shaping in closed-loop systems**. The loop filter's design (e.g., using an R-C network, although the source notes "problem of noise!" with simple R-C) dictates the loop's bandwidth and its ability to suppress in-band noise from the VCO while maintaining stability and tracking the reference. The concept of how a feedback loop's bandwidth determines which noise sources dominate at different offset frequencies is fundamental in control systems and signal processing, ensuring that the output frequency precisely follows the reference frequency and that internal noise is attenuated within the desired band.
+    Inside a PLL’s loop bandwidth, any VCO phase jitter is fed back and corrected against the clean reference, so it never makes it to the output at small offsets. It’s exactly the same concept as in a sigma-delta converter’s feedback loop: the loop filter suppresses (or “shapes away”) the VCO’s low-frequency noise, just as a $\Sigma - \Delta$ loop pushes quantization noise out of the signal band. In both cases, the feedback action thwarts the oscillator’s own noise where it matters most
 
 27. **Explain the operating principle of a fractional-N PLL.**
 
-    The provided sources discuss various components of a Phase-Locked Loop (PLL), such as the phase detector, charge pump, loop filter, and Voltage Controlled Oscillator (VCO). It also mentions the need for adaptive frequencies in real systems through tuning, calibration, and clock recovery, where a VCO serves as the basic building block of a PLL.
+    The prescaler is a digital building block, which makes it very accurate. The prescaler divides the frequency of the VCO, which means that the PLL can work at a higher frequency while being able to generate low frequencies needed for the application (eg the GSM spacing of 200kHz). This way, the LPF does not need to have an extremely low 3dB-point. A simple register is a prescaler that divides everything by 2. But, we can make some modulus pre-scaler that can also divide by 3 or 2 depending on a selection signal.
 
-    However, the sources **do not contain any information or explanation regarding the specific operating principle of a fractional-N PLL**. They describe general PLL components and their roles but do not delve into the fractional-N architecture or its mechanism for achieving non-integer frequency division ratios.
+    fractional-N
+    The fractional-N prescaler can generate a continuous spectrum of frequencies between (f_in / N) and (f_in / (N+1)) **Dual modulus pre-scaler** by switching between the two frequency divisions (by changing the duty cycle).  The problem in this approach is that the output contains low-frequency spurious tones, which are not filtered out by the LPF. As a result, the output of the phase detector is not constant.
+
+    Solution 1: gain adjustment
+    Make the output of the phase detector constant by adding the difference. This is predetermined, since the states of the fractional-N divider are known. The gain is frequency dependent and is sensitive to variations in the frequency of the supply. 
+
+    Solution2: sigma-delta
+    Randomize which frequency (N or N+1) is chosen instead of a fixed duty cycle. This can be done using a sigma delta converter. This approach shifts the spurious tones to higher frequencies, so they can be filtered out by the LPF.
+    Implementation
+    Using TSPC logic so only one clock phase is needed.
+
 
 28. **Discuss the sizing of the biasing transistors in a relaxation oscillator. Explain why a capacitor at the drain of the bias transistor can degrade the duty cycle.**
 
-    Regarding the sizing of biasing transistors in a relaxation oscillator, the sources **do not provide specific details on how to size the biasing transistors in a relaxation oscillator**. While discussions on `Ibias` and `VGS - VT` are present in the context of a Pierce (crystal) oscillator, outlining their impact on transconductance (`gm`) and ensuring startup margin, this information is not directly translatable to the specific design considerations for biasing transistors within a relaxation oscillator, nor does it detail sizing methodologies for such. The sources only mention that "Relaxation oscillators have too much phase noise", but do not delve into their architectural design or component sizing.
+    ![Relaxation oscillator](image-10.png){ width=50% }
 
-    Concerning why a capacitor at the drain of the bias transistor can degrade the duty cycle:
-    The sources indicate a general relationship in oscillators where a **high oscillation amplitude can lead to distortion**, and this distortion, in turn, can result in a **non-50% duty cycle**. While the sources do not explicitly detail the specific mechanism by which a capacitor at the drain of a bias transistor in a relaxation oscillator causes this degradation, they do establish the link that **excessive amplitude (potentially influenced by circuit components like capacitors or biasing arrangements) directly contributes to waveform distortion, which deviates the duty cycle from its ideal 50% value**. A well-designed oscillator aims for a specific amplitude to balance desired signal integrity with power consumption and phase noise. If the presence or value of a capacitor at the drain of a bias transistor contributes to an uncontrolled or excessively high oscillation amplitude, this can lead to the observed duty cycle degradation due to the resultant non-linear operation of the oscillator circuit. For instance, if the current is too high in a circuit, it can lead to higher distortion in the output waveform.
-    
+    $$f = \frac{1}{RC + \tau_{comp}}$$
+
+    Here the noise will create jitter as a small noise may trigger the discharge a bit too soon or too late.
+
+    R is set majoritarily by the R of the NMOS transistor. If the bias is constant, the R should also remain constant making the operation running at a constant frequency. $\tau_{comp}$ appears du to process variation and temperature stability issues that can offset our values. Can do n plus and p plus poly to compensate for temperature but uncorrelated process rip so process variation.
+
+    Need a small R switch for a fast discharging! Add hysterisis to avoid a small variation around $V_{ref}$ would be problematic otherwise. Make circuit differential to help it. Steeper is the curve less noise so less jitter sensitive it is.
+
+    Where R is set by the transistor. If the current in the transistor remains very constant, the frequency will stay constant. The parasitic $C_{drain}$ will prolong the loading time of the relaxation oscillator when in parallel with $C_{osc}$. This will cause a longer waiting period in a differential topology and therefore will either increase or decrease the duty cycle in a constant manner.
