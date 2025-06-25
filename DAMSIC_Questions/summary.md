@@ -174,15 +174,17 @@ In a latch-based comparator, the regeneration process, where a small input diffe
 
 ##  How can averaging improve the performance of a flash ADC?
     
-* A flash Analog-to-Digital Converter (ADC) utilizes $2^N-1$ comparators to convert an analog input into an N-bit digital word. A major non-ideality in flash ADCs is **comparator offset**, which results in non-ideal thresholds and contributes to differential non-linearity (DNL) errors.
+[//]: <> (* A flash Analog-to-Digital Converter (ADC) utilizes $2^N-1$ comparators to convert an analog input into an N-bit digital word. A major non-ideality in flash ADCs is **comparator offset**, which results in non-ideal thresholds and contributes to differential non-linearity (DNL) errors.)
 
-* While direct "averaging" of multiple comparator outputs for improved resolution or linearity is not explicitly described, the following related techniques are mentioned that contribute to better performance:
-  *   **Auto-zeroing schemes**: These techniques are employed to **cancel comparator offset** and suppress both offset and low-frequency noise within individual comparators. This can be seen as a form of "temporal averaging" or correction within each comparator.
-  *   **Comparator with Offset Cancellation**: An approach for open-loop comparator offset cancellation involves selecting a subset (e.g., "four-out-of-eight minimally sized input pairs") from multiple input pairs. While not explicitly stated as averaging their outputs, this selection process aims to achieve a more ideal performance by potentially averaging out random offsets across a pool of devices.
-  *   **Majority voting**: In the context of Successive Approximation Register (SAR) ADCs, it's mentioned that **majority voting** can be used to mitigate **comparator noise**. While stated for SAR ADCs, the principle of using multiple decisions to reduce noise and errors could conceptually be applied to other ADC architectures like flash ADCs if multiple comparator outputs are available and processed.
+[//]: <> (* While direct "averaging" of multiple comparator outputs for improved resolution or linearity is not explicitly described, the following related techniques are mentioned that contribute to better performance:)
+  [//]: <> (*   **Auto-zeroing schemes**: These techniques are employed to **cancel comparator offset** and suppress both offset and low-frequency noise within individual comparators. This can be seen as a form of "temporal averaging" or correction within each comparator.)
+  [//]: <> (*   **Comparator with Offset Cancellation**: An approach for open-loop comparator offset cancellation involves selecting a subset (e.g., "four-out-of-eight minimally sized input pairs") from multiple input pairs. While not explicitly stated as averaging their outputs, this selection process aims to achieve a more ideal performance by potentially averaging out random offsets across a pool of devices.)
+  [//]: <> (*   **Majority voting**: In the context of Successive Approximation Register (SAR) ADCs, it's mentioned that **majority voting** can be used to mitigate **comparator noise**. While stated for SAR ADCs, the principle of using multiple decisions to reduce noise and errors could conceptually be applied to other ADC architectures like flash ADCs if multiple comparator outputs are available and processed.)
 
-* Offset of the comparators in a flash ADC can cause linearity problems and lead to DNL/INL. The effect of offset can be reduced by coupling the comparators so that multiple input pairs are used for every decision. This is done with resistive coupling, so that neighboring decisions influence each other. This helps because the signals at the outputs op the comparators add up linearly, but the offsets will add up with root mean square. The overall signal-to-offset ratio will thus increase. The comparator will ‘appear much larger’.
-* More area needed, more power consumption.
+[//]: <> (* Offset of the comparators in a flash ADC can cause linearity problems and lead to DNL/INL. The effect of offset can be reduced by coupling the comparators so that multiple input pairs are used for every decision. This is done with resistive coupling, so that neighboring decisions influence each other. This helps because the signals at the outputs op the comparators add up linearly, but the offsets will add up with root mean square. The overall signal-to-offset ratio will thus increase. The comparator will ‘appear much larger’.)
+[//]: <> (* More area needed, more power consumption.)
+
+Offset of the comparators in a flash ADC can cause linearity problems and lead to DNL/INL. The effect of offset can be reduced by coupling the comparators so that multiple input pairs are used for every decision. This is done with resistive coupling, so that neighboring decisions influence each other. This helps because the signals at the outputs op the comparators add up linearly, but the offsets will add up with root mean square. The overall signal-to-offset ratio will thus increase. The comparator will ‘appear much larger’.
 
 ##  Discuss the folding technique, its advantages, and challenges.
     
@@ -216,7 +218,7 @@ Pipeline converters break down the analog-to-digital conversion into multiple st
 
 ![Offset doesn't impact precision since added reliability](image-2.png){ width=75% }
 
-![Redundancy](image-3.png){ width=75% }
+![Redundancy](image-3.png){ width=55% }
 
 *   **Advantages:**
     *   **More aggressive stage-scaling**: By processing more than one bit per stage (e.g., 1.5 bits, 2.5-4 bits), these converters allow for a reduction in the total number of stages required for a given resolution. This can lead to more compact designs.
@@ -240,7 +242,7 @@ The main advantage of this technique is a **significant reduction in power consu
 
 ## Differences Between Top-Plate and Bottom-Plate Sampling
 
-In the context of charge-redistribution converters, sampling involves connecting the input signal to a capacitor bank. The sources describe two primary methods:
+In the context of charge-redistribution converters, sampling involves connecting the input signal to a capacitor bank.
 
 **Top-Plate Sampling:**
 
@@ -346,7 +348,6 @@ With an oversampling converter, the sampling happens at a higher frequency than 
 In continuous-time converters, the loop filter runs continuously using resistors, capacitors, and amplifiers. This gives a natural anti-aliasing effect without extra filtering stages and saves power, but comes with drawbacks: it’s more sensitive to clock jitter, component variation (like resistor mismatch), and offers less flexibility for tuning or reconfiguration.
 
 *   **Difference between discrete and continuous time DS converters:**
-    *   The sources implicitly differentiate between discrete and continuous-time Delta-Sigma (DS) converters.
     *   A **continuous-time Delta-Sigma converter** has the advantage that its loop filter **can also function as an anti-alias filter**, potentially saving power. However, it is susceptible to clock jitter, which can add noise, and the use of resistors for feedback (to combat jitter) can lead to wide variations over different process corners and a less **flexible architecture**.
     * **CHECK LECTURE CAUSE I AM PRETTY SURE HE SAID SOMETHING**
 
@@ -360,11 +361,11 @@ If a **bandpass filter** is used as the noise shaping filter (also referred to a
 
 ![Folded resistors low voltage bandgap](image-8.png){ width=75% }
 
-The sources present a schematic for a low voltage bandgap reference which incorporates "folded resistors" and sums proportional to absolute temperature (PTAT) and complementary to absolute temperature (CTAT) components in the current domain. This design addresses the challenge of implementing a 1.2V silicon bandgap in a 1.2V technology, such as 65nm.
+A schematic for a low voltage bandgap reference which incorporates "folded resistors" and sums proportional to absolute temperature (PTAT) and complementary to absolute temperature (CTAT) components in the current domain. This design addresses the challenge of implementing a 1.2V silicon bandgap in a 1.2V technology, such as 65nm.
 
 The circuit shown (identified as a "Static Start-up circuit" but also appearing as the core bandgap circuit) consists of:
 
-*   **Bipolar Junction Transistors (BJTs) Q1 and Q2:** These generate the temperature-dependent voltages. Q1 has a scaling factor of `<1>` and Q2 has a factor of `<1: N>`, indicating that Q2 is N times larger than Q1, or that N unit transistors are used for Q2. The difference in their base-emitter voltages, $\Delta V_{BE}$, is proportional to absolute temperature (PTAT).
+*   **Bipolar Junction Transistors (BJTs) Q1 and Q2:** These generate the temperature-dependent voltages. Q1 has a scaling factor of `<1>` and Q2 has a factor of `<1: N>`, indicating that N unit transistors are used for Q2. The difference in their base-emitter voltages, $\Delta V_{BE}$, is proportional to absolute temperature (PTAT).
 *   **Resistors R1 and R2:** R1 is used to generate the PTAT current. R2 generates a current that is complementary to absolute temperature (CTAT), as it is connected in series with Q1, whose $V_{BE}$ exhibits a negative temperature coefficient.
 *   **Operational Amplifier (OpAmp):** The OpAmp forces the voltage at its two input terminals to be equal. In this circuit, one input is connected to the collector of MP1 and the other to a node between R1 and the emitter of Q2.
 *   **PMOS Transistors MP1 and MP2:** These act as current mirrors. MP1 mirrors a current derived from Q1 and R2, while MP2 receives current from the node where R1, Q2, and the OpAmp's negative input connect.
@@ -406,7 +407,7 @@ To mitigate these issues, especially when considering performance variations "ov
 
 ## Describe the design of a Pierce oscillator.
 
-The sources outline key considerations for designing a **Crystal (Xtal) oscillator**, which commonly refers to a Pierce oscillator configuration, as indicated by the typical circuit diagram. The design process involves balancing several factors to ensure stable oscillation and desired performance.
+The design process involves balancing several factors to ensure stable oscillation and desired performance.
 
 A Pierce oscillator, unlike a Colpitts or Santos oscillator, has its reference compared to GND. One great advantage of a Pierce oscillator is that its easily replaceable in case of defect. 
 
@@ -643,7 +644,7 @@ In essence, insertion loss is about the signal going forward and losing strength
 The primary challenge to achieving **broadband termination** in a wireline receiver lies in effectively managing parasitic elements that cause frequency-dependent impedance mismatches.
 
 * **Goal of Termination:** The termination resistor ($R_T$) is an integral part of receiver designs. Its purpose is to achieve broadband matching ($R_T = Z_L$) to minimise signal reflection and maximise power transfer from the channel to the receiver. Ideally, $R_T$ is a tunable component integrated on-chip. So reducing the **Return loss**.
-* **Challenge with Off-Chip Termination:** If the termination resistor is implemented off-chip, the **package parasitics** (such as inductance $L_p$ and capacitance $C_p$, as depicted in the sources) become a significant issue. We can't match **parasitic in the package**.
+* **Challenge with Off-Chip Termination:** If the termination resistor is implemented off-chip, the **package parasitics** (such as inductance $L_p$ and capacitance $C_p$) become a significant issue. We can't match **parasitic in the package**.
 * **Impact of Receiver Input Parasitics:** Even with an on-chip termination resistor, the inherent parasitic elements associated with the receiver's input structure can cause the overall input impedance ($Z_{in}$) to deviate from the channel's characteristic impedance ($Z_L$) as frequency increases. This deviation results in an increased reflection coefficient ($\Gamma_R$) and, consequently, degraded return loss at higher frequencies, making true broadband matching difficult to achieve.
 * Moreover, we have an output pole at $1/(2\pi R_T C_{tot})^{-1}$
 * **Benefit of On-Chip Termination (Mitigation):** While challenging, implementing termination on-chip offers an advantage because package parasitics can be incorporated into the termination network. This allows for a more integrated design approach that can potentially compensate for some of these parasitic effects, leading to better broadband matching compared to off-chip solutions where parasitic appears as an **unterminated stub**.
@@ -751,7 +752,7 @@ However, the thermal noise current density of $R_F$ is
 
 $$i_{(n,R_F)}^2=4kT/R_F $$
 
-so reducing R_F forces 4kT/R_F to increase. As a result, beyond a certain transistor size the reduction in amplifier‐device noise is offset by the rise in resistor noise required to maintain bandwidth. At the noise‐optimum point, the resistor’s integrated Johnson noise becomes comparable to the transistor’s own noise contribution; any further increase in device size would only increase total input‐referred noise because the feedback resistor must shrink and its noise dominates.
+so reducing $R_F$ forces $4kT/R_F$ to increase. As a result, beyond a certain transistor size the reduction in amplifier‐device noise is offset by the rise in resistor noise required to maintain bandwidth. At the noise‐optimum point, the resistor’s integrated Johnson noise becomes comparable to the transistor’s own noise contribution; any further increase in device size would only increase total input‐referred noise because the feedback resistor must shrink and its noise dominates.
 
 
 ## Techniques to Extend the Bandwidth of a TIA
