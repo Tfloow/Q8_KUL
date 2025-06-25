@@ -582,7 +582,7 @@ A key comparison highlights that **inductive DC-DC converters are theoretically 
 
 Based on transfer function analysis, the behaviour of a simple two-phase SC DC-DC converter can be represented by an **equivalent circuit model**. This model consists of:
 
-*   An **ideal transformer**: For the two-phase converter example, the **ideal Voltage Conversion Ratio (iVCR) is $\frac{1}{2}$**. This means it effectively functions as a 2:1 step-down transformer when the load resistance ($R_{load}$) is infinite. The voltage conversion ratio is given by $\frac{U_{out}}{U_{in}} = \frac{1}{2}$ when $R_{load} = \infty$.
+*   An **ideal transformer**: For the two-phase converter example, the **intrinsic Voltage Conversion Ratio (iVCR) is $\frac{1}{2}$**. This means it effectively functions as a 2:1 step-down transformer when the load resistance ($R_{load}$) is infinite. The voltage conversion ratio is given by $\frac{U_{out}}{U_{in}} = \frac{1}{2}$ when $R_{load} = \infty$.
 *   A **series resistor** connected to the load resistance ($R_{load}$). For the two-phase converter, this equivalent series resistance is calculated as $\frac{1}{4 \cdot C_{fly} \cdot f_{sw}}$.
 
 Therefore, the complete equivalent model is essentially an **ideal transformer followed by a resistive divider**. This model allows for the determination of the load-dependent gain factor of the converter. The output voltage ($U_{out}$) to input voltage ($U_{in}$) ratio for a non-infinite load is given by:
@@ -653,7 +653,7 @@ We can go either for **series termination** (voltage mode drivers) or **parallel
 
 ## Discuss a technique to extend the bandwidth at the output of a transmitter.
 
-A common technique to extend the bandwidth at the output of a transmitter (TX) is **shunt peaking**. We had an inductor between VDD and the RT.
+A common technique to extend the bandwidth at the output of a transmitter (TX) is **shunt peaking**. We add an inductor between VDD and the RT.
 
 * **The Bandwidth Limitation Problem:** The TX output has a finite bandwidth, which leads to a finite settling error ($e_{TX}$) by the end of the bit interval. This finite settling causes inter-symbol interference (ISI), meaning that the current high and low signal levels are influenced by previous bits. This bandwidth limitation is primarily due to an output pole at $1/(2\pi R_T C_{tot})$, where $C_{tot}$ represents the total capacitance at the output. $C_{tot}$ comprises various contributions, including the TX output and routing capacitance ($C_{p,TX}$), IO pad capacitance ($C_{pad}$), ESD capacitance ($C_{ESD}$), and package parasitics like bond wire capacitance. For instance, a 56 Gb/s system with $R_T = 50 \ \Omega$ needs $C_{tot}$ to be $\le 80 \ fF$ to achieve a $f_{-3dB}$ of $0.7R_b$.
 * **Shunt Peaking Technique:**
