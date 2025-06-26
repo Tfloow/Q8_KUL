@@ -1,5 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/tex
 # Edit at https://www.toptal.com/developers/gitignore?templates=tex
+
+DAMSIC_TV_Questions/
+DAMSIC_TV_Questions.pdf
+
 .vscode
 ### TeX ###
 ## Core latex/pdflatex auxiliary files:
