@@ -76,18 +76,24 @@ $$
 
 4. Chapter-5 p.30 (“Derivation similar to p.22...”): Explain why the highlighted element in the first formula has to be a zero (unlike in p.21 and p.22). 
 
+> In the first formula on p.22, we are interested in block processing and to ultimately use cheap algorithm such as the DFT. The basic principle is to compute K samples at once and thus we will have a $Y=HU$ of dimension $L:1 = (L:2*L)(2*L:1)$ where the $H$ matrix is filled with all the filter coefficient in a Toeplitz fashion, then we can make it circulant which allow us to introduce DFT, ... The size of the matrixes are directly linked with the length of the filter order as we need to create a square circulant matrix to use the theorem otherwise we will have a possible rank deficient matrix.
 >
+> The first algorithm can have extensive delay for high order filter, another approach is to use *poly-phase decomposition*. Important to remember that when we talk about a filter order L there is actually L+1 components in it. So this is why our polyphase decomposition $D$ will have terms up to $L_D = (L+1)/D$ order for each polyphase component. So this makes sense that our matrix won't be "*filled anymore up until the bottom*". So if we took back our first example with order L=4, we will have $L_D = 1$ with a 5-fold decomposition. And we have to remember that to transform our matrix into a square one with our trick, we need $2 D$ columns in this case and so we **must virtually add** this void column at the end. This can be seen as weird but makes sense from a mathematical point of view.
 
-5. Chapter-6: Draw a “parallel realization” of H(z)=(1+az-1)-1 + (1+bz-1)-1. Insert all relevant quantization noise sources and compute the corresponding noise transfer functions. Can some of these noise sources be lumped into an equivalent noise source? Why (not)? 
+5. Chapter-6: Draw a “parallel realization” of $H(z)=(1+az^{-1})^{-1} + (1+bz^{-1})^{-1}$. Insert all relevant quantization noise sources and compute the corresponding noise transfer functions. Can some of these noise sources be lumped into an equivalent noise source? Why (not)? 
 
+![Realization using Transposed direct form](JAN_11_24_1_5.png){ width=35% }
+
+> For this, I chose a Transposed direct form and already lumped the components that could be lumped according to p.34. But if we take a closer look, the magnitude TF of e1 is simply 1 and same for e2, so we could also theoretically lump e1 and e2 to eout as they all share the same transfer function.
 >
+> Of course this is assuming that quantization noise can be a stochastic process.
 
 
 ## Question 2
 
-1. Chapter-7 p.24 ("MMSE cost function can be expanded as..."): How does the Wiener filter formula (wWF=(Xuu)-1Xdu ) and/or its components (Xuu and Xdu) change in the case of a multi-channel FIR problem (as on p.19)? 
+1. Chapter-7 p.24 ("MMSE cost function can be expanded as..."): How does the Wiener filter formula ($w_{WF}=(X_{uu})^{-1}X_{du}$) and/or its components (Xuu and Xdu) change in the case of a multi-channel FIR problem (as on p.19)? 
 
->
+> 
 
 2. Chapter-8: Explain how the LMS algorithm can be viewed as an RLS algorithm with a specific substitution for the input signal correlation matrix. Based on this link with RLS, provide an intuitive explanation for the statement that the convergence of the LMS depends on the correlation matrix eigenvalue spread. 
 
