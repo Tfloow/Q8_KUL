@@ -101,11 +101,13 @@ $$
 
 3. Chapter-9 p.38 (“Residual extraction…”): Consider the case where uk is an all-zero vector and dk is non-zero (and R[k] is full-rank). What would be the corresponding rotation angles and epsilon, and hence the a posteriori and a priori residual. 
 
+> We know from slide p.33, that $R[k-1]$ is a upper triangular matrix as expected. To update our matrix, we append horizontally the new input and desired output. If the inputs are zeros, this means our matrix is already upper triangular and thus $\tilde{x_i} = x_i$ which means that $\theta = 0^\circ$ based on notation from p.32
 >
+> Taking back the notation from slide p.38, knowing that $u_k$ is a zero-filled vector and that all $cos(\theta_i) = 1$, we can simplify this equation with $d_k = \epsilon$. The a posteriori residual is the desired output itself. This represents the error.
 
 4. Chapter-10 p.20 (“The main trick...”): Redraw the signal flow graph when the "main trick" is used to remove the column with R15, R25, ... Define the relevant epsilon-signals in the signal flow graph (with subscripts & superscripts). 
 
->
+> Same as the figure presented in p.20, but we need to add one more cell below the column of $u(k+1)$ and the move our 3 cells connections one row down and deleting all the cells above the last celle from the row $u(k-4)$. Add back all the cells in the column $u(k-3)$ and connect its $\theta$ to the output.
 
 5. In Chapter-11 p.25 (“Recursive Square-Root…”): Could residual extraction (cfr. Chapter 9) be added to this algorithm (would it also require only the “lower-right/lower part” as stated on p.23)? What exactly would be the meaning of the extracted residuals? 
 
@@ -116,13 +118,55 @@ $$
 
 1. Chapter-12 p.12 (“Noise reduction…”): If D=4 (instead of D=3) and if the Gi’s are not all equal to 1, what would be a condition for alias-free operation (a general formula is sufficient here) and what would be the resulting (linear) “distortion function”? 
 
->
+> If D=4, we will be having a *maximally decimated* FB which is more prone to possible alias. If we are looking at slide p.37 that is based on chapter 2 p.33, we can see we could have some potential aliasing but if we can guarantee that the $A_n(z)$ (alias function) is 0 then we can have an alias-free results. Adapting from those results give the following formula
+
+$$
+Y(z) = \underbrace{1/N \sum_{n=0}^{N-1} G_n H_n(z)F(z)}_{T(z)}  \cdot U(z) + 1/N \underbrace{ \sum_{n=0}^{N-1} G_n \sum_{\bar{n}=0}^{N-1} H_{\bar{n}} (zW^n)F_{\bar{n}}(z)}_{A_n(z) = 0} \cdot U(zW^n)
+$$
+
+> Where $T(z)$ is the distortion function.
 
 2. Chapter-13 p.11 (“This can be verified...”). Provide an equivalent verification where in the first step R(z)E(z) is swapped with the upsampling (instead of the downsampling). 
 
->
+> So if we move the $R(z)E(z)$ to the right instead of the left we will find thanks to the noble identities that we again get $R(z^4)E(z^4)$. But this makes our life a tad harder as down converting can cause alias, the new formula is thus:
 
-3. Chapter-13 p.31 (“Given E(z)...”). Consider the case with N=4, D=1 and LE=3. Construct a (simple) example with transfer functions Hi(z) and Fi(z) that provide perfect reconstruction. 
+$$
+\mathbf{R}(z^{4}) \cdot \mathbf{E}(z^{4}) \cdot
+1/4 \sum_{d=0}^{D-1}\cdot
+\begin{bmatrix}
+1 \\
+z^{-1} e^{2\pi jd} \\
+z^{-2} e^{4\pi jd}\\
+z^{-3} e^{6\pi jd}
+\end{bmatrix}
+U(z e^{-2\pi jd})
+=
+\mathbf{R}(z^{4}) \cdot \mathbf{E}(z^{4}) \cdot
+1/4
+\begin{bmatrix}
+4 \\
+z^{-1} 4 \\
+z^{-2} 4\\
+z^{-3} 4
+\end{bmatrix}
+\sum_{d=0}^{D-1}\cdot
+U(z e^{-2\pi jd})
+$$
+
+$$
+=\begin{bmatrix}
+1 \\
+z^{-1} \\
+z^{-2} \\
+z^{-3}
+\end{bmatrix}
+\underbrace{
+\left( p_0(z^{-1}) + z^{-1}p_1(z^{-1}) + z^{-2}p_2(z^{-1}) + z^{-3}p_3(z^{-1}) \right)
+}_{T(z)}
+U(z)
+$$
+
+1. Chapter-13 p.31 (“Given E(z)...”). Consider the case with N=4, D=1 and LE=3. Construct a (simple) example with transfer functions Hi(z) and Fi(z) that provide perfect reconstruction. 
 
 >
 
