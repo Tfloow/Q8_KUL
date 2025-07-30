@@ -9,13 +9,28 @@ PWD = $(shell pwd)
 
 % : %/summary.md %/LICENSE.md
 	@echo "Compiling $@"
-	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
+	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o initial_$@.pdf --template eisvogel --listings --number-sections
+	@cd $@; gs -sDEVICE=pdfwrite \
+	   -dCompatibilityLevel=1.4 \
+	   -dPDFSETTINGS=/ebook \
+	   -dNOPAUSE -dQUIET -dBATCH \
+	   -sOutputFile=$@.pdf \
+	   initial_$@.pdf
 	@cp $@/$@.pdf . 
-	@rm -f $@/$@.pdf
+	@rm -f $@/initial_$@.pdf $@/$@.pdf
+	@chmod 664 $@.pdf
 	@echo "[LOG]: $@	V"
 
 all_NEW : $(SUBDIRS)
 	@echo "Finished compiling all summaries"
+
+.PHONY: force_compile
+
+force_compile :
+	for i in $(SUBDIRS); do \
+		VAL=$$(echo $$i | sed 's/\/.//'); \
+		touch $$VAL/summary.md; \
+	done
 
 test:	
 	@echo $(LAST_COMMIT_MESSAGE) Compiled
@@ -31,6 +46,7 @@ all :
 	for i in $(SUBDIRS); do \
 		VAL=$$(echo $$i | sed 's/\/.//'); \
 		cd $$VAL; docker run --rm --volume "$$PWD:/data" pandoc/extra summary.md LICENSE.md -o $$VAL.pdf --template eisvogel --listings --number-sections;\
+		gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$$VAL.pdf $$VAL.pdf; \
 		if [ $$? -ne 0 ]; then \
 			echo "[LOG]: $$VAL	X"; \
 			exit 1; \
@@ -55,6 +71,8 @@ create_summary :
 
 clean :
 	for i in $(SUBDIRS); do \
-		$(MAKE) -C $$i clean; \
+		rm -rf $$i.pdf; \
 	done
+
+.PHONY: clean compile
 
