@@ -9,15 +9,9 @@ PWD = $(shell pwd)
 
 % : %/summary.md %/LICENSE.md
 	@echo "Compiling $@"
-	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o initial_$@.pdf --template eisvogel --listings --number-sections
-	@cd $@; gs -sDEVICE=pdfwrite \
-	   -dCompatibilityLevel=1.4 \
-	   -dPDFSETTINGS=/ebook \
-	   -dNOPAUSE -dQUIET -dBATCH \
-	   -sOutputFile=$@.pdf \
-	   initial_$@.pdf
+	@cd $@; docker run --rm --volume "$(PWD)/$@:/data" pandoc/extra summary.md LICENSE.md -o $@.pdf --template eisvogel --listings --number-sections
 	@cp $@/$@.pdf . 
-	@rm -f $@/initial_$@.pdf $@/$@.pdf
+	@rm -f $@/$@.pdf
 	@chmod 664 $@.pdf
 	@echo "[LOG]: $@	V"
 
