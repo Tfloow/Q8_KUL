@@ -93,11 +93,25 @@ $$
 
 1. Chapter-7 p.24 ("MMSE cost function can be expanded as..."): How does the Wiener filter formula ($w_{WF}=(X_{uu})^{-1}X_{du}$) and/or its components (Xuu and Xdu) change in the case of a multi-channel FIR problem (as on p.19)? 
 
-> 
+> In the case of the multi-channel FIR filter, each one takes a different but the we compare it against the same desired signal as indicated on p.19. So we can write a new notation like $y_{k|i} = u_{k|i}^T w_i$ where the $i$ index indicates the channel specific result. The error is then expressed as $e_k = d_k - \sum_{i} y_{k|i}$. To simplify notation let's denote $\sum_{i} y_{k|i} = y_k$, $\sum_{i} u_{k|i} = u_k$ and $\sum_{i} w_{i} = w$ By re-using the same MMSE criterion we can find that:
+
+$$
+J_{mse}(w)
+= \mathbb{E}\{e_k^2\} = \varepsilon\{d_k^2\} + w^T  \varepsilon\{u_k u_k^T\} w - 2 w^T \varepsilon\{u_k d_k\} 
+$$
+
+> So, the optimal $w_{wf}$ stays the same but what's behind $\mathbb{X}_{uu}$ and $\mathbb{X}_{du}$ changes. This is now the cross-correlation between each inputs, it now sums up everything together and the input signal is a sort of big soup of the various inputs. This makes sense as the desired output is compared with the results of all the filters.
+
 
 2. Chapter-8: Explain how the LMS algorithm can be viewed as an RLS algorithm with a specific substitution for the input signal correlation matrix. Based on this link with RLS, provide an intuitive explanation for the statement that the convergence of the LMS depends on the correlation matrix eigenvalue spread. 
 
+> The idea of the LMS algorithm is based on Wiener filter theory, but made practical. Typically, we don't have the statical informations about the signals so we average them out over time and this kinda behave as the expectancy $\mathbb{E}$. This gives $w_k = w_{k-1} + \mu u_k (d_k -u_k^T w_{k-1})$.
 >
+> The LS is also in the same vein but we have a more direct memory idea, we average out the past k samples which should represents the observed correlation and cross-correlation matrices. This gives, after a few algebric tricks, the following results $w_k = w_{k-1} + \mathbb{X}_{uu}^{-1} u_k (d_k -u_k^Tw_{k-1})$
+>
+> Those two formulas are the same besides for the $\mu$ and $\mathbb{X}_{uu}^{-1}= (U_k^TU_k)^{-1}$, input signal correlation matrix. So if we swap them, we can obtain the other algorithm. So if the correlation matrix is the identity it's the same. Meaning that for a noiseless input signal we have actually the same results !
+>
+> Those are some recursive algorithm so we must ensure stability by making sure the eigenvalues are not superior to 1 or we may run into some troubles. Ideally, as explained, we should have an unit matrix and thus no spread in the eigenvalues and the idea stable eigenvalues of 1. A bad spread of eingenvalues will be problematic for inverting the matrix. So good spread = good power correlation which is expected and is physical. Same idea can be derived for the stepsize selection in LMS algorithm. A bad spread is problematic and is symptomatic of a noisy, fast-changing environment that will lead to poor convergence as the algorithm can't lock into the actual input signal.
 
 3. Chapter-9 p.38 (“Residual extraction…”): Consider the case where uk is an all-zero vector and dk is non-zero (and R[k] is full-rank). What would be the corresponding rotation angles and epsilon, and hence the a posteriori and a priori residual. 
 
@@ -111,7 +125,9 @@ $$
 
 5. In Chapter-11 p.25 (“Recursive Square-Root…”): Could residual extraction (cfr. Chapter 9) be added to this algorithm (would it also require only the “lower-right/lower part” as stated on p.23)? What exactly would be the meaning of the extracted residuals? 
 
+> The residual signal should take the following form when using Givens transform to make a matrix triangular superior $\varepsilon = \frac{d_k - u_k^T w_{k,LS}}{\Pi_{i=1}^{L+1} cos(\theta_i)}$. This should be possible as RLS is simply a specific case of Kalman filtering as explained on slide p.17. So we could rewrite the **measurement noise** linked with Kalman as the actual residual extraction with $\varepsilon = \frac{d_k - C_k x_{k} - D_k u_k}{\Pi_{i=1}^{L+1} cos(\theta_i)}$ to generalize this concept.
 >
+> Here we are getting the measurement noise that is also measuring the statespace model error with the residual noise from the inputs. But, this will not just be one element of the matrix as we are doing more than a rank-1 update in comparison with RLS. This would thus correspond to the vector ... at the bottom right which won't be a simple value anymore.
 
 
 ## Question 3
@@ -149,12 +165,12 @@ z^{-1} 4 \\
 z^{-2} 4\\
 z^{-3} 4
 \end{bmatrix}
-\sum_{d=0}^{D-1}\cdot
-U(z e^{-2\pi jd})
+\cdot
+U(z )
 $$
 
 $$
-=\begin{bmatrix}
+= ... =\begin{bmatrix}
 1 \\
 z^{-1} \\
 z^{-2} \\
@@ -166,17 +182,75 @@ z^{-3}
 U(z)
 $$
 
-1. Chapter-13 p.31 (“Given E(z)...”). Consider the case with N=4, D=1 and LE=3. Construct a (simple) example with transfer functions Hi(z) and Fi(z) that provide perfect reconstruction. 
+3. Chapter-13 p.31 (“Given E(z)...”). Consider the case with N=4, D=1 and LE=3. Construct a (simple) example with transfer functions Hi(z) and Fi(z) that provide perfect reconstruction. 
 
->
+> To make sure this problem is solvable, we must ensure we are not in a contrived case. $L_R$ is not given but can be selected such that we are in an open case $L_R\geqslant \frac{1}{4-1} 3 -1$ so $L_R \geqslant 0$. To respect this property and to make our life easier we can select $E(z) = 1/4 z^{-4}$ which is indeed a 4th order filter and then choose a zero order H filter:
+
+$$
+\begin{bmatrix}
+    1/4 z^{-4} & 1/4z^{-4} & 1/4 z^{-4} & 1/4 z^{-4} 
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+    1 \\ 1 \\ 1 \\ 1 
+\end{bmatrix} = z^{- 4}
+$$
 
 4. Chapter-14 p.27 (“Example-1: Define B(z4)…”):
 
 a) Specify B(z) for the case where N=7 and D=4. 
 
->
+> Knowing that $N' = ND/gcd(N,D) = 4*7/1 = 28$ this means that we will fill up our matrix
+
+$$
+B(z^4) = \begin{pmatrix}
+    E_0 (z^{28}) & z^{-20}E_{21}(z^{28}) & z^{-12}E_{14}(z^{28}) & z^{-4}E_7(z^{28})\\
+    z^{-8}E_{8}(z^{28}) & E_1(z^{28}) & z^{-20}E_{22}(z^{28}) & z^{-12}E_{15}(z^{28})\\
+    z^{-16}E_{16}(z^{28}) & z^{-8}E_{9}(z^{28}) & E_2(z^{28}) & z^{-20}E_{23}(z^{28}) \\
+    z^{-24}E_{24}(z^{28}) & z^{-16}E_{17}(z^{28}) & z^{-8}E_{10}(z^{28}) & E_3(z^{28})\\
+    z^{-4}E_4(z^{28}) & z^{-24}E_{25}(z^{28}) & z^{-16}E_{18}(z^{28}) & z^{-8}E_{11}(z^{28})\\
+    z^{-12}E_{12}(z^{28}) & z^{-4}E_5(z^{28}) & z^{-24}E_{26}(z^{28}) & z^{-16}E_{19}(z^{28})\\
+    z^{-20}E_{20}(z^{28}) & z^{-12}E_{13}(z^{28}) & z^{-4} E_6(z^{28}) & z^{-24}E_{27}(z^{28})
+\end{pmatrix}
+$$
 
 b) Provide the corresponding proof (similar to the proof on p.27) (with explanation in words for non-trivial steps) that a 7-channel DFT-modulated filter bank is indeed obtained with this B(z). 
 
->
+> Here, we just started from a 28 poly-phase decomposition and referring from slide p.27 we have $F^{-1} B(z^4) \begin{bmatrix}
+    1\\ z^{-1} \\ z^{-2} \\ z^{-3}
+\end{bmatrix} U(z)$ The third vector represents the delay elements present in the signal flow graph. We will focus on the part in the middle first which yield the following result: 
 
+$$
+B(z^4) \begin{bmatrix}
+    1\\ z^{-1} \\ z^{-2} \\ z^{-3}
+\end{bmatrix}  = \begin{pmatrix}
+    E_0 (z^{28}) + z^{-21}E_{21}(z^{28}) + z^{-14}E_{14}(z^{28}) + z^{-7}E_7(z^{28})\\
+    z^{-8}E_{8}(z^{28}) + z^{-1}E_1(z^{28}) + z^{-22}E_{22}(z^{28}) + z^{-15}E_{15}(z^{28})\\
+    z^{-16}E_{16}(z^{28}) + z^{-9}E_{9}(z^{28}) + z^{-2}E_2(z^{28}) + z^{-23}E_{23}(z^{28}) \\
+    z^{-24}E_{24}(z^{28}) + z^{-17}E_{17}(z^{28}) + z^{-10}E_{10}(z^{28}) + z^{-3}E_3(z^{28})\\
+    z^{-4}E_4(z^{28}) + z^{-25}E_{25}(z^{28}) + z^{-18}E_{18}(z^{28}) + z^{-11}E_{11}(z^{28})\\
+    z^{-12}E_{12}(z^{28}) + z^{-5}E_5(z^{28}) + z^{-26}E_{26}(z^{28}) + z^{-19}E_{19}(z^{28})\\
+    z^{-20}E_{20}(z^{28}) + z^{-13}E_{13}(z^{28}) + z^{-6} E_6(z^{28}) + z^{-27}E_{27}(z^{28})
+\end{pmatrix}
+$$
+
+> Already, we can feel something special when looking at the matrix, the $z^{-\delta}$ is "aligned" with its polyphase decomposition ! Something even more spectacular, is that they are evenly spaced by 7 the channel decomposition value ! So we can see that actually, each rows is a lower rate polyphase decomposition namely:
+
+$$
+E_0 (z^{28}) + z^{-21}E_{21}(z^{28}) + z^{-14}E_{14}(z^{28}) + z^{-7}E_7(z^{28}) = E_0({z^7})
+$$
+
+> If we remember, a polyphase decomposition is selecting the elements spaced by D, If we divide our polyphase in 28 pieces and we select the zeors, the seventh, ... this becomes the same as a lower rate decomposition. This idea can be repeated for the second line, but we must remove the $z^{-1}$ factor as it is relative to the lower order factor.
+
+$$
+B(z^4) \begin{bmatrix}
+    1\\ z^{-1} \\ z^{-2} \\ z^{-3}
+\end{bmatrix}  = \begin{pmatrix}
+    E_0 (z^{7})\\
+    z^{-1}E_{1}(z^{28}) \\
+    z^{-2}E_{2}(z^{28})\\
+    z^{-3}E_{3}(z^{28}) \\
+    z^{-4}E_4(z^{28}) \\
+    z^{-5}E_{5}(z^{28}) \\
+    z^{-6}E_{6}(z^{28}) 
+\end{pmatrix}
+$$
