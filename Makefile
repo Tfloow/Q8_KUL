@@ -2,7 +2,7 @@
 
 compile : all_NEW
 
-SUBDIRS = $(wildcard *)
+SUBDIRS := $(patsubst %/,%,$(wildcard */))
 LAST_COMMIT_MESSAGE = $(git log -1 --pretty=%B)
 pandoc_run = $(docker run --rm --volume "$(pwd):/data" pandoc/extra)
 PWD = $(shell pwd)
@@ -15,7 +15,9 @@ PWD = $(shell pwd)
 	@chmod 664 $@.pdf
 	@echo "[LOG]: $@	V"
 
-all_NEW : $(SUBDIRS)
+%.pdf: %
+
+all_NEW : $(SUBDIRS).pdf
 	@echo "Finished compiling all summaries"
 
 .PHONY: force_compile

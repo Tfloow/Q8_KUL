@@ -253,3 +253,55 @@ B(z^4) \begin{bmatrix}
     z^{-6}E_{6}(z^{28}) 
 \end{pmatrix}
 $$
+
+# Questions
+
+## Chapter 3
+
+### Why the $\tilde{k}$ notation ?
+
+> Cause in the OFDM each symbol is being modulated by a **full** period of the carrier, we can't just stop earlier. This is needed to make the DFT matrix appear
+
+## Chapter 4
+
+### Why the PS ? Phase response is zero everywhere if amplitude response is allowed to be negative (otherwise phase is 0 or $\pi$ everywhere)
+
+> Here, it is not really a fact but more an explanation of a relaxed notation. Usually, phase response is $\angle H(e^{j \omega})$ and the amplitude response is $|H(e^{j \omega})|$. So basically, we never allow the amplitude response to be negative and the $-$ is translated into $\pi$ in the phase response. So to relax the notation and to make sure that a "*zero-phase*" filter is an actual thing, we need to transfer that - to the amplitude to make the phase really 0 everywhere.
+
+## Chapter 5
+
+### Why do we add downsampling in the signal flow graph where does it come from ?
+
+> The downsampling is linked with the fact that we are doing block processing. We are only actually doing the calculations once in every 4 time, so we add this downsampling factor to underline this method. It is not really required but in actual implementation we will want to add this at the gate to reduce loading the wires etc.
+
+### Why the extra 0 at the corner p.30 ?
+
+> It was one of the questions of the exam I did so hopefully I will get an answer from the professor.
+
+### p.37 do the Direct form check
+
+> We know that $Y(z)=U(z) \frac{b_0 + b_1 z^{-1}}{1+ a_1z^{-1}}$, by introducing an intermediate signal symbol we can then proof this equal to the same as the given formula
+
+## Chapter 6
+
+### p.14 redo the check of stability
+
+> Check it in my book
+
+### p.34-35 Lumping of the components how can this be proven
+
+> Idea is to find the transfer function, check quantization error source one by one. Remove $u$ as it doesn't play a role here. Simply see how the noise sources are adding up linearly **up to a delay**, this is key to be able to lump. Sadly, we can't bypass the delay operator and so we assume ideal information about the noise. 
+>
+> So a simple way to see it, is that if the noise is not added up linearly and gets multiplied by a factor, then we can't lump it anymore and we need to form a separate sort of island.
+
+### p.39 why is true ?
+
+> Just accept it I think and I think saying that it absorbs power is already enough 
+
+## Chapter 7
+
+### p.9-11 How does it know when someone is speaking or not ? 
+
+> If we look at p.37, it indicates that whatever the user is doing, it will work well and the we will always have an irreducible error that will correspond to the near-end signal if we assume a certain orthogonality between the far and near end signal which is possible since they come from different sources so shouldn't be the same. So since the near end is so much different that the far-end we can't do anything and that's good news.
+
+### p.25 why does it take this form ?
