@@ -6288,27 +6288,953 @@ algorithm.
 
 # Chapter 11
 
-## Slide1
+**Covariance **
 
-This is chapter 11 filter bank preliminaries.
+**X hat:** $\widehat{\mathbf{X}}$
 
-## Slide2
+**Boldface: **
 
-Chapter 11 is the first chapter in part four on filter banks on time
-frequency transforms in this chapter we will first look into the basic
-filter bank setup and review some filter bank applications. And then we
-will look into on the one hand ideal filter bank operation, which is
-very easy. And then non ideal filter bank operation which is long
-trivial. And will as we will see, it led to a perfect reconstruction
-theory. In chapter 12, next chapter we will then look into a perfect
-reconstruction filter bank design procedure. And then finally, in
-chapter 13 and 14, we will discuss two topics which are um which lend
-themselves well in a sense to an explanation from a filter bank point of
-view or perspective. So, on the one hand, we will look into frequency
-domain filtering. On the other hand, we will look into a time frequency
-analysis and scaling.
+**Transpose Matrix: **
 
-## Slide3
+**orthogonal transformation:**
+
+**Chapter 11**
+
+**Slide 1**
+
+This is chapter10 on **[kalman filters]{.underline}**.
+
+**Slide 2**
+
+Chapter 10 is the last chapter in part three on optimal and adaptive
+filter. We have looked into optimal filter design, including the squares
+filter design from Least Means Squares filter design. We\'re first going
+to move into least squares not filter design but parameter estimation.
+And then as a second step we move from a systematic parameter estimation
+into dynamic parameter estimation. And see how the common filter offers
+a tool and a solution to the problem statement there. And then the rest
+of the chapters will look into common filter algorithms, which will xxx
+the generalizations of algorithms that we have studied earlier, the
+recursively scarce algorithm or the scrooge recursively scarce
+algorithm.
+
+**Slide 4**
+
+
+Starting point here is Least squares estimation or squares filter
+design. As we have introduced it in in chapter nine, the basic formulas
+are repeated here. Remember that we\'re designing a filter with filter
+coefficients in a bold phase w vector, and the filter should be such
+that when we take an input signal to you, signal and filter it with a
+designed filter. The output of that should be ultimately close to a
+desired to filter outputs, and optimally close is defined here in terms
+of least squares criterion. So, we\'re summing over the squares of the
+error samples, the difference between the desired filter output and
+actually produced filter outputs that involves a matrix. The [capital u
+matrix and a right-hand side]{.underline}, (sort of speak vector), [the
+boldface d vector]{.underline} and then [the least square
+solution]{.underline}, [the optimal set of filter
+coefficients]{.underline}, or the least squares I should say [sets of
+filter coefficients]{.underline} is given here. That is a formula to
+remember u transpose u as some sort of auto correlation of the input
+signal matrix u transpose u inverse times u transpose d, which is sort
+of a cross correlation between the filter input and the desired filter
+output. So, the formula to remember w squares as u transpose u inverse
+times u transpose d.
+
+(Transpose Matrix)
+
+**Slide 5**
+
+Now, the least squares filter design formula from the previous slide is
+also used in completely different in a sense context. The context of
+parameter estimation in a linear regression model() as you will
+see it in this slide, the problem statement is then given as follows.
+Assume you\'re given key vectors of input variables or so-called
+regressors() and these are the bold phase u vectors as we have
+also seen them in previous slides and then corresponding observations of
+a dependent variable. So key one of two K. Where the assumption is that
+these observations of the dependent variable satisfy a linear regression
+model or an observation model which is indicated here where the
+observation d if you collect them in into bold phase vector d as we have
+been doing in the previous slide. Also, that this d is equal to the u
+matrix constructed with the input variables times an unknown parameter
+vector which is indicated here as w zero plus observation noise additive
+observation or measurement, you could say noise. [So, the d is equal to
+u times an unknown w zero plus observation noise or measurement
+noise.]{.underline} And then the question is if I\'m given the u and the
+d, and I do not know what the w and the e is. Of course, then **the
+question is what would be a good estimate for the w zero?** And then the
+question would be if we were to use the formula from the previous slide.
+So, let\'s say W least squares this u transpose u inverse **times** u
+transpose d. The formula to remember is that a good solution to this
+problem does give us a good estimate for this unknown parameter vector.
+The w zero. That is the basic question, and the answer will be given in
+the next slides.
+
+**Slide 6**
+
+When we use this formula to remember for parameter estimation, we\'re
+doing parameter estimation based on a least course criterion and hence
+this is referred to as the scores\' parameter estimation, or the
+$W_{LS}$ is referred to as the least square estimator. And in this slide
+and in the next slide, properties of this v squares estimator are
+provided. The first property is as follows, if the input variables to
+both ways u vectors are given and fixed. Then the additive noises assume
+to be random and with zero mean. Then the least squares estimate is set
+to be unbiased, which means that the expected value of the least squares
+factor is equal to the w zero. So, if you would do many least squares
+estimation experiments with different realizations of the of the
+additive noise vector, then on average you will you would have a result
+which is equal to the w zero and that is actually easily proven. So
+expected value as you see it in the formula here expected value of the
+square solution. Least square solution being equal to u transpose u
+inverse and u transpose d and the d satisfies the linear regression
+model as we had it in the previous slide. **Then that leads basically to
+the expected value of W E squares being equal to w of zero plus
+something expected value of with an e vector of which the expected value
+is equal to zero, so hence expected value of the least square solution
+is indeed equal to the w of zero.** So, this property is referred to as
+unbiasedness. So, under the assumptions made here the squares estimator
+or estimate is said to be unbiased. Then under an additional assumption
+that the noise matrix, the bold phase e has unit covariance(). So,
+expected value of e times e transpose as an identity matrix. Then the
+estimation error covariance matrix also takes a very simple form, the
+estimation error covariance matrix is basically that you take the
+estimation error which is the Least squares estimate minus the w of
+zero, that is an error vector, and then you do this vector times its
+transpose and the expected value there. If you substitute the above
+formulas, then you end up with a very simple expression for the z
+covariance matrix which is u transpose u inverse. At this point, this
+formula doesn\'t really ring a bell. It\'s something to remember and
+it\'s something that we use further on.
+
+**Slide 7**
+
+Further to this, we can define the so-called mean squared error of the
+estimation and it\'s defined based on the same error vector as we have
+used it in the previous slide. So, we take our least squares estimate W
+V squares, we subtract the true parameter vector w zero and this is an
+error vector and of this error vector we take the squared norm. And then
+do the expected value zero of. So, this quantity basically says how far
+our estimate is from the true parameter vector w zero in expected value
+of the distance as a square to two norms. And you can easily check that
+actually if you form these 2 norms. This is the sum of elements which
+are basically the diagonal elements of the error covariance matrix as we
+have to find it in the previous slides. And some of the diagonal
+elements is the trace. So, our mean squared error is basically the
+trace. Or the expected value of the trace of the oracle various matrix
+which in the previous slide defined to be u transpose u inverse.
+
+Notice that this defined mean square error is different from the another
+quantity which was given basically the same name, the mean squared error
+criterion, which was used in chapter 7 to do optimal filter design. What
+we have here is something with the same name, but then completely
+different. So, check the formulas there and check the form here and you
+observe that it\'s something completely different, but it just so
+happens that they\'re given the same name. Now, the mean squared error
+is obviously something that you would like to have as small as possible.
+**[If you have as small mean squared error, you have a good
+estimator.]{.underline}** And a nice property then is as follows if you
+consider a family of so-called Least squares estimators where a least
+squares\' estimator or a member of the family is sort of specified by
+the function, we will make an estimate of the w, so w-hat(w\^) as a
+linear or you could say function of the bold phase d vector. So, a
+linear estimator w-hat would be capital z times the d plus small vector
+boldface() vector z where you can think of various sort of ways of
+selecting the capital z and the and the boldface z. So that is defined
+to be the class of linear estimators and the Least squares estimator. As
+we have seen it actually is a member of the family where the capital z
+and the acute transpose u times u transpose and the boldface small z is
+equal to zero. So, the v score estimator is a member of the family and
+then the nice property is that the least scores is estimator actually is
+the one member of the family that minimizes this defined mean squared
+error.
+
+So, [the least square estimator is referred to as the minimum mean
+squared error estimator]{.underline} within this class of linear
+estimators and hence it is referred to as the linear minimum mean
+squared error estimator. This is all under the assumptions I should
+stress as we have made them in the previous slide. Under an additional
+assumption, namely the assumption of the additive noise measurement
+noise, the e vector being or having a gaussian distribution, it is
+actually shown that the least estimator is of all possible estimators in
+the world. Not restricted to the family of linear estimators is the
+minimum means squared error estimator and that is a very strong
+statement or property. So, under the assumptions made in terms of the
+mean squared, error criterion as we have to find it in this slide the
+least squares estimator is sort of the best estimator you can have. All
+these properties in this slide and the previous slide make the least
+squares estimator where the formula in a sense was just borrowed from
+the completely different theory of optimal filter design and least
+filter design, but so with this formula we have an estimator which has
+very remarkable and very desirable properties indeed.
+
+**Slide 8**
+
+Before we continue, two remarks are in order on this slide and on the
+next slide, **[first remark about the error vector]{.underline}**, the
+boldface e vector. The previous slide it was assumed that the e vector
+has zero mean and unit covariance matrix and the question then could be
+what happens if the e vector still zero mean but has a non-unit
+covariance matrix. So, assume the covariance matrix expected value of
+times e transpose is a more general v matrix with then vs a symmetric
+matrix. In this case positive definite let\'s say symmetric matrix. In
+that case what we\'re going to be using is so called **Cholesky
+factorization**. Check your linear algebra courses or Wikipedia on
+**Cholesky** factor session offer symmetric positive definite matrix.
+So, this v matrix can always be decomposed into a product of a
+triangular matrix times its transpose and this triangular matrix is also
+referred to as the square root and it\'s similar to ~~(It\'s basically
+exactly the same thing as)~~ the square root that we have seen in the
+previous chapter.The square root can be either an upper triangular or a
+lower triangular matrix. In this case it\'s defined as an upper
+triangular matrix. So, if vs is decomposed into **an upper triangular
+matrix** TIMES **its transpose**, which is then lower triangular matrix.
+So, the screw is referred to as feet to the one half. As a square root
+indeed. This is a quantity that we\'re going to be using further on.
+Now, in this case it\'s demonstrated actually and we\'re not going to
+provide any proof here that the linear MC estimator, so of all
+estimators in this family of linear estimators, the one that achieves
+the minimum mean squared error, which is again a very desirable property
+is given, as you see it here in the formula, the w-hat and then an
+expression. Basically, if you compare it to a previous such expression,
+instead of u transpose u, you would see u transpose and then times
+inverse of v, which is plugged in times u and, and, and then the inverse
+zero. And then similarly rather than u transpose d, you would see u
+transpose. And then again the v inverse is plugged in and times the t,
+so that is the formula without any proof here for the linear MMSE
+estimator and the formula for the corresponding error covariance matrix
+is also provided here and rather than u transpose u inverse again you
+would see u transpose and the fee to the minus one gets plugged in times
+u. And then the inverse there of(zero?). You can easily check that this
+linear and c estimator actually corresponds to the least squares
+estimator and a slightly modified observation model or regression model
+after a so-called [pre-whitened]{.underline} operation. So, in your
+standard observation model d is equal to u times w zero plus the error
+vector. Now assume that you pre-multiply everything with the inverse
+**Cholesky** factor. So, times v to the minus one half that gives you a
+new d vector which is the knowledge here is detailed new u matrix which
+is denoted here as u tilde (\~) and a new error vector which is denoted
+here as u tilde. You can easily check that for this u tilde expected
+value of u tilde the times u tilde the transpose is indeed equal to an
+identity matrix. So, this has become an error vector with a unit
+covariance matrix and an error vector with the unit covariance matrix is
+referred to as a wide noise vector and hence this operation is referred
+to as a pre whitening operation. So, you take your observation model or
+regression model, you [pre-whitened]{.underline} it such that the noise
+becomes a white noise with the unit covariance matrix and then apply
+your good alt from the previous form slides the squares estimator to
+this [pre-whitened]{.underline} observation model. So where basically u
+replaced by u tilde and d is replaced by d tilde and then take the
+formulas for the w-hat and the corresponding covariance matrix as you
+see them in this slide.
+
+**Slide 9**
+
+Final remark here in some estimation problems. Next to the observation
+with the u matrix and the d vector, you may also have an initial
+estimate available, which is denoted here as w of zero with a head. And
+this could be obtained from previous observations or whatever. And
+assume that this comes with an error covariance matrix which is defined
+here. So, you take the error vector w add zero minus the exact parameter
+vector w of zero. This is this is an error vector and then you take this
+vector times it transpose expected value thereof. Assume there\'s a
+given p matrix. Again, this is a positive definite symmetric matrix of
+which you can do a **Cholesky** factorization. So, assuming you\'re
+given the w zero hats and the corresponding error covariance matrix with
+the p or the p to the one half, then, the question is how do you
+incorporate this into your estimator? And the solution again without any
+proof or derivation is as follows, the linear estimator in this case. So
+again, within the family of linear estimators, the one that provides the
+minimum **MMSE**. Then the corresponding error covariance matrix, the
+formulas are provided in this slide. So w-hat, and then you see.
+Somewhat formidable looking expression and we\'re not going to go into
+the details, but basically you can, if you do check the details, you can
+check that this corresponds to again a least squares estimator for sort
+of an extended observation or linear regression model with a d vector
+which is denoted here as d X for extended or something and, and a u
+matrix which is denoted here as u x sort of extended again. When you
+look into this extended observation model, you basically see two parts.
+The bottom part has the d vector and the u matrix and the pre-whitened
+operation as we have seen it in the previous slide. And then the top
+part, if you first sort of ignore the multiplication with p to the minus
+one half would basically say: identity times the w of zero is equal to
+the w-hat zero, the initial estimate that you have available, so it
+responds to basically a part in the u matrix which is an identity matrix
+identity times the unknown w zero vector would be equal to the observed
+w zero hat or I should say initial estimate plus an error vector which
+is the e of zero as you\'ve also seen it in the first formula. And then
+again you do some sort of pre-whitening operation with the **Cholesky**
+factor inverse of the **Cholesky** factor of the error covariance
+matrix. So, again you have and a linear and MMSE estimator that
+corresponds in itself to a least square estimator of an extended
+observation or linear regression model as you see it here.
+
+**Slide 12**
+
+Going to move on to common filters. In the next few slides, you will see
+that a common filter actually also solves a parameter estimation
+problem. But whereas in previous slides we looked into a static
+parameter estimation problem where we\'re estimating a fixed parameter w
+zero, we\'re now going to move into dynamic parameter estimation where
+the parameter vector evolves over time and the time evolution of the
+parameter vector will actually be described by means of a so-called
+state equation and the so-called state-space model, whereas the output
+equation of the same state-space model actually corresponds to the
+regression model as you have seen it in in previous slides, a
+state-space model is then crucial to the common filter and you remember
+state space models from your signals and systems courses and indeed
+states models have 2 equations, an output equation and a state equation
+and sort of state equation will describe the time evolution of the
+parameter vector and the output equation will correspond to the
+repression model as we have seen it in previous slides, the details of
+this will be given in in in later slides. In the next few slides, we\'re
+first going to introduce to general common filter problem statement and
+then slide 14 will indicate how this actually relates to the fixed
+parameter estimation problem as we have seen it in the previous slide.
+The common filter is a general tool which is used in many, many
+applications and it\'s it is named after Rudolf for Rudy Kálmán, a xxx
+American electrical engineer and mathematician, who passed away a couple
+of years ago but basically sort of lives on through the common filter
+that is used to lead in so many applications.
+
+**Slide 13**
+
+In chapter 2, we have reviewed time-invariant() time systems or
+shift invariant time systems, and we have reviewed different ways of
+describing the input output behavior of such discrete time systems. We
+looked into impulse response sequences, transfer functions, difference
+equations and such all to describe are all alternative ways but
+equivalent ways to describe the input output behavior of such a time
+invariant discrete time system. The state-based model is yet another
+alternative way of representing or describing the input output behavior
+of time in very industry time system and it\'s provided here by the
+formula in the middle of the slides. So, the input to the system is
+still u at time k and the output is still y at time k and the input
+output behavior is now described through the definition. Basically, you
+have a state vector which is the boldface X vector at T K and then the
+state-based model **[has basically two equations]{.underline}**. **The
+first equation** is referred to as the state equation which describes
+the evolution of the internal state, the acts of k vector and then the
+output equation. **The second equation** is referred to as the output
+equation describes how the output signal is add time K a function of the
+states. The internal state time k together with the input add time k.
+So, the state equation basically says the next state at time k plus one
+will be a function of the current state at time k as well as the current
+input signal u at time k and the function is specified by means of an a
+and A B, this is a matrix and A B vector. In the case of a single input
+signal, u of k, so in the case where UK is a scalar input signal.
+
+The second equation describes the output at time k, and so is said that
+the output at time k is a function of the current internal state at time
+k. And that together with the input add on K U time k, and this function
+is again described by two quantity c and A D where sees a. vector in the
+case where y is a single output and then d is a scalar.
+
+So, we\'re considering here a single input single output system. So, u
+of k is a scalar, y of k is a scalar. So, samples of the input signal
+and the output signal. We can also have multiple input, multiple output
+systems where the u of k could be a vector of input signals at y of k
+could be a vector of output signals at k and the ABC and D have
+corresponding. matching dimensions in any case. So, the state-based
+model is described by this ABC and D these quantities and is also
+referred to sometimes as an ABCD model. Notice that if you think of a
+discrete time system else order system FIR IIR or whatever, then such a
+system is typically or can be described by means of an elf order
+difference equation. As we have seen it in chapter 2 and later chapters,
+what we have here in terms of the state equation is basically rather
+than an elf order difference equation, we have L first order difference
+equation where the X times k is a function of X at previous time k and
+etcetera. So that\'s a set of L's first order difference equations to
+indicate that the state-based model is indeed equivalent to other
+representations of the input, output behavior or descriptions of the
+input output behavior. Discrete time system, for instance, the last
+formula indicated here says how the transfer function is related to the
+ABCD state-based model. And that is a well-known formula from signals
+and systems courses. So, if you give them the ABC and D, then you can
+compute the corresponding transfer function of the system.
+
+**Slide 14**
+
+A very simple example of a state-based model is provided in this slide
+for an MIIR(?) filter else or IIR filter of which the input output
+behavior is first described by means of a difference equation with **b**
+coefficient and **a** coefficient, as we have seen it in chapter 2 and
+later chapters, we also use direct form realization on this slide of
+this IIR system with the a and the b coefficients appearing as
+multipliers in the realization. And you also see a sequence of delay
+operations in the realization. A straightforward choice for the internal
+state vector to construct a state-space model is to have the outputs of
+the delay elements correspond to the individual elements of that state
+vector. So, what we have here is a fourth-order example with four delay
+elements and the state vector, the dimension of the state vector should
+be four if we consider the outputs of the four delay elements then these
+can be chosen to be the elements of the state vector. So, X one first
+element that the output of the first delay element X to it, the output
+of the second delay element etcetera, then the state equation that
+describes the evolution for the internal state. Basically, to put up the
+state equation, you have to find out what the state vector at the next
+point in time at time k plus one will be. Now, if X one is defined at
+time k to be the output of the first delay element, then the output at
+the next point in time will be the current input to the delay element.
+So, the current input to the delay element at time k will be X one at
+time k plus one as it is indicated by the arrow. And that quantity or
+that signal can be described as a function of the current components of
+the state vector X one X two X three X four as well as the input by
+means of the **[a coefficient]{.underline}** etcetera. As you see it in
+the first row, basically you have the state equation. And then similarly
+for X two, X two times one will basically be that the input to the
+second delay element in the delay line and that happens to be equal to X
+one at time k, so hence the one [and then zero, zero, zero in the second
+row of the state equation]{.underline}. So, in this way you can compile
+the state equation. And similarly, the output equation, the wire times k
+can be defined to be a combination of the X components and the input U
+time k with this state-space model, so that defines ABC and D. You can
+recompute the transfer function by using the formula on the previous
+slide, and that should again lead to b of z divided by a of z, or the b
+and a half the coefficients of the first formula difference equation
+with the b and a coefficient.
+
+**Slide 15**
+
+In the filter, we actually going to immediately use more general state
+space model, which is a state-space model for a time varying discrete
+time system with additional noise. Time varying means that the ABC and D
+quantities in the state-space model can actually be time varying. So,
+vary over time.
+
+Its indices() a at time k, b at time k, c at time k and d at time k,
+later we\'re going to assume that ABC and D will be available at each
+point in time, but so they can vary over time. On top of that, we\'re
+going to add a process noise term in the state equation and the
+measurement noise term in the output equation. So, in the output
+equation, we say that the output signal at time k is a function of the
+internal state of the system as well as the ~~you could say~~
+deterministic input signal u at time k, but then there\'s an additional
+random term or stochastic() term which is w at time k, which could
+represent for instance, measurement noise. And similarly in the state
+equation, we\'re going to assume that the next state vector is a
+function of the current state vector Xk plus a function of the so-called
+~~let\'s say~~ deterministic input signal and then plus a random term,
+unknown process noise term, which is indicated here as v of k. We make
+statistical assumptions about the v of k process, noise and w of k
+measurements, noise, we will assume that they are zero mean and white
+noise sequences and then we also assume we know the covariance matrix of
+the of the additional noise to v and the w, we\'re assuming that the v
+and w are uncorrelated. So, if you do the covariance matrix on the last
+formula here, you\'re going to see zeros in the block of diagonal
+entries because of the assumption of the two being uncorrelated and then
+noise covariance matrices v of k and w of k, where w of k is actually a
+scalar v of k is a matrix of which you can again compute **Cholesky** or
+square root factorization which will be using further on.
+
+**Slide 16**
+
+So, here\'s finally the general problem statement for the common filter.
+The common filter is said to be a state estimator, so it solves a state
+estimation problem, internal state estimation problem in a system
+described by state-space model, so we\'re given a state-based model and
+given in the sense that we know at each point in time what the
+quantities the a to b to c and the D R as well as the noise covariance
+is the V K and the W K and we\'re also observing the input signal and
+the output signal to and from the system. So, UK and Y K for all time k
+and then the question is basically to estimate what is inside the
+system. So, the internal state vectors add all time k, this is the
+general program statement and this will be solved by the common filter.
+
+**Slide 17**
+
+This slide shows how the parameter estimation problem in the linear
+regression model in the first part of the chapter, is actually a special
+case of state estimation in a general state space model. If you go back
+to **slide 4** and check the linear regression model, then you can
+actually take the linear regression model and substitute it in the
+output equation, or have it replaced the output equation of the state
+space model, The linear regression model was given as d of k, the
+observation at time k is equal to boldface u vector at time k which is
+the input vector at time k times the parameter vector w zero plus
+observation noise e of k. If that replaces the output equation then you
+see that [d of k]{.underline} actually takes the place of the [y of
+k]{.underline} the usual output signal from the state space model.
+
+And then somewhat remarkably, the input vector, the boldface u at time k
+takes the place of the c vector at time k to not be confused here that
+you is the input vector of the repression model. It takes the place of
+the c of k and do not be confused with the scalar u of k and the
+previous state space model, which was referred to sometimes as the
+deterministic input to the states space model, which actually is not
+seen in this special instance of the state space model.
+
+So, both phase u of k vector input victory takes the place of the c of k
+and then e of k the observation, noise takes the place of the
+observation. Here the output noise Wk the internal state vector Xk has
+been replaced by the parameter vector w of zero which has received a
+time index here. So, it\'s w zero at time k, but then actually the state
+equation ~~sort of expresses~~ that we assume that this parameter vector
+is the same at all times K, so the state equation says the parameter
+vector w zero at time k plus one is equal to the state vector or
+parameter vector. I should say w zero at time k plus zero plus zero. So,
+no deterministic input contribution and no process noise contribution.
+So, we\'re having or we\'re adding sort of a constraints to the
+estimation problem saying that indeed the parameter vector is the same
+parameter vector at all times k, so this is a special instance of the
+state space model with special substitutions for basically ABCD and then
+the noises and the noise covariance etcetera. If you do these
+substitutions in later algorithms as we\'re going to derive them, it
+will turn out that what you derive them with such a substitution is one
+of the recursively scores algorithms. As we have seen them in in the
+previous chapter, we will see the standard recursively scores algorithm
+as a special case. This will be seen in slide 25 and we will see that
+the Recursive Least Squares (RLS) Algorithm is also a special case of
+the common scrooge common filter in slide 22.
+
+**Slide 18**
+
+To understand later common filter equations and algorithms, we have to
+introduce a definition and the definition here is a definition of ~~X
+hat k slash L~~ (${\widehat{X}}_{k|L}$) where this X hat is an estimate.
+It\'s going to actually be a linear MMSE estimate. Indeed, the comm
+filter will produce linear minimum mean squared error estimates of the
+state vector acts at time k and we we\'re producing this estimate by
+making use of all data available up until time L, so that means we will
+be using to produce this estimate of xk we will be using all ABCD matrix
+all error covariance matrix all input and output samples up until time
+L.
+
+And with this definition actually we can distinguish between filtering
+prediction and smoothing as follows: filtering is where the L in the
+definition is equal to the k, so that means for instance by making use
+of observations of the ABCD and the error covariance and the inputs and
+outputs up until time 1000, we make an estimate of the internal state
+vector at time 1000 prediction is where the L is smaller than the k, so
+there for instance, we would make an estimate of the internal state
+vector time 1000 by making use of observations ABCD error covariance
+input output samples up until time 900 for instance. So, you observe the
+system up until time 900 and then make a prediction. An estimate of the
+later state vector acts at time one thousand, smoothing is sort of the
+other way around where L is larger than k, so you would observe your
+system up until time 1100 ~~let\'s say~~. So, you have ABCD error
+covariance put up put samples up until time 1100 to produce an estimate
+of the internal state vector at time 1000. So, this is filtering
+prediction and smoothing. The common filter as we will see it in the
+next few slides actually computes at time k. The filtered estimate hacks
+hat k slash k as well as the one step ahead prediction hacks hat k plus
+one slash k, so we\'re estimating the internal state vector xk and the
+next state vector xk+1 by using observations. So, ABCD error covariance
+inputs outputs up until time k.
+
+For each estimate, we\'re also going to have a corresponding error
+covariance matrix, which is defined similarly to error covariance matrix
+that we have to find in the first part of the chapter. So, if we have an
+estimate, for instance in the first formula here X hat k slash k, the
+true internal state vector is xk, so we subtract xk from
+${\widehat{X}}_{k|K}$, this is an error vector. You take the error
+vector times its transpose the expected value thereof. That is an error
+covariance matrix for which we will use a similar definition. So,
+$P_{K|K}$, and again, we\'re also going to use square root **Cholesky**
+factor. So, we define $P_{K|K}$ to the one-half times $P_{K|K}$ to the
+transpose one half is the **Cholesky** factor of $P_{K|K}$ and similarly
+for the one step ahead, prediction $P_{K + 1|K}$ etc.
+
+**Slide 20**
+
+The state estimation problem that the common filter will consider and
+solve at time k actually corresponds to a parameter estimation problem
+in the sense of the first part of the chapter here in a linear
+regression model, which is indicated here in the formula.
+
+And you will see that in this regression model, the parameter vector
+that we\'re estimating is actually sort of a compound vector that has
+all state vectors from the initial time acts at time zero until at time
+k plus one, the one step ahead prediction as you will see at time k.
+What you see in the large formula here is basically the state space
+models. So, the state equations and the output equations for all time
+steps from an initial time step zero up to time k, the first equation
+that you see is a bit of a special equation, it\'s the inclusion of an
+initial estimate of the state vector at time zero, sort of the starting
+point, and this is in the sense of **page 8**, so **you can go back to
+page 8** to understand the details here. But if you skip this first
+equation, then the second equation basically reads minus b of zero, u
+zero is equal to a of zero X zero minus X one is equal to or plus v of
+zero, and that is a state equation that says basically X one is equal to
+a of zero times X of zero plus B zero times U zero plus if you have zero
+state equation at time at time zero. And then the third equation is
+basically similarly the red were identified as the output equation at
+time zero.
+
+And on you go. So, every set of two consecutive equations in this large
+set of equations corresponds to the state space model at a certain point
+in time. Now the equations are spelled out in a particular fashion so
+that you can indeed identify a linear regression model where the vector
+with all the state vector the x is the vector of unknowns is the
+parameter vector that will be estimated and then for instance the
+left-hand side vector is similar to the d vector. Boldface d vector in
+the standard linear regression model.
+
+The vector of observations whereas the matrix is similar to the u matrix
+and the standard linear regression model. And then the vector to the far
+right is the observation noise or measurement noise vector in the linear
+regression model. Also indeed notice that everything in the left-hand
+side vector and everything in the large matrix is known, the assumption
+in the commons filter is that the ABC and D quantities are known, that
+the input and output samples are known, etc. And so, the left-hand side
+factor, ~~I should say~~ is known, the large matrix is known. And so,
+here you have a linear regression model, where the parameter vector is
+indeed the sort of compound vector with all the state vectors from X of
+zero to exit k plus one.
+
+**Slide 21**
+
+A minor point here referring to **slide 7**, is that [if in the linear
+regression model if the observation noise vector (the boldface e vector)
+has a covariance matrix, which is different from an identity matrix,
+then you have to include a whitening operation, a pre-whitening
+operation.]{.underline} This can also easily be included here and **it
+leads to minor modifications**. You get an impression in this slide but
+the message is we\'re actually not going to do this. We\'re going to
+keep things simple and compact in later slides. But then if you do have
+an error covariance matrix() not equal to an identity matrix, you
+can indeed easily include the pre-whitening operation and have simple
+sort of minor modifications in later slides to get the appropriate
+algorithms in this case.
+
+**Slide 22**
+
+The linear regression model in the previous slides can be seen to have a
+number of equations in a number of unknowns where the number of
+equations is given here as capital L plus k plus one times L plus one.
+Capital L corresponds to the initial estimate for acts of zero, ~~in the
+sense of~~ **slides 8** ~~remember, and then the~~ cableless(?) one
+basically refers to state space models that are used from time zero to
+time k, so k plus one of them. And then the L plus one response to the
+number of equations in each state space model L for the state equation
+and then plus one for the one output equation.
+
+The number of unknowns in the linear regression model is k plus one
+times capital L, capital L is the dimension of one state vector and we
+have k plus two unknown state vectors that were estimating here from X
+of zero up to x and k plus one. You can easily check that the number of
+equations then is always larger than the number of unknowns. So, this is
+an over-determined set of linear equations and so this is the set of
+equations that we have to solve and over determined set of linear
+equations can be solved in at least course sense and as we have seen in
+the first part of the chapter that indeed leads to a linear MMSE
+estimate and **this is a desirable estimate** as we have also seen it in
+the first part of the chapter. So, this is what we\'re going to be doing
+if in the previous linear regression model, you identify the u matrix
+and the d vector if you go 2 slides back, the large matrix is the u
+matrix and the left-hand side vector is the d vector. Then you can
+compute this linear MMSE estimates by using the formula to remember from
+the beginning of this chapter. So, the estimate would be u transpose u
+inverted times u transpose d and that would lead to an estimate of all
+state vectors from state vector X zero up to state vector X K plus one,
+and to produce these estimates, notice that we have used observations up
+until time k, so **the end result of that linear MMSE estimation would
+be X hat zero slash k**, so the estimate of X of zero using observations
+up until time k and then X hat one slash k etcetera up until X hat k
+plus one slash k sort of one step ahead prediction of state vector X at
+k plus one using observations up until time k.
+
+Now using this formula to remember u transpose u inverse times u
+transpose d, as you may remember from the previous chapter **is not a
+very good way of computing**. The square solution also in the recursive
+algorithm, this does not lead to a good algorithm. So, we\'re going to
+do something different and something different will again be based on QR
+factorization and back substitution as we have seen it in the in the
+previous chapter. And that should also lead to a recursive algorithm.
+Again, screwed algorithm based on QR factorization and back
+substitution. It will be a bit different from what we have seen in the
+previous chapter because notice that in this linear regression model, at
+each time k, the number of equations in the linear regression model
+**grows**, but also the number of unknowns grows larger as time
+increases because we\'re estimating more state vectors. So, even more so
+here **we need a recursive algorithm to sort of keep complexity at a
+reasonable level** and these recursive algorithms will be the topic of
+the next few slides.
+
+**Slide 23**
+
+A recursive implementation will rely on QR factorization or QR updating
+and back substitutions, similar to what we have seen and studied in
+chapter 9 to develop a square root recursive algorithm and this will
+lead to recursive square xx filter algorithm here.
+
+From chapter 9, we remember that in such an algorithm, from time step k
+minus one to time k, basically a triangular matrix is propagated
+together with a right-hand side vector and from this triangular matrix
+and right-hand side vector, basically at time k minus one, the squares
+solution could be computed so this is the shaded or colored part in the
+first equation. So, a triangular matrix and a corresponding right-hand
+side vector at time k. New observations are added to the set of
+equations and this basically corresponds to the state based model at
+time k.
+
+State-based model that has the ABCD matrix at time k as well as the
+input and output samples at time k the uk and the yf. Notice also that
+we have not only added new observations, so added rows to the matrix to
+the left in the equation. But we\'ve also added an unknown state vector
+x k plus one, so we\'ve **increased the number of unknowns** in a set of
+equations and that leads to the additional zero to the right of the
+colored triangular matrix, and then the i in the same column.
+
+So, we\'ve increased the number of equations as well as the number of
+unknowns. And now the question is, so solve this set of equations.
+Again, this is an over determined set of equations and all the unknown
+x. To do this, we should first turn the matrix to the left, into a
+triangular matrix, and we do this by means of orthogonal
+transformations(). And then we apply the same orthogonal
+transformations to the right-hand side vector, and that will lead to a
+new triangular set of equations on the right-hand side from which we can
+compute. So, the next estimates of the all the state vectors. Now it
+turns out if you remember the details of the sort of the update process
+to turn triangular matrix with an additional, or in this case, several
+additional rows into a triangular matrix, again with a sequence of given
+transformations where **you basically introduce zeros in in a newly
+added row from left to right**. Here, you would see that in the newly
+added rows with the Ak and the Ck in the matrix, basically you have
+already a number of zeros to the left, so when you start applying/giving
+transformations to turn that matrix into a triangular matrix again. The
+first so many orthogonal given transformations are basically going to be
+void transformations **that basically do nothing**. And based on that,
+the observation is that in order to turn that large matrix in the first
+equation into a triangular matrix, basically only the lower right part
+of that triangular matrix is going to be active. And basically, together
+with the new part with the A and the C and the minus i, that smaller
+matrix has to be turned into a triangular matrix. And so, in the
+meantime, when you do that by means of orthogonal transformations, you
+apply the same orthogonal transformations to the right-hand side vector.
+And there also you\'re going to see that only the lower part of the
+right-hand side vector will actually be used for the QR updating
+process. And then remember, after the QR updating, you would do a back
+substitution to compute the vector of unknowns, in this case the vector
+unknowns, has all state vectors from time zero X of zero up to time k
+plus one at time k plus one, but actually in a commons filter, only the
+last two stage vectors are actually computed at time k, so at time k
+we\'re going to compute X hat K slash K and X hat k plus one slash k as
+it was indicated in in **slide 15**. And, and the final observation here
+is when you do back substitution, you indeed start computing the vector
+of unknowns from bottom to top. And, so basically if you have to compute
+only the bottom part of the vector of on unknown, then you can sort of
+**abort the triangular back substitution process after you have computed
+indeed x hat k plus one slash k and x hat k slash k** and then basically
+so you stop the back substitution part. That actually means that only
+the framed parts of the set of equations both in the left-hand side
+matrix as well as in the right-hand side vector is the active card that
+that will be used in the update process at time k and everything else
+from the larger triangular matrix and all previous components in the
+right-hand side vector will basically remain untouched and are not
+needed and so do not have to be remembered. So, the conclusion from this
+slide, and this is an important conclusion, is that only the framed part
+in the matrix and the framed part in the right-hand side vector will be
+active in the update at time k and this is basically the thing that we
+continue with the next slide.
+
+**Slide 24**
+
+In the previous slide we conclude that the relevant sub problem at time
+k is a much smaller problem where in the first place we have a
+triangular matrix which is propagated from time k minus one to time k
+which is the colored triangular matrix and then a corresponding
+right-hand side vector triangular matrix is L by L, and the vectors also
+has L components and then add time k, we add basically the state
+equations at time k with ABC and D at time k and then input sample you
+can output sample yk, and this altogether forms a set of linear
+equations.
+
+Again, it\'s going to be an over determined set of linear equations from
+which we\'re going to compute basically an estimate for the state vector
+at time K X K and the state vector, the next state vector at time k plus
+one, so we\'re going to estimate or compute X hat k slash k and X hat k
+plus one slash k because we\'re using observations up until time k.
+
+The triangular matrix that is propagated from time k minus one to time k
+can actually also be given a name. ~~In a sense~~, remember that this
+triangular matrix in the previous time step was the lower right part of
+larger triangular matrix from which by back substitution and estimate is
+computed again for the state vector at time k, but at that point in time
+using observations up until time k minus one, so that triangular matrix,
+the colored triangular matrix here in the corresponding right-hand side
+vector was used in the previous time step to compute X hat k slash k
+minus one, so if the in the triangular matrix is a triangular matrix,
+then the right-hand side vector is this triangular matrix times X hat K
+slash K minus one so that if you do the back substitution you indeed end
+up with X hat time K minus slash k minus one. Now the triangular matrix
+if you go back to slides 8 and 5, you would see that this matrix times
+its transpose and then the inverse actually defines an error covariance
+matrix. For this estimate, X hat k slash k minus one, so this is
+eventually seen to be the inverse square root of the error covariance
+matrix for state vector k slash k minus one.
+
+So, this is the PK K minus one to the minus one half. So, we have
+identified the triangular matrix to be this expression basically, and
+then in the right-hand side vector but see the same p to the minus
+one-half times the X hat k slash k minus one.
+
+**Slide 25**
+
+The resulting recursive algorithm, which will be referred to as a square
+root common filter algorithm, is actually a very simple one and is
+expressed by means of the following two formulas, so for each time. K
+running from k is equal to zero to k is infinity. We\'re going to
+execute the following two formulas. And the first formula basically is a
+QR update formula if you start to the to the right you propagate a
+triangular matrix from time k minus one to time k together with a
+corresponding right-hand side vector. This is the color part, and in the
+previous slide we have identified the triangular matrix as the square,
+inverse square root of an xx matrix, etcetera.
+
+And then in time k, you append the state equations for a time k with the
+ABCD matrix and the samples of the input signal uk and output sample yk
+and then you apply basically an orthogonal transformation, the q matrix,
+to triangularine the part of that so-called pre array matrix, the part
+of the matrix to the, to the left of the vertical line. So, everything
+that is to the left of the vertical line is then triangularine **leads
+to a twice as large triangular matrix**. So, if the initial color or the
+triangular matrix is L by L, so the new triangular matrix is now two L
+by two L. And the same transformations are obviously applied to the
+right-hand side vector. That leads to a larger triangular matrix of
+which then again, the lower right part is selected together with the
+corresponding part in the right-hand side vector and there you can do a
+back substitution to compute X hat k plus one slash k prediction, one
+step ahead prediction of the state vector at time k plus one and then
+the colored triangular matrix and corresponding right hand side vector
+is propagated from time k to the next time k plus one, and so this is
+situated over time in each time. Step you basically inherit a triangular
+matrix and a corresponding right-hand side. You do a QR factorization of
+basically twice the size and then propagate again a part of the
+resulting triangular matrix and corresponding right-hand side.
+
+**Slide 27**
+
+In slide 14, it was explained how the fixed or static parameter
+estimation problem from the first part of this chapte can actually be
+viewed as a state estimation problem with a state-space model with
+specific or special substitutions. It turns out that i if you use these
+specific or special substitutions in a square root column filter, then
+you obtain an algorithm which is exactly equal to the square root, which
+are less algorithm that we have derived in chapter 9 and this is
+indicated in in in this slide.
+
+There\'s one tricky part to the substitution here, which is the colored
+part with V K to the minus one half and minus V K to the minus one-half
+root basically for the special substitution the. And that actually
+corresponds to the process noise variance being equal to zero and then V
+K to the minus one half is actually, in a sense, infinitely large. And
+so, the colored part actually corresponds to sort of a constraints that
+says that the first half of the vector of unknowns is equal to the
+second half of the vector of unknowns.
+
+And so that basically or essentially you can drop half of the number of
+unknowns, which means that in a compound pre array compound matrix, the
+pre array, you can basically remove the second column and that leads to
+the final formula as you have it here. So, the substitution is a bit
+tricky, but the r~~emarkable part,~~ remarkable conclusion is that
+indeed the squared root or less algorithm from previous chapter is a
+special case of a squared root column filter algorithm. As we have it
+here, sort of square root common filter. The other way around
+generalizes the square root **RLS algorithm** as we have seen it in, in
+the previous chapter.
+
+**Slide 29**
+
+If you go to the library and check the textbooks, then remarkably this
+square root common filter algorithm from the previous slides is hardly
+ever given. And what you would mostly see as an algorithm, which is
+referred to as the standard common filter algorithm or the conventional
+common filter algorithm and which is also given here in this slide,
+we\'re not going to go into great detail here, only saying that after an
+initialization step, the standard comment filter basically has two
+update equation. **First, a measurement update equation, and then a time
+update equation and the measurement update**. Basically, if you look to
+the second formula, you would compute X hat K slash K is equal to X hat
+k slash k minus one plus sort of a correction term and the meaning of
+that formula is basically that X hat k slash k minus one is the one step
+ahead prediction of the state vector at time k computed at the previous
+update at time k minus one and with the additional correction term that
+is then turned into a filtered estimate of X K, so X hat k computer that
+time k, so X hat k slash k. Where the time update and I should also say
+the measurement update sort of corresponds to the output equation of the
+state space model. That has to see in the d matrix or vectors let\'s
+say, and you see them indeed appearing in these measurement update
+equations.
+
+The time update equation then corresponds to the state equation and the
+state space model. And they basically from the filtered estimate, X hat
+k slash k. You compute one step ahead prediction of the next state
+vector at time k plus one, so X hat k plus one, slash k also computed at
+time k. Each estimate also comes with an error covariance matrix or the
+first formula for the measurement update. And the first formula for the
+time update indeed provides the corresponding error covariance matrices
+here. You can also already see that if you look into the measurement
+update that the equations somehow smell like the equations of the
+standard recursively squares algorithm that we have derived in chapter
+8, and indeed in two slides from now we will say that the standards are
+less algorithm is in fact a special case of this standard comm filter
+algorithm.
+
+**Slide 30**
+
+We will not go into further detail of the equations or formulas in this
+standard common filter algorithm, but an obvious question could be is
+this actually the same thing as the square root common filter algorithm?
+As we have seen it, and **the answer is indeed yes**, one can easily be
+derived from the other. So, for instance, if you start from the square
+root common filter update equation. Then at time k, remember we
+basically solving an over determined set of linear equations and two
+unknown state vectors. And this over determined set of linear equations
+can basically be sort of split into an over determined set of equations
+in X hat k\|k, if you consider in the matrix to the left here in the
+equation, if you consider the first row with the p to the minus one half
+together with the last row with the ck, that is basically L plus one
+equations only in the unknown X hat k slash k.
+
+And if you use a closed form solution for this. Basically, for solving
+this X hat k slash k from this over determined set of equations,
+basically using that formula to remember, remember that u transpose u
+inverse times u transpose d, then you would that would result in a
+measurement update as you have it in the previous slide. And then the
+rest of the over determined set of linear equations the second row and
+the matrix to the left with AK and the minus one. Minus identity is
+basically once you know what the X hat k slash k is basically L
+equations to compute X hat k plus one slash k from X hat K K and that
+corresponds to the state update equation or equations as you had in the,
+in the previous slide. So, conclusion is there\'s all you can very
+easily, derive the expressions, formulas from the previous slide, from
+the formula as you have it in and in this slide also the corresponding
+error covariance matrix, update formulas, ET cetera. That is rather
+simple. So, they do indeed represent the same procedure and an infinite
+precision. These two procedures would indeed provide exactly the same
+outputs, but then similar to the conclusion and in the previous chapter
+in finite precision, it is advised to use the square root algorithm
+which is better behaved numerically. So hence the square root algorithm
+is preferred over the standard common filter, which remarkably is given
+in all textbooks.
+
+**Slide 32**
+
+And then the final slide or comment here. If you again, go back to slide
+14, it was indicated through the fixed or static parameter estimation
+problem from the first-half of that chapter corresponds to a state
+estimation problem with a specific substitution in the state space
+model. Again, if you use this specific substitution in the formulas of
+the **standard common filter of slide 23**, then what you obtain is
+indicated in in this slide were basically the measurement update
+equations indeed correspond to exactly the update equations of the
+recursive standard recursively squares algorithm that we have seen in
+chapter 8, whereas the time update equations are basically unnecessary
+or avoid equations that you can in a sense skip or you just give
+different names to the same quantities. So again, you could say that
+**the standard RLS algorithm is a special case of the standards column
+filter** from the previous slide or vice versa, that the standard common
+filter generalizes the standard recursively squares algorithm from
+chapter 8.
+
+# Chapter 12
+
+Chapter 12
+
+Slide 4
 
 To develop the basic filter banks set up in the next few slides. The
 starting point is the graph indicates in in this slide and it refers to
@@ -6355,7 +7281,7 @@ efficient manner who will have to implement it as a multi rate structure
 with up and down sampling operations as you will see it in the next
 slides.
 
-## Slide4
+Slide 5
 
 Of the slide. And in the next 3 slides, we will develop the basic filter
 banks set up step by step. And this is step one. It's the filter bank as
@@ -6385,7 +7311,7 @@ bands and ripples in their stop bands and not infinitely steep
 transitions. And that will lead to specific effects with which will have
 to be analyzed in a filter bank set up.
 
-## Slide5
+Slide 6
 
 Step 2 is a decimation on or down sampling after the analysis filter
 back. So, by means of decimators or down samplers. The reason for having
@@ -6436,7 +7362,7 @@ to avoid aliasing and the subband signals after the decimation. So, the
 analysis filters were also referred to as Decima on filters preceding
 the down sampling operation.
 
-## Slide6
+Slide 7
 
 Step three, then the actual subband processing. And this is the main
 operation basically because this is the operation for which we have
@@ -6473,7 +7399,7 @@ the analysis. And then later the synthesis filter bank. Nevertheless,
 we\'re going to assume that the sub band processing is basically not
 there.
 
-## Slide7
+Slide 8
 
 Finally, from the process sub band signals, the idea would be to
 construct or synthesize the output signal, the overall output signal.
@@ -6517,7 +7443,7 @@ f one should be equal to h one. We\'re only saying that they have to be
 similar or related and the details of this statement will become um
 clearer in in later slides.
 
-## Slide8
+Slide 9
 
 Summarizing from the previous slides, this is the picture to be kept in
 mind. We have the overall input signal which is first filtered by the
@@ -6542,7 +7468,7 @@ filters. And then finally the results from these synthesis filter as the
 output signals from these synthesis filter are summed into the overall
 full band, again, output signal.
 
-## Slide9
+Slide 10
 
 Now a crucial concept in filter bank design will be the concept of
 perfect to destruction and the meaning of a perfect structure and is as
@@ -6589,7 +7515,7 @@ the scheme would be equal to the input signal to the far left of the
 scheme up to at most delay. And this is a problem statements that will
 be tackled further up in the chapter.
 
-## Slide10
+Slide 13
 
 Before continuing, let us mention two filter bank applications. There\'s
 obviously many more. So, filter banks are used in many applications, but
@@ -6645,7 +7571,7 @@ hearing. And this is where or this what is referred to as perceptual
 audio coding where you exploit masking properties, et cetera, but will
 not go into the details of this year.
 
-## Slide11
+Slide 14
 
 Second example, which is mentioned here is sub ban adapt to filtering
 where adaptive filtering as adapted filtering as we have seen it in
@@ -6673,8 +7599,6 @@ the coupling between the loudspeaker and the microphone in sub band. So,
 you split signals into sub band and then half the modeling exercise for
 only short portions or small portions of the frequency range, as you see
 it in individual sub bands. And that is indicated in the next slide.
-
-## Slide12
 
 The overall sub band adaptive filtering scheme would then look something
 like this. First, we would have the analysis filter bank and the down
@@ -6748,7 +7672,7 @@ analysis and synthesis, filtering and up and down sapling operations. So
 here again, you see that perfect reconstruction is indeed an important
 concept or aspect.
 
-## Slide 13
+Slide 16
 
 In the next ten slides, the ideal filter bank operation is illustrated
 to develop a bit of a feel for a filter bank operation so, but first in
@@ -6794,7 +7718,7 @@ a periodic spectrum with a period of 2pi. And so this is a spectrum of
 the input signal. Let us now trace the spectra of other sort of
 intermediate signals in this filter bank operation.
 
-## Slide 14
+Slide 17
 
 Let us now trace signals in the top branch and the filter bank scheme.
 The branch with H0 and F0, the low pass filter. So, H0 first is an ideal
@@ -6805,7 +7729,7 @@ a low pass version of the red spectrum of the previous slide. So, H0 is
 our first ideal low pass analysis filter and it will also act as an
 anti-aliasing filter preceding the four-fold down sampling.
 
-## Slide 15
+Slide 18
 
 And the down sampling operation leads to a signal which is indicated
 here is x1 prime of which the spectrum is, also indicated here, a
@@ -6823,7 +7747,7 @@ Also notice that we\'re assuming that the sub processing is not there or
 does not change the sub and signals. So, the output from the sub band
 processing is again the same signal x1 prime with the same spectrum.
 
-## Slide 16
+Slide 19
 
 Then we have the up-sampling operation, four-fold up sampling operation
 which leads to a signal indicated here as x1 prime prime. And the
@@ -6836,7 +7760,7 @@ spectrum, which was basically the output of the H0 analysis filter, and
 then the green images or repetitions of that red spectrum which are
 added to the red spectrum.
 
-## Slide 17
+Slide 20
 
 And then the final operation in the top branch is the filtering
 operation with the synthesis filter F0 which leads to an output signal
@@ -6862,7 +7786,7 @@ doesn\'t have to be a low-pass filter. In the next branch you will see
 that the interpolation filter indeed will be F1, which is then a
 band-pass filter.
 
-## Slide 18
+Slide 21
 
 In a similar fashion, the operations in the second branch of the filter
 bank scheme can then be traced. The branch with the H1 analysis filter
@@ -6875,7 +7799,7 @@ sampling operation. So, it also acts as a decimation or anti-aliasing
 filter. In this case, the anti-aliasing filter is indeed a band-pass
 filter.
 
-## Slide 19
+Slide 22
 
 The x2 signal is then down sampled so we have to four-fold down sampling
 that leads to a signal which is the noted here is x2 prime and the
@@ -6888,7 +7812,7 @@ band processing again. We assume that the sub and processing doesn\'t
 change the signals so it\'s also the spectrum of the outputs of the sub
 band processing.
 
-## Slide 20
+Slide 23
 
 The output of the sub processing is then up samples and so after the
 four-fold up sampling we have a signal which is denoted here as x2 prime
@@ -6898,7 +7822,7 @@ So, we have a four-fold compressed version of the spectrum of x2 prime,
 where you can see in red original spectrum as the output of H1 and then
 the green images or repeated versions of that spectrum.
 
-## Slide 21
+Slide 24
 
 And then finally, in the second branch, we have the filtering with the
 synthesis filter F1. And so again this is an ideal band-pass filter and
@@ -6915,7 +7839,7 @@ interpolation filter again. But in this case the interpolation filter is
 indeed a band-pass filter to reconstruct the sort of band-passed
 spectrum corresponding to the output of the H1 analysis filter.
 
-## Slide 22
+Slide 25
 
 From here it\'s very easy to do the similar analysis for the third
 branch with H2 and F2, and then for the last branch with H3 and F3. The
@@ -6945,7 +7869,7 @@ non-ideal analysis filters so that the down sampling operation will
 introduce aliasing effects. The analysis is much more complicated. It\'s
 not as easily drawn as we had in the previous slides.
 
-## Slide 23
+Slide 27
 
 The previous ten slides looked into ideal filter bank operation and the
 take home message is that this is actually quite easy because of the
@@ -6977,7 +7901,7 @@ bank. And that indeed is going to lead to perfect reconstruction filter
 banks as we\'re going to study it in the rest of this chapter and the
 next chapter.
 
-## Slide 24
+Slide 28
 
 To somehow convince you of the remarkable fact that you can have perfect
 reconstruction with a non-ideal analysis and then a non-ideal as well
@@ -7059,7 +7983,7 @@ you see it here, the missing information in the top branches is
 represented in the other branches. So, you can still construct your
 complete input signal.
 
-## Slide 25:
+Slide 29
 
 Now to make it into a bit of a more interesting a filter bank scheme,
 let us do an operation as it is indicated in this slide. In between the
@@ -7083,7 +8007,7 @@ also in one of the later slides. The important part is we\'re inserting
 matrix vector multiplication or two of them with a matrix and its
 inverse, and the perfect reconstruction property is still preserved.
 
-## Slide 26:
+Slide 30
 
 The final operation which will allow us to interpret what we have here
 in terms of a true analysis and synthesis filter bank scheme is to
@@ -7121,7 +8045,7 @@ have u\[k-3\] through the construction as you have seen it in in
 previous slides. So that tells us that the filter bank is still the
 perfect reconstruction filter bank.
 
-## Slide 27:
+Slide 31
 
 Let\'s now look into the analysis filter bank and try to find out what
 the analysis filters actually look like. In the previous slide,
@@ -7198,7 +8122,7 @@ represented by means of an inverse discrete Fourier transform matrix. So
 the details of this will return or we will return to the details in the
 next chapter. You don\'t have to worry about the details here.
 
-## Slide 28:
+Slide 32
 
 In this slide, you see the magnitude responses of the individual
 analysis filters of the analysis filter bank. For the simple example
@@ -7239,7 +8163,7 @@ and so the remarkable property or conclusion here is that you can indeed
 achieve perfect reconstruction even with non-ideal analysis and then
 synthesis filters.
 
-## Slide 29:
+Slide 33
 
 The last part of the chapter has some of the basics of perfect
 reconstruction theory and then perfect reconstruction design as we will
@@ -7265,7 +8189,7 @@ perfect reconstruction design criterion that we\'ll use in the next
 chapter to actually design perfect reconstructing analysis/synthesis,
 filter banks.
 
-## Slide 30:
+Slide 34
 
 So here\'s a very simple two channel case, for example, to begin with.
 So you have an analysis filter bank with 2 analysis filters, H0 and H1,
@@ -7330,7 +8254,7 @@ somewhat remarkably is equal to the transfer function with the or for
 the full scheme with the down-sampling and up-sampling operations
 removed.
 
-## Slide 31:
+Slide 35
 
 From the expression on the previous slide, you can specify the so-called
 perfect construction conditions for the analysis and the synthesis
@@ -7356,7 +8280,7 @@ reconstruction. And so then the question is what are analysis filters,
 equations so that the alias transfer function is equal to zero and the
 distortion function is equal to a pure delay.
 
-## Slide 32:
+Slide 36
 
 A solution to the perfect reconstruction design equations from the
 previous slides, A(z) is equal to zero and T(z) is a delay, or A(z) and
@@ -7409,7 +8333,7 @@ here, only to sort of appreciate that the solution is already pretty
 complicated and we\'re only talking a two-channel case two-fold down an
 up sampled two-channel analysis and synthesis filter bank.
 
-## Slide 33:
+Slide 37
 
 Question now is whether you can generalize the design procedure for the
 two-channel case to perhaps first the three channel case and the four
@@ -7465,7 +8389,7 @@ is we need a different approach to sort of construct or perfectly
 construction design equations and that will be given in the next few
 slides.
 
-## Slide 34:
+Slide 38
 
 The message from the previous slide is that we need a different
 representation to represent the analysis filter bank and the synthesis
@@ -7549,1885 +8473,6 @@ the bold E matrix, where you have polyphase components and the rows for
 successive analysis filters and the synthesis filtered bank is
 represented by the bold R matrix, where you have polyphase components of
 successive synthesis filters in the columns of the bold R matrix.
-
-## Slide 35:
-
-In general, the motivation for using polyphase decomposition is that by
-using a polyphase decomposition you split a general filter into
-polyphase components which can each individually be typically swapped
-with an up or down sampling operation. As we have seen it in chapter 2,
-and this is referred to as the noble identities and in chapter 2 and
-these novel identities will be applied here for the very simple
-4-channel case as you also had it in the previous slide. In the previous
-slide you would have the filtering with the bold E first and then the
-down sampling operation four-fold down sampling operation. The filtering
-with the E is a filtering with E of z to the 4 in the previous slide
-followed by a four-fold down sampling operation. This is where the noble
-identities tell you that you can swap these operations. You can do the
-four-fold down sampling first as you have it in this slide and then this
-is followed by the filtering and now the filtering is not with E of z to
-the 4 but of the filtering with E of z to the power 1 basically.
-Similarly in the synthesis part in the previous slide we would have
-four-fold up sampling followed by a filtering with R(z) to the four.
-Noble identities tell you that you can swap these two operations you can
-have the filtering first and then this will be a filtering with R(z) to
-the 1 instead of R(z\^4) and then this is followed by the four-fold up
-sampling. So this is the resulting scheme. Here you have the input
-signal which is filtered by delay filters down sampled. Then you have
-the E and R and then up sampling delay filter summation. And the
-question now is with this alternative representation of an analysis
-synthesis filter bank or again E(z) is representative of the analysis
-filter bank and R(z) is representative of the synthesis filter bank. Can
-you derive simple equations that provide you with a system where all
-aliasing effects are canceled, which is alias free? And on top of that
-where you would have a distortion function which is equal to a pure
-delay so that you have perfect reconstruction, now this is where you can
-already sort of predict that the current representation is going to lead
-to something which could be quite simple if you go back to slide 24.
-Then in slide 24 you basically had a system which is similar to what you
-have here, only in fact, without the E(z) and the R(z), you would have
-the input signal, which gets filtered by the delay filters 4-fold down
-sampling. And then let\'s say no, E and R 4-fold up sampling and delay
-filtering and summation. And we, we\'ve demonstrated in slide 24 that
-this actually responds to a perfect reconstruction system where the
-output signal is indeed u\[k-3\] in this four-channel case at a three
-sampling period delayed version of the input signal. So that would
-correspond to the perfect reconstruction system. So if the E and R were
-not there we would have perfect reconstruction. So with the E and the R
-in place you could sort of immediately predict that if the E and the R
-are each other\'s inverse, then E times R o R times E is going to be an
-identity matrix and then basically is removed from the scheme. And then
-indeed you have perfect reconstruction. So somehow from here you can
-already predict that if the R matrix is the inverse of the E matrix then
-you would have perfect reconstruction. And in the next few slides we\'re
-going to look into the details, the actual requirements for perfect
-reconstruction, which will lead to a very similar, slightly more general
-conclusion actually.
-
-## Slide 36:
-
-Let\'s first look into alias-free operation. So the question is when is
-the filter bank and alias-free filter bank if you go back to slide 33
-where you have the expression with alias transfer functions N-1 in
-general of them. The question is when are all these alias transfer
-functions exactly equal to zero? And the statement here is in terms of
-the polyphase decomposition matrix is the bold E and R matrix. The
-statement here is that the necessary and sufficient condition for
-alias-free operation. To have an alias-free filter bank is that the
-product of the bold R(z) matrix times the E(z) matrix is a
-pseudo-circulant matrix. This is a necessary and sufficient condition;
-we\'re only going to prove in the next slide. We\'re sort of informally
-prove the sufficient part of this statement, not the necessary part of
-the statement. So, but the statement is actually quite simple. It says R
-times E is a pseudo-circulant matrix. Question then is what is a
-pseudo-circulant matrix. We\'ve seen in a previous chapter what a
-circulant matrix is, where each row is basically the previous row where
-every entry is shifted one step to the right, and then the entry that
-sort of is removed from the matrix to the right-hand side is circulated
-back into the left-hand side. That is a circulant matrix. Then a
-pseudo-circulant matrix in this case here is a circular matrix where on
-top of anything else, all of the elements/entries below the main
-diagonal are multiplied by z to the -1, so you see that in this
-pseudo-circulant matrix as you have it here, you have a first row p0(z)
-p1(z) p2(z) p3(z), notice that these are functions of z, as R and E are
-also functions of z, so the first row is p0 p1 p2 p3 and then the second
-row you have the p0 which gets shifted one step to the right. So it
-appears in the two-two element, second element in the second row, the p1
-is shifted into the two-three elements, third element in the second row,
-and then the p2 is shifted in the fourth element. In the second row, the
-p3 in the first row, it\'s shifted to the right, it\'s removed from the
-matrix but then it\'s circulated back in, so that left. So the first
-element in the second row is p3 again, but this is where it gets
-multiplied by z to the -1 because it\'s an entry below the main
-diagonal. On you go you can check the other entries matrix and so this
-is in the end the definition of a pseudo-circulant matrix still for a
-very simple four-channel case. So, the statement here is a necessary and
-sufficient condition for alias-free operation is that R times E is a
-pseudo-circulant matrix. Notice that we have in this condition R times E
-so you multiply E to the left with R matrix and we always read formulas
-in a sense from right to left where you start from for instance U(z)
-which gets filtered by something and then something else, if you go from
-right to left in an equation, whereas in a scheme as you have it at the
-top of the slide you would see the operations from left to right. So
-there this is where you see the E(z) appearing first and then the R(z),
-so a vector signal gets multiplied by E(z) and then by R(z) in the
-scheme in the formula which multiply R times E times the input vector,
-where the vector first gets multiplied by E and then by R, so do not be
-confused. In the scheme you would see the E to the left and the R to the
-right and the formula here the condition for alias-free operation, you
-see the R to the left and the E to the right. So for necessary and
-sufficient condition for alias-free operation is that R times E is a
-pseudo-circulant and matrix. If the filter bank is alias-free, then
-everything that remains is a distortion function, T(z), and then it
-turns out that this pseudo-circulant matrix also defines the distortion
-function in that the polyphase components of this distortion function
-are found in the first row of this pseudo-circulant matrix at the p(z),
-the p0, p1, p2 and p3 in this four-channel case for example, are indeed
-the polyphase components of the resulting or remaining distortion
-function. And so the sufficient part of this statement is sort of
-informally proved in the next slide to make it a bit more acceptable.
-
-## 37
-
-An informal proof of the sufficient part of the statement in the
-previous slides, as provided to in this slide and this is actually very
-simple in the previous slide you had in between the down sampling and up
-sampling operation, you had the filtering with the poly phase E and then
-the filtering with the poly phase R altogether in the formula, whereas
-in the block scheme you would see the E to the left and the R to the
-right, and the formula. This would be a multiplication with R \* E that
-R to the left and then the E to the right. So again do not be confused
-here.
-
-This here this is a matrix transfer function of Z to the one mobile
-identities again tell you that this can be swapped with the downsampling
-operation, so you would have to filtering with the matrix transfer
-function first, but now the Z is replaced by Z to the four, so you would
-have a filtering by polyphase R of Z to the four times polyphase E times
-Z to the four, and then the downsampling operation, and then still the
-upsampling operation to delay filters on the summation. Etcetera.
-
-Now the question is the remaining question is then whether you can still
-swap the delay filters at the beginning of the scheme or to the left of
-the scheme with the filtering with RZ to the 4 \* E of Z to the four.
-And actually this can also be done so you can also swap these two
-operations in a sense if you look into the formula in the middle of the
-slide. So you would have the sort of first left hand side of the of the
-scheme corresponds to U of Z. As you see it in the left hand side or the
-OR the left hand part of the equation U of Z gets first filtered by the
-vector transfer function with the delay filters to one Z to the -1 Z to
-the -2 Z to -3 and then gets filtered by RFC to the 4 \* E of Z to the
-four. Now if for r \* E You substitute the pseudo circulant matrix as
-you have it in the previous slide, you can easily check that that indeed
-corresponds to the delay vector transfer function multiplied by always
-the same expression which is indicated here as to T of Z, which is
-immediately in a polyphase decomposition form times the U of Z and this
-is merely a matter of substituting the pseudo circulant matrix from the
-previous slide. So you have to do this for yourself. But the conclusion
-is the interpretation of the left hand or I should say right hand part
-of the equation here is that U of Z first gets filtered by T of Z of
-which the polyphase components are P OF 0, P1, P2, P3, then gets
-filtered by the effect your transfer function with the delay filters.
-
-And then you have the rest of the operations in the original scheme. The
-downsampling of sampling and delay filters and summation. So altogether
-that leads to the scheme as you have at your at the bottom of the slide,
-you take your input signal, U of K it first gets filtered by T of Z
-filter.
-
-Specify it in terms of its polyphase decomposition and the formula in
-the middle of the slide. Then that goes into the delay filters 1, Z to -
-1, Z to - 2, Z to -3. Then you have to down sampling for fall down
-sampling for fold up sampling delay, filter summation.
-
-And what you see now appearing is basically that the input signal gets
-filtered by T of Z and then everything else is basically what we had in
-the previous slide, then which we have identified as a perfectly
-reconstructing a system where so everything from the initial delay
-filters down sampling, up sampling and delay filter submission is
-basically takes a signal and produces adds it up the same signal up to 3
-sampling period to delay. So at the outputs overall you\'re going to see
-the input signal filtered by T of Z and then subject to a three sampling
-period delays.
-
-So that is a linear filtering operation with a distortion function T of
-Z times, basically Z to the -3, so the whole system starts acting as a
-linear time invariant system and is indeed free of aliasing effects. So
-you have an alias free filter bank that acts as a linear filtering
-system with the distortion function T of Z and again the polyphase
-components of the T of Z are specified as the entries in the first row
-of the pseudo circulant matrix.
-
-## 38
-
-The remaining question now is once you have alias free operation when
-you have perfect reconstruction. So if you have the alias free
-operation, you have the resulting distortion function: the T of Z. And
-so now the question is when is the T of Z pure delay so that we indeed
-have perfect reconstruction.
-
-Now from the previous slides, you can immediately state that unnecessary
-and sufficient condition for perfect reconstruction is that the R times
-E matrix this pseudo circular matrix from the previous slide that now
-takes special form as it is indicated here in the formula in the middle
-of the slide R times E of Z is the pseudo circulant matrix, which is now
-a sparse matrix with 0 entries and then two parts which are basically an
-identity matrix scaled by Z to the minus delta or multiplied by Z to
-minus delta and then another identity matrix multiplied by Z to minus
-delta -1.
-
-The reason for this is very simple. In the previous slides, we\'ve
-stated that in the pseudo circulant matrix the entries in the first row
-corresponds to the polyphase components of the distortion function. Now
-if the distortion function is to be a pure delay and a pure delay has an
-impulse response 0000 and then along somewhere and then again 0000. And
-knowing that the polyphase components are basically downsampled versions
-of this impulse response.
-
-You can easily decide that the polyphase components of this if T of Z is
-a pure delay, all of the polyphase components are going to be exactly 0
-and have only zeros in their impulse response, except for one polyphase
-components, which is going to have all zeros and then 11, and the in its
-sample response.
-
-In itself, then it\'s going to correspond to a pure delay, say Z to the
-minus delta. So if the T of Z has a polyphase decomposition where all of
-the polyphase components are zero except for one of the polyphase
-components, say PR of Z is a pure delay, say Z, to the minus delta. Then
-you can pull the first row of the polyphase matrix, the pseudo circle,
-and that matrix I should say in the previous slides with the zeros and
-then the Z to the minus delta and the R or the R + 1. I should say
-position and then construct the rest of that matrix based on the
-definition of a pseudo circular matrix where the Z to the minus delta -1
-is basically the Z to the minus delta and then an additional
-multiplication by Z to the -1 for those elements below the main diagonal
-of the matrix.
-
-So from the previous slides you can immediately decide that the
-necessary and sufficient condition for alias free operation is what you
-have is the as the formula in the middle of the slide here the
-observation is that this is basically sort of an identity matrix where
-some of the columns are have been permuted and some of the rows have
-been permuted accordingly. Sort of a permuted version of an identity
-matrix, and indeed a special cases where R is equal to 0 and then R
-times E is indeed an identity matrix multiply by Z to the minus delta
-and the conclusion will actually be that by sort of doing this
-permutation of rows and columns to have the more general form as you
-have it in the middle of the slides doesn\'t actually buy you much in
-terms of design freedom and so it\'s perfectly OK to stick to the
-simplest form as you have it here at the bottom of the slide. That
-basically says R times E is equal to an identity matrix up to a delay,
-and so if the delay we\'re not there then you would say R is has to be
-the inverse E and that indeed is the results as we have predicted it
-actually in slide 35. So if you go back to slide 35 already there, we
-sort of predicted that if R&E are each other\'s inverse, then then
-indeed you would have perfectly extraction so but now in a more general
-statement, we say R times Z doesn\'t have to be an identity matrix, it
-can be an identity matrix up to a delay, and then the identity matrix
-can also be permuted into something as you have it in the middle of the
-slides. But we\'re not actually going to exploit that sort of
-generality. So in later slides and in the next chapter, the perfect
-reconstruction condition that we\'re going to be using is this
-remarkably simple condition. R Times E is equal to an identity matrix up
-to a delay.
-
-## 39
-
-In the previous slide, we derived the perfect reconstruction condition
-for maximally decimated filter banks over the capital D up and down
-sampling factor is equal to the capital N (number of channels) in the
-filter bank, it turns out that this is very easily generalized for
-oversampled filter banks for the downsampling factory is smaller.
-
-Then the number of channels and in the example in the scheme here in the
-slide you would have 6 channel filter bank with only four fold instead
-of 6 fold up and down sampling it turns out that you can do a very
-similar derivation. The only difference is basically that in terms of
-the polyphase decompositions that you\'re going to use to define the
-polyphase E matrix and the polyphase R matrix. We\'re going to use
-default polyphase representations.
-
-So in the first formula on the slide here, you\'re going to have the
-vector transfer function H of 0 of Z, and then H1 of Z etcetera. And in
-the first row of the polyphase E matrix you\'re going to see D polyphase
-components of H of 0.
-
-So in each row of the E matrix, you\'re going to see a default polyphase
-decomposition of one of the filters of the analysis filter bank. So the
-number of columns of the E matrix is the capital D, whereas the number
-of rows is the number of channels filters you have in your analysis
-filter bank is the capital N so the dimension of E is N \* D it has N
-rows and D columns. It has more rows than columns and so this is
-referred to as a tall thin matrix.
-
-And similarly, R matrix everything is going to be reversed. Again,
-we\'re going to use T fold ball phase decompositions, but in this case
-the polyphase decompositions for an analysis filter are going to sit in
-a column of the R matrix, so you\'re going to have N columns, and in
-each column you\'re going to have capital D entries.
-
-00:02:01
-
-So the R matrix is going to be at times N matrix with more columns and
-rows and have. This is referred to as a short fat matrix.
-
-## 40
-
-00:00:00
-
-A similar derivation then leads to a perfect reconstruction condition
-where the simplified form similar to what we used in slide 13 for the
-case R is equal to 0 simplified form, is then basically the bold space R
-matrix times the bold face matrix is again an identity matrix, but now
-if you check.
-
-00:00:21
-
-Dimensions of the matrices. This is going to be at times D identity
-matrix and then again multiply it by the Z to the minus.
-
-00:00:28
-
-So again, a beautifully simple and a sense perfect reconstruction
-condition. The only difference is basically in the details and the
-dimensions of the matrices involved. So again, R is short fat matrix
-times. North East is a tall thin matrix N times D and then the product
-of those is at times T matrix.
-
-00:00:50
-
-And the perfect reconstruction condition says this has to be an identity
-matrix d \* D identity.
-
-00:00:56
-
-So again, the result is beautifully simple. We\'re going to use this
-result in the next chapter to do actual analysis, synthesis, filter,
-bank design. We\'re going to consider the maximum decimated case where D
-is equal to north, and we\'ll see that because of the fact that we\'re
-multiplying square matrices.
-
-00:01:16
-
-Together and then say the product of these two square matrices has to be
-an identity matrix that this this basically will.
-
-00:01:24
-
-Of matrix inversion, which is sometimes problematic in terms of matrix
-transfer functions and doesn\'t offer a lot of design flexibility.
-Actually, there\'s in the Oversampled case because of the fact that
-we\'re multiplying the short fat matrix together with a tall thin matrix
-that sort of avoids or does something which is more.
-
-00:01:45
-
-General the matrix inversion and you will see that that indeed leads to
-more design flexibility, so that will be discussed in the next chapter
-where we will look into analysis, synthesis, synthesis, filter bank
-through design procedures.
-
-# Chapter 12
-
-This is chapter 12 on filter bank design.
-
-## 2
-
-00:00:01
-
-The previous chapter we looked into the filter bank basic setup and in
-this chapter we\'ll look into filter bank design. We will first
-formulate the design problem and then look into general perfect
-reconstruction filter bank design and then a more specific so-called
-team.
-
-00:00:19
-
-T modulated filter bank design where we will look into maximally
-decimated filter bank first and then oversampled filter banks.
-
-## 3
-
-00:00:01
-
-In the previous chapter, we learned that the perfect reconstruction
-condition for a filter bank for the maximally decimated case, where the
-number of channels capital N is equal to the downsampling upsampling
-factor to D. So for the maximally decimated case where D is equal to
-north as well As for the over sampled case where.
-
-00:00:21
-
-Number of channels is is larger than the downsampling factor. So for
-both cases the perfect reconstruction condition is beautifully simple.
-If we represent the analysis filter bank by means of its polyphase
-representation, which.
-
-00:00:35
-
-Is captured in this boldface E matrix, and similarly the synthesis
-filter bank is represented by means of its pole. If it is decomposition
-of or representation captured by this bold phase R matrix, then
-basically the product of the R and the East matrix has to be equal to an
-identity matrix up.
-
-00:00:56
-
-To a delay.
-
-00:00:57
-
-And so this is a beautifully simple, perfect reconstruction condition
-that will you will use this for perfect reconstruction, filter bank
-design in this chapter.
-
-## 4
-
-00:00:00
-
-An important aspect is that when we\'re designing perfect reconstruction
-filter banks, we\'re actually combining 2 design targets. On the one
-hand, we\'re designing filters in the sense of Chapter 4, where we\'d
-like to have frequency selective filters with, for instance, a large
-steel bands attenuation.
-
-00:00:20
-
-A small passband triple that steep transition band, etcetera. This is
-important in view of the application that we\'re actually doing. Think
-of an audio coding application for instance. Again where each subband
-signal is encoded.
-
-00:00:33
-
-And this encoding can suffer from aliasing effects when we have the
-downsampling after non frequency specific filters for instance. So in
-terms of the application it is important to have especially a good
-frequency selective analysis filter bank at the same time we would like
-to have a perfect perfect reconstruction.
-
-00:00:54
-
-Filter bank so that the synthesis filter bank is matched to the analysis
-filter bank to give us perfect reconstruction.
-
-00:01:01
-
-Addressing these two design targets at once, is is truly the challenge.
-Designing filters frequency selective filters as such is not a difficult
-task. We\'ve seen that in Chapter 4 and designing perfect reconstruction
-filter banks is also as such not a difficult task we\'ve seen.
-
-00:01:22
-
-Simple examples in the previous chapter.
-
-00:01:25
-
-First, the delay filters and the TFT filter and then the TFT filter
-bank, which are not great filter banks, but nevertheless they offer
-perfect reconstruction, so perfect reconstruction as such is not too
-difficult and designing frequency selective filters is not too
-difficult. But combining the two that is truly the challenge which will
-be.
-
-00:01:46
-
-Addressed in this chapter.
-
-00:01:48
-
-Note that we\'re designing perfect reconstruction filters here. Another
-approach is to do near perfect perfect reconstruction filter bank
-design, where basically the filter specifications are optimized together
-with sort of a minimization you could say of aliasing and and distortion
-and and the two aspects.
-
-00:02:08
-
-Then captured and one on the same optimization problem, and then solved.
-But this is a design procedure which will not be covered here or
-addressed here in this chapter.
-
-## 5
-
-00:00:01
-
-Let\'s get started with this design problem that has first look into the
-maximum decimation case. So maximum decimated filter banks the D
-downsampling factor is equal to the capital and the number of channels.
-In this case the perfect. Your construction condition is r \* E is equal
-to an identity matrix up to a delay where the identity matrix is given
-north by North Matrix and.
-
-00:00:23
-
-Both R&E are also and by ends of square matrices.
-
-00:00:28
-
-A straightforward design procedure would then read as follows. In a
-first step, you design, for instance, all of the analysis filters 1
-by 1. So you first design the first low pass filter, then the band pass
-filter, etcetera. On you go until you have designed each and every
-filtering, the analysis filter back so that is basically based on what
-we have.
-
-00:00:49
-
-Seen in Chapter 4.
-
-00:00:51
-
-Then once you have all the analysis, filter individual transfer
-functions. Then for each analysis filter transfer function you can do a
-polyphase decomposition and then each such polyphase decomposition
-basically defines one row of the bold face east of Z matrix. The
-polyphase matrix representing the.
-
-00:01:12
-
-Analysis filter bank. So then we have.
-
-00:01:16
-
-So in each row VFC basically an analysis filter and polyphase
-decomposition so that determines the full EZ matrix and then finally, in
-order to satisfy the perfect reconstruction condition, you could compute
-the synthesis filters represented by the RFC by basically.
-
-00:01:36
-
-Inverting the EZ matrix and and then perhaps add a delay to make things
-causal, as you will see in in in later.
-
-00:01:45
-
-Levels, but so basically everything you have to do here to design the
-synthesis filters is inverts to Z matrix and then the columns of the R
-of Z matrix basically provide you with the polyphase components of the
-synthesis filters. The individual synthesis filters so so that fully
-specifies the synthesis filter bank.
-
-00:02:06
-
-Now in SQL, we\'re going to focus on FIR filters in the analysis filter
-bank because if for FIR filters, we can easily do polyphase
-decompositions, for instance.
-
-00:02:18
-
-Nevertheless, with Fr filters in the EZ inverting the EZ matrix,
-assuming this inverse indeed can be computed, will in general still lead
-to an IIR matrix transfer function, RC Infinite impulse response.
-
-00:02:37
-
-Matrix transfer function R of Z and at the same time stability could be
-concerned here. When we\'re inverting this matrix transfer function east
-of C further details on this will be given in the next slide.
-
-## 6
-
-00:00:00
-
-The previous slide has a matrix transfer function. In version something
-we may not be all that familiar with. Here\'s a very simple example to
-start with. Consider a simple case where the matrix is a one by one
-matrix. So just transfer function. So an FIR finite impulse response
-transfer function.
-
-00:00:20
-
-Example is given here. East of Z is 2 -, Z to the -1. So this is an FIR
-transfer function. If you invert it, that would be our.
-
-00:00:29
-
-Of Z the result is 1 / 2 -, Z to the -1, and so this is an infinite
-impulse response transfer function rational transfer function rather
-than an if I are polynomial transfer function. So except for special
-cases and FYR transfer function, inverse will always lead.
-
-00:00:49
-
-To an infinite impulse response transfer function.
-
-00:00:54
-
-For an infinite impulse response transfer function, we should at the
-same time be worried about stability, meaning that this is that in the
-original Fr transfer function you can have zeros that can safely lie
-outside the unit circle, but if you invert the transfer function.
-
-00:01:12
-
-And these zeros become poles in the IR transfer function and then poles
-have to be stable ends have to lie inside the unit circle. So this is
-something to be worried about. Stability is something to be worried
-about.
-
-00:01:25
-
-Let\'s now move on to the end by end case and but then again a simple
-example. First with a two by two FIR matrix transfer function. So the
-example that you have here you have Z is a two by two matrix. Each entry
-is of this two by two matrix is an FIR transfer function. So we call.
-
-00:01:45
-
-EZ and Matrix Fr transfer function. So this is a matrix which has one
-parameter which is equal to the Z. But still you can\'t compute the
-matrix inverse even when it has parameter Z and the result is provided
-here R of Z is equal to and then you see the matrix if you.
-
-00:02:04
-
-Or you could multiply the R of Z and the east of Z together to convince
-yourself that the results is indeed an identity matrix.
-
-00:02:12
-
-Remarkable thing here is that the inverse of the FIR matrix transfer
-function is again an FIR matrix transfer function. So every entry in the
-RO FZ matrix is indeed an FIR function and the reason for this is
-basically that the determinant of the original two by two transfer
-function east of Z is equal to 1.
-
-00:02:33
-
-If you have your E of Z with determinants equal to 1, the inverse would
-be sort of a reordering of the entries in the E of Z matrix, and then
-you divide by the determinant. But then the fact that the determinant is
-equal to 1 basically leads to the conclusion that the inverse sort of R
-of Z matrix is indeed.
-
-00:02:53
-
-Still, an F IR matrix transfer function, so the conclusion is in. In
-general, when you invert an F IR transfer.
-
-00:03:02
-
-Function and and certainly so for instance A1 by one matrix transfer
-function you would end up with an IR transfer function where you are
-concerned or or should be concerned about stability, but in the general
-end by end case with end larger than one there are certain matrices that
-have fi.
-
-00:03:22
-
-Matrices. I should say that have an inverse which is again an Fr matrix.
-And this is remarkable.
-
-00:03:30
-
-To understand this better, you can also compare this to the inversion of
-integers and integer matrices. So if you take one integer for instance,
-the example here is E is equal to two inverted, the inverse is 1 / 2 is
-is is not an integer number, but if you consider matrices.
-
-00:03:49
-
-Again A2 by two matrix you can construct a specific matrix or pick a
-matrix from a certain set of matrices where the inverse is again an
-integer matrix and there\'s a small example.
-
-00:04:01
-
-From here 2 by two matrix with entries 564 and five. If you compute the
-determinant, that\'s the five by 5 or 5 \* 5 -, 6 \* 4 determinant is
-again equal to one, and then if you compute the inverse, the inverse
-indeed it has again only integer numbers.
-
-## 7
-
-00:00:01
-
-Returning to the design procedure, two slides back where we first
-designed the analysis filter back. So basically the east of Z matrix
-transfer function and then drive the synthesis filter back from there by
-inverting the east of Z matrix to give us the RR of Z matrix. The
-question could now be can we design or built?
-
-00:00:20
-
-And east of Z matrix, which is an FIR matrix transfer function and by
-north in the maximally decimated case here such that the inverse of the
-Far East of Z is again an FIR matrix transfer function enhance
-guaranteed to be stable because.
-
-00:00:36
-
-They are transfer functions. You can never have on stable poles, so then
-the synthesis filter bank would indeed be guaranteed to be stable. So
-the question is, can we can we do this? Can we find such an FIR efz? Or
-how can we find such an FIR EZ now?
-
-00:00:56
-
-It turns out that this is indeed something that can be done if you look
-into that figure here to the top right of the slide.
-
-00:01:04
-
-Right. Basically we\'re considering EF Z\'s and the set of all possible
-matrix transfer functions E of Z in this world, and then a subset of
-this set of E of Z\'s which is the set of finite impulse response matrix
-transfer functions we have seen. And then again a subset of this subset
-which is referred to as the.
-
-00:01:24
-
-Set of unimodular FIREFZ matrix transfer functions and unimodular east
-of Z matrix transfer function is defined basically as a matrix transfer
-function, of which the determinant is a constant times. Basically a
-delay Z to the power D.
-
-00:01:43
-
-And it\'s basically because this fact and you\'ve seen an example of
-this in the previous slide where the determinant was indeed a constant
-equal to 1 when in the more general case the determinant is a constant
-and then also times Z to the power D if you are to invert a matrix.
-Basically the determinant is inverted.
-
-00:02:04
-
-With a constant inverted is still a constant, and then Z to the D
-inverted. This is Z to the minus D and this is basically still FIR. So
-we\'re defining a set of FIR matrix transfer functions which refer to as
-unit model.
-
-00:02:18
-
-Color and the definition says these matrices should have a determinant
-which is equal to a constant times Z to the power D and then inverting
-this. These matrices will lead to again NFR matrix and this is what we
-need for our filter bank design procedure. Remaining question is how do
-you build an?
-
-00:02:38
-
-E of Z.
-
-00:02:38
-
-It\'s just your.
-
-00:02:39
-
-Modular and this is also answered in this slide by means of formula.
-Here you can easily construct an east of Z by multiplying the number of
-matrices together and a particular sort of cascade and the cascade that
-you see if you read it from right to left. You see here zero and this is
-supposed to be a constant matrix.
-
-00:02:59
-
-Matrix N by N just numbers, not a function of Z. And then you multiply
-this with basically an identity matrix where only the last element and
-the sort of in the bottom right position is a Z to the -1.
-
-00:03:16
-
-And and then you have a second constant matrix E1 and then again such
-matrix. I didn\'t T&AZE to the -1 and then again a constant matrix and
-then again an identity matrix with the Z to the -1. Etcetera and on you
-go until you have a full cascade and basically the number of matrices
-with this E to.
-
-00:03:35
-
-The -1.
-
-00:03:36
-
-Determine the order of the FIR matrix transfer function.
-
-00:03:41
-
-You can easily check that the determinant of such an E of Z is basically
-equal to the product of the determinants of the individual matrices in
-the cascade, and if you take a determinant of East Zero, that will be a
-constant. Same thing for determinant of E1 and E2 up to El.
-
-00:03:59
-
-So these are all constants and then the determinant of such a matrix
-identity matrix with one Z to -1 is basically the product of its
-diagonal element. So that is C to the -1, so altogether the.
-
-00:04:12
-
-The determinant of the E of Z as you see it here is going to be Z to the
-minus L \* A constant, and that satisfies our definition of a unimodular
-matrix. So this is how you construct A unimodular matrix. Notice that if
-you have constructed the E of Z like this, you can easily.
-
-00:04:33
-
-Construct the inverse by just inverting the cascade, basically.
-
-00:04:37
-
-And the inverse of the matrix product is the product of the inverse is
-in reverse order. As you see it here. You can also add delays to make
-everything also and then the product of R \* E will be an identity
-matrix. Up to this delay, which is the Z to the minus L, so it\'s it\'s
-fairly simple or easy to construct.
-
-00:04:57
-
-Unimodular matrices and then computing the inverse. The remaining
-question is basically how do we construct any of Z which is then
-unimodular, but which also corresponds to a suitable analysis filter
-back where all of the filters and each row of the efz.
-
-00:05:13
-
-Lines the filter of the analysis filter bank is actually a good filter.
-A good low pass filter, good band pass filter, etcetera. So if you if
-you parameterize the east of Z as you see it in this formula, the
-question could be what is a good setting for all these parameters such
-that the low pass filter in the filter bank is a good low pass filter
-and meaning.
-
-00:05:34
-
-Filter specifications, etcetera.
-
-00:05:36
-
-And then the first bandpass filter again is a good bandpass filter
-meeting again, filter specifications etcetera. So you have a
-parameterization for the analysis filter bank as a whole and you would
-optimize all the unknown parameters in this east of Z cascade of.
-
-00:05:57
-
-Fixed matrix.
-
-00:05:59
-
-And and so you would optimize all the entries in these fixed matrices
-such that the low pass filter is a good low pass filter. The first band
-Pass Filter is a good band pass filter etcetera. So this obviously can
-be done. That can be done. It leads to one huge optimization problem.
-Nor is it not easy to solve, but doable.
-
-00:06:19
-
-And and so the question is, can we simplify this design procedure?
-Basically because this is doable but not really straightforward or easy
-because we\'re designing the full analysis filter bank in one go. All
-filters together in a sense, and this is something we\'d like to avoid
-in the end.
-
-## 8
-
-00:00:01
-
-Before looking into.
-
-00:00:02
-
-A A simpler procedure on this slide and the next slide we consider an
-even further special case of what we had in the previous slide. And
-it\'s an interesting special case because leads to as you\'ll see in the
-next slide filter banks with interesting properties. The special case
-that we consider is the case.
-
-00:00:23
-
-In this gas gate that defines the E of Z where you have the fixed
-matrices and the matrices with the identity matrices and the Z, -, 1.
-
-00:00:32
-
-If in in this cascade as I\'ve called it, if all the fixed matrices, so
-from right to left in the formula here the east of 0 and then the E1E2
-up to El. If all these fixed matrices are in the real valued case
-orthogonal matrices or more generally in the complex valued case.
-
-00:00:52
-
-Unitary matrices. So the orthogonal version for complex matrices complex
-valued matrices.
-
-00:00:59
-
-Then you you get a a specific east of Z which corresponds to a further
-subsets within the subset of far unimodular matrices, and this subset is
-referred to as the FIR pair. Unitary matrix transfer function subsets as
-you also see it in.
-
-00:01:20
-
-And and the figure here.
-
-00:01:22
-
-If all the fixed matrices are orthogonal or unitary, where you remember
-that orthogonal matrix is a simple inverse obtained by just transposing
-the matrix, and the same thing for complex unitary matrices, you just
-take the complex conjugate transpose to compute the.
-
-00:01:42
-
-1st So if you if you exploit this then again you can easily compute the
-R of Z from the east of Z and and and such that. Again, the same perfect
-construction condition is satisfied.
-
-00:01:56
-
-If you follow this procedure so the fixed matrices the East are special
-matrices orthogonal unitary.
-
-00:02:06
-
-Then the E of Z&R of Z are referred to as per unitary matrix transfer
-functions and the filter banks that they correspond to the analysis and
-the synthesis filter bank are said to be very unitary filter banks, and
-the special properties of these filter banks will be discussed.
-
-00:02:26
-
-Are attractive and will be discussed in in the next.
-
-00:02:29
-
-## Slides here also you can compare the sort of cascade as you have it in
-the definition of the efz with what we have seen in Chapter 5 with
-lossless lattice realizations, you will see that lossless lattice
-realizations are indeed special cases of such unitary.
-
-00:02:50
-
-You have Z\'s or filter banks.
-
-Chapter 12 p9-p20
-
-P9
-
-More unitary perfect reconstruction filter banks as we have seen them,
-and then in a sense also almost designed them. In the previous slide,
-happened to have CREATE properties, and these properties are merely
-listed here. The proofs are omitted and there\'s not really a need to
-try and derive these properties or prove these properties. First if the
-polyphase matrix E(z) is a paraunitary matrix transfer function, then
-the filters in analysis filter banks. So the analysis filters are or can
-be proven to be power complementary. So form lossless 1-inputs and
-outputs system of filters and so these filters satisfy this first
-equation where some of the squared magnitude response of all the
-analysis filters is equal to 1. This is an equation that we have come
-across and also used in chapter 5 to lossless lattice filter
-realization. So this is as far as the E(z) and analysis filter bank
-goes. If you then derive the synthesis filter bank and so the R(z)
-polyphase matrix from the E(z) we\'ve seen in the previous slide. So we
-have a simple procedure to derive the R(z) from the E(z) and that in
-fact also translates into a simple procedure to derive an impulse
-response sequence of synthesis filter bank filter from an analysis
-filter bank filter. And as it\'s indicated here, you basically take an
-impulse response sequence of an analysis filter. You reverse the order
-of the coefficients, and you take the complex conjugate of each filter
-and that gives you an impulse response sequence for a filter in the
-synthesis filter bank. Based on this, you can also verify that magnitude
-response of a synthesis filter fn. Let\'s say the n-th filter in the
-synthesis filter bank is the same as the magnitude response of
-corresponding filter in the analysis filter banks, say hn. So the
-magnitude responses are the same. And then if you go back to the first
-equation on this slide from there you will decide that the synthesis
-filters also form a set of power complementary filters. So the synthesis
-filter bank is also a power complementary filter bank. Synthesis filters
-are not exactly the same as the analysis filters. You see the
-difference, like the equation in the middle of the slide. The magnitude
-responses are the same and so both filter banks are indeed power
-complementary filter banks.
-
-10
-
-Up to now, we have considered maximally decimated filter banks. The
-downsampling factor D is equal to the number of channels N. And we\'ve
-seen in previous slides that the perfect reconstruction filter bank
-design and the maximum decimated case is not exactly sort of a simple
-task. It turns out that if we now turn to oversampled filter banks, so
-where the downsampling factor D is smaller than the number of channels
-N, the design procedure turns out to be much easier. The perfect
-reconstruction condition to start from, as we have seen in the previous
-chapter, is basically the same perfect reconstruction condition R \* E
-is equal to an identity matrix. But now the dimensions of this equation
-where the dimension of the matrices and this equation are different. R
-is now, as we would call it, a short fat matrix D \* N with a few rows
-and many columns and then E(z) as we would call it a tall and thin
-matrix with more rows and fewer columns and then a D times N matrix
-times N times D matrix is a D \* D identity matrix and in this case so
-the identity matrix is D \* D is a smaller matrix and the fact that
-it\'s a smaller matrix in a sense as you will see it in the next slides
-will lead to fewer equations in more unknowns and enhance an easier
-solution. The design procedure then is pretty much the same as the
-design procedure as we have seen it in previous slides. So first you go
-out and design all of the analysis filters one by one. This is basically
-chapter 4 where you design a low-pass filter for the analysis filter
-bank and then the first bandpass filter, second bandpass filter, etc.
-Once you have designs for all of the analysis filters, you do a
-polyphase decomposition of each and every analysis filter. And so each
-filter through its polyphase decomposition defines a row of the E(z)
-polyphase matrix. And then finally in step three from the of E(z), you
-would compute an R(z) such that perfect reconstruction condition is
-satisfied. And so now we consider this slightly different form from the
-polyphase destruction condition with different dimensions etc. If this
-is easy and it will turn out that this is indeed easy and then the whole
-procedure is in fact sort of an easy procedure. Again, we\'re going to
-consider FIR E(z), so an FIR analysis filter bank, so that for these FIR
-filters we can do simple polyphase decomposition to find the E(z). And
-with such an FIR E(z), it will indeed turn out that we can easily find
-the corresponding R(z) such that the perfect reconstruction condition is
-satisfied in most cases, except for a few contrived cases or exceptions
-in a sense, as you will see in the next slide.
-
-11
-
-The remaining question is how you can compute the R(z) given the E(z)
-and the answer is basically in this slide. Assume that every entry in
-the E(z) matrix is an FIR filter with order equal to L~E~. So E(z) is
-basically the analysis filter bank. Each and every analysis filter has
-been decomposed into polyphase components and so every entry in the E(z)
-is such a polyphase component and assume this polyphase component is of
-course again an FIR filter and the order of this polyphase component is
-L~E~. So if the polyphase component, the entry and the E(z) matrix has
-order L~E~, it has L~E~ + 1 coefficients as. Similarly, assume that
-every entry in the R(z) is again FIR filter polyphase component again
-with order L~R~, so with L~R~ + 1 coefficients. We\'re computing the
-R(z) and the dimension of R(z) is D \* N. So we have D \* N entries in R
-of Z, and then each entry is an FIR filter with L~R~ + 1 unknown
-coefficients. So the total number of unknown coefficients in the R(z)
-matrix is indeed as you see it in yellow here D \* N the number of
-entries times L~R~ + 1, the number of coefficients in each and every
-entry. Then you multiply the R matrix together with the E matrix, so R
-times E. When you compute this multiplication, you will have entries of
-the R matrix that get multiplied with entries of the E matrix, and so
-the R entries or L~R~ order polynomials and entries are L~E~ order
-polynomials. If you multiply two such polynomials together you get
-polynomials with order L~E~ + L~R.~ So with a number of coefficients,
-L~E~ + L~R~ + 1, and so every entry in R \* E is a polynomial with
-L~E~ + L~R~ + 1 coefficients. And then, because of the perfect
-extraction condition, every such entry, the complete matrix vector
-product is equal to identity matrix times C to the -delta and so every
-entry in R \* E has to be either equal to 0. So that is where all these
-coefficients L~E~ + L~R~ + 1 coefficients have to be equal to 0 or they
-have to be equal to the diagonal elements 1 to have the z\^ (-) and
-then most of the coefficients are zero except one corresponding to the
-z\^ (-). So every entry of the R times E basically gives you L~E~ +
-L~R~ + 1 equations in the unknown coefficients of the R(z) matrix, the
-total number of linear equations. There\'s an exercise here in terms of
-making these equations more explicit. The number of equations is D \* D
-because of that being the dimension of the identity matrix in a perfect
-reconstruction condition. And then each entry has L~E~ + L~R~ + 1
-coefficients that are transformed into the same number of equations. So
-altogether D \* D \* (L~E~ + L~R~ + 1) equations in a number of unknowns
-which so we have a number of unknowns, the first yellow line and then a
-number of equations, the second yellow line. So linear set of equations
-at number of equations in a number of unknowns. And this set of
-equations can be solved if the number of unknowns is larger or at least
-equal to the number of equations. And that is the first inequality as
-you see it here at the bottom of the slide, which can be transformed
-into an equivalent inequality that says L~R~ has to be at least equal to
-and then you have an expression so that is a lower bound for the order
-of the entries of the R(z) matrix, and this is for the further
-discussion in the next slide.
-
-12
-
-From the previous slide, we have this lower bound for the L~R~. L~R~ has
-to be larger than (PPT). So assume we are given the D, the
-downsampling factor, given the number of channels N. You are given the
-L~E~ because you have designed the analysis filter bank and then have
-done the polyphase decomposition of the analysis FIR filters and hence
-that has defined the L~E~. So everything in the right hands part of the
-inequality is given and then the only thing you basically have to do is
-pick an L~R~ which is sufficiently large and so the conclusion is if a
-L~R~ is made sufficiently large then you have a set of equations that
-can be solved and so that leads basically to the entries or the
-coefficients of the FIR filter in the R(z) matrix. And so the procedure
-as such is really simple. So you first design your analysis filter bank
-that defines the E(z) and from the E(z) you compute the R(z) by solving
-a set of linear equations that is simply enough. Special case where
-these equal to N So we\'re the downsampling factor is equal to the
-number of channels the maximally decimated case that we have considered
-first. In that case, if D=N, you see in the lower bound for the L~R~ and
-framed formula that N-D is equal to 0. So then eventually you would
-decide that L~R~ has to be equal to infinity, which means that the
-filters in the synthesis filter bank would be infinitely long. So in
-essence infinitely long impulse response filters IIR filters, and that
-matches with the general statement that if you invert an FIR transfer
-function also an FIR matrix transfer function, you generally are in the
-general case end up with an IIR transfer function where then you have to
-worry about stability etc. So this is what we have seen in the maximum
-decimated case, but so not in the oversampled case. In oversampled case
-you compute an FIR E(z) and from there you compute an FIR R(z). As long
-as you have over sampling. This is sampling something that can be done
-if you have maximal decimation, and the case is equal to N you see the
-problem appearing in the lower bound for the L~R~ .
-
-13
-
-In the procedure from the previous slide, especially for the oversampled
-filter bank cases, very straightforward, very simple, you just go out
-and design each and every filter in the Analysis filter bank and that is
-basically Chapter 4 and that specifies the E(z) and from there you
-compute the R(z), etc. So the procedure is straightforward, but you
-could say it\'s rather tedious if you are hard to design each and every
-filter in the analysis filter bank. Imagine the number of channels is
-not 4 as we have in the simple example but will be 1024 or whatever.
-Then of course the procedure is very tedious. You wouldn\'t want to go
-out and design the first filter and then a second filter up to the
-1024th filter. So where is the procedure is simple. You would like to
-have a more efficient procedure where as you will see it in later
-slides, basically you design one filter and then all of the other
-filters are somehow derived from this one design filter and this is
-where will be referred to as uniform filter banks. And then modulated
-for instance as you will see later filter banks. We will also consider
-DFT-modulated filter banks, cosine-modulated filter banks, which are
-interesting but not covered here, only briefly mentioned in the later
-slide. So we will consider DFT, so-called DFT modulated filter banks and
-you will see later slides what we mean by that. And again we\'re going
-to consider the maximally decimated case, so maximally decimated DFT
-modulated filter banks and then again the oversampled DFT modulate
-filter banks case. So we first have to define what we mean by uniform
-filter banks and then see how or where the name modulated filter banks
-comes from.
-
-14
-
-The rest of the chapter we\'re again going to consider maximally
-decimated as we\'ll see DFT modulated filter banks first and then and
-then later oversampled DFT modulated filter banks. In this slide we
-first define uniform filter banks versus non-uniform filter banks and
-we\'re considering analysis filter banks first and by means of a simple
-example here with the four-channel filter bank, it\'s immediately clear
-that what we mean by uniform and non-uniform case. The non-uniform case,
-everything that is not uniform is referred to as non uniform. And this
-is the case where the different filters in the filter bank could have
-different responses or differently looking responses with different
-ripples in the passband or whatever. Even different bandwidths could be
-something you can have. So that\'s the sort of easy definition of
-non-uniform. On the other hand, uniform filter banks are filter banks
-where all of the filters do the same as we see here. In the frequency
-domain or when you consider the frequency domain representation or
-shifted versions of each other, we have a defining equation here. The
-framed equation on the slide here where we say in a filter bank the n-th
-filter and so we\'re talking the analysis filter bank. So the n-th
-analysis filter is equal to the analysis filter H0. So that is basically
-the lowpass filter in the analysis filter bank where z is replaced by
-ze\^( -j 2 pi n/N), where N is the number of channels in the in the
-filter bank. The meaning of this equation is that if you do this
-multiplication and evaluate that on the unit circle to get the frequency
-response. So then you replace z by e \^ ( j  ) and multiplying by e\^ (
--j 2 pi n / N) Then you would basically have H0 e\^( -j  )and then --j
-2 pi n / N and so each Omega is basically shifted over an amount
-corresponding to the 2n/N and so the end result of this is basically
-that you tip the frequency response of the H0 and you shift it over an
-amount. And this is also what you see in the figure here for the first
-figure for the uniform filter bank. So you take your H0 and this is your
-low pass filter and you shift it over an amount over the frequency axis
-shifted to the right over an amount. And this simple four general case
-which is the amount where the amount is equal to 2pi/4 = pi/2, and that
-keeps the frequency response for H1, the second filter in your analysis
-filter bank, if you continue shifting the H1 over the same amount you
-end up with H2 and when you shift H2 over the same amount you end up
-with H3 and that is basically the four filters in your 4 channel
-analysis filter bank. If you want to continue shifting the H3 over the
-same amount by over 2 then the center frequency would land in 2pi which
-is where 2pi is equivalent to 0. So then you\'re back at H0 to low pass
-filter. So this is the defining equation that you have here in the
-frequency domain. This is equivalent to a time domain expression where
-you can say that the impulse response sequence for the nth filter and
-the analysis filter bank is the impulse response sequence of the H0
-filter modulated with the complex exponential function as you see it
-here. And this modulation indeed in the frequency domain leads to the
-frequency shift as we have it in the defined equation. The H0 to low
-pass filter is then referred to as a prototype or prototype filter. And
-as you will see in later slides, this is basically the only filter that
-we will actually design. So the design procedure will be limited to
-designing a good prototype filter. So a good lowpass filter H0 and then
-all of the other filters are derived from this designed lowpass filter
-by shifting the H0 frequency response over the frequency axis as we have
-discussed it.
-
-15
-
-It\'s significant advantage of uniform filter banks is that they can be
-realized extremely cheaply based on polyphase decompositions on the one
-hand and then a DFT matrix or a DFT operation which in practice will be
-realized or implemented by means of an FFT algorithm. And because of the
-usage or the appearance of the DFT matrix, these filter banks are then
-in the referred to as the left modulated filter banks. To derive this
-cheap realization of the uniform filter bank, let us start from a filter
-bank with prototype filter H0 and then H1 and H2 etc, derived from a
-prototype through the defining equation as we had on the previous slide.
-So the nth filter is basically the prototype filter where z is replaced
-by z \* e (- j\...), which corresponds to the shifting over the
-frequency axis. Now assume that the prototype filter is decomposed into
-its polyphase decompositions, so that is the second equation on the
-slide. Here H0 is equal to a summation over basically the n polyphase
-components, the En(z \^N) and then multiplied with the delay filter for
-each polyphase component z\^(-0) for the first component and then
-z\^(-1) for the second component, etc. So this is the usual definition
-for polyphase decomposition applied to the prototype filter H0 and the
-polyphase components are denoted here as the E~n~. Now if you then make
-an attempt to derive a polyphase decomposition for the nth filter, you
-have to do a bit of a derivation and I\'ll now go into the details, but
-basically you start from the defining equation or the end filter and
-this is the one but last equation on the slide. Here the end filter is
-equal to the prototype filter with z replaced by z \* e \^( -j\...). And
-this is where you can substitute the polyphase decomposition for the
-prototype filter, again with z replaced by z \* e \^( -j\...), and you
-do a bit of a simple derivation. The end result is that you end up with
-summation, which looks like the summation in the polyphase decomposition
-for the prototype filter, with exactly the same polyphase components. So
-the conclusion is (underlying with the white bars) polyphase components
-E~n~. So conclusion from here is that basically from the polyphase
-decomposition of the prototype filter, you can also immediately write
-down a polyphase decomposition for the nth filter, which has basically
-the same polyphase components. The only difference is basically
-additional multipliers or factors as you see them appearing in the last
-equation where you have W to a power and then something like -N times
-another n over bar where the W is a factor which is defined here to be E
-to the minus J 2 divided by the capital N, number of channels as you
-have in the filter back. So the from the polyphase decomposition of the
-prototype filter, immediately you have the polyphase decomposition for
-any filter in the filter bank. The only thing you have to plug in is
-sort of all of the powers of W have where you use these powers of the W
-additional factors in the polyphase decomposition.
-
-16
-
-In the previous slide, we have expression for the polyphase
-decomposition of each and every filter in the analysis filter banks so
-H0 H1 H2 up to HN -1 and if we put all these equations together in one
-large equation then you end up with what you have here given in this
-slide. In this equation, for the time being, ignore U(z) and the left
-hand side of the equation and then also the U(z) in the right hand side
-of the equation, which you then see is the left hand side of the
-equation of vector with all of the analysis Filter banks filter transfer
-functions H0 in the first position and then H1 H2 up to HN-1 in the last
-position and then what you see is a matrix times a vector, where in the
-vector you have the polyphase components of the prototype filter E0 in
-the first position, E1 in the second position E2 up to N -1 and as you
-have it in a polyphase decomposition all of these transfer functions are
-a function of z\^N and then they also get multiplied by delay filters
-z\^0 in the first position and then z\^-1 in the second position, z\^-2
-up to z\^-( N -- 1). That is the vector as you have it in the right hand
-side of the equation and this gets multiplied by a matrix. In the matrix
-you see powers of this defined factor W to the zero which is equal to 1,
-and then again W to the 0 which is equal to 1 all once in the first row.
-And if this row of once multiplies the vector with the polyphase
-components. That indeed gives you the definition of a polyphase
-decomposition of the prototype filters. So H0 would be equal to 1 \*
-E0 + 1 \* z\^- 1 \* E1 + 1 \* z\^-2 \* E2, etc. And then the 2nd row of
-the matrix has different powers of the W and that corresponds to the
-polyphase decomposition of the H1. So H1 is then going to be W to the 0
-\* E0 + W \^-1\* z\^-1\*E1, etc. And so the equations in the first in
-the previous slides were basically every such equation fills a row of
-the matrix and leads to the overall equation as you have it here. The
-matrix that you see appearing where every entry is a power of this W
-factor is obviously a DFT matrix, or to be more specific and inverse DFT
-matrix up to a factor which is the M here, which later actually will be
-removed, sort of absorb by polyphase components. So basically this is an
-inverse DFT matrix. And now the meaning of this is basically as follows
-if you\'re now indeed insert U(z) in the left hand side of the equation
-and then also U(z), so post multiplied by U(z) and the right hand side
-of the equation. The formula basically reads as follows. In the
-left-hand side of the equation you have the vector with all of the
-analysis filters H0 H 1H2 etc which multiply U(z). So you have an input
-signal and in the Z domain U(z) which gets multiplied by H0 and then H1
-etc. And that represents the filtering of the input signal with all of
-the filters in the analysis filter bank. And then the equation says that
-in order to obtain all these filtered versions of the input signal, you
-could realize this in an alternative fashion as follows. And then you go
-to the right-hand side of the equation and you read it from right to
-left. You take the same input signal U(z), and then you filter it with
-all of the polyphase components off the prototype filter that you have
-E0 E1 E2\...and multiply with the delay filters z\^0, z\^-1, z\^-2\...
-And then the result is multiplied by this inverse DFT matrix and it will
-turn out especially when we substitute cheap algorithm for the
-multiplication with the inverse DFT matrix, the inverse FFT matrix, etc
-that this indeed leads to a very cheap realization as you will see it in
-the next slide.
-
-17
-
-Graphical representation by means of a block scheme of the formula as
-you had in the previous slide is provided in this slide and you should
-actually make sure that you thoroughly understand or see that this block
-scheme indeed corresponds to the formula as we added in the previous
-slide. In this block scheme you see to the left and input signal which
-is U\[k\] here time domain representation. To the left of the block
-scheme, you have to recognize that this input signal first gets filtered
-by E0 and then in the next branch gets filtered by z\^-1 because the one
-delay element then E1, and then in the next branch it gets filtered by
-z\^ -2 because two delay elements on the way to E2 and then gets
-filtered by E2 and then finally in the lower branch you would have z\^
--3 times the input signal because of the three delay elements on the way
-to E3 and then gets filtered by E3 and this intermediate result is then
-multiplied by the inverse the left matrix, the F inverse to produce and
-the symbol for channel example of course to produce 4 output signals
-which corresponds to the input signal filtered by H1H2 and filtered by
-H3. This is a very cheap realization. You should realize that the
-polyphase components E0E1E2E3. Altogether you have four filters in a
-sense, but the complexity, the number of coefficients you have in all
-these polyphase components together is equal to the number of
-coefficients you have in the prototype filter. So the complexity of
-running these four filters in this case is equal to the complexity of
-running just one filter, which is the H0. And then if you consider the
-multiplication with F\^-1 the inverse DFT operation as a cheap
-additional operation because we are going to substitute with FFT or
-inverse FFT algorithm of course. Then basically you can say that is an
-important statement that the realization complexity or implementation
-complexity of the uniform filter bank, DFT Modulated analysis filter
-bank. The implementation complexity of this is basically your
-corresponds to the implementation complexity of just one filter, the
-prototype filter, which is remarkable and actually a spectacular
-statement. So you make a complete filter bank, in this case with four
-filters in the filter bank, and you realize or implement it with the
-complexity that corresponds to the complexity of only one filter and a
-four-channel case filter bank, this is perhaps not so spectacular, but
-think of a 1024 channel filter bank. You would derive or implement a
-complete filter bank with 1024 filters. At the complexity,
-implementation or realization complexity of basically just one filter,
-that is quite spectacular. So this is an extremely attractive cheap
-realization of the DFT modulated uniform filter bank. So a uniform
-filter bank like DFT modulated filter bank is attractive. You design one
-prototype filter and then all of the other filters are derived from
-there. So it reduces the design complexity. You design only one filter,
-and it also reduces the implementation or realization complexity because
-basically the realization complexity is the complexity of realizing only
-one filter basically the prototype filter.
-
-18
-
-The quick remark here in special cases the case where all of the
-polyphase filters are components are equal to one, as you see it in the
-graphical representation in the block scheme that basically all the
-polyphase components are void or can be left out what remains as the F
-inverse and this is something that we have come across. It is something
-that has been referred to as the DFT filter bank in the previous
-chapter, with the magnitude responsibility for the analysis filters and
-a simple 4 channel case. So the DFT filter bank is a special case, the
-simplest case of a DfT modulated filter bank, as we\'re studying it in
-this chapter.
-
-19
-
-Final remarks here in terms of efficient realization, the block scheme
-as we added in the previous slide is an analysis filter bank which is
-then followed by down sampling operations. So in this case we\'re still
-considering maximum dissemination. So if you have a simple example for
-channel analysis filter bank, this will be followed by four-fold
-downsampling. General case you would have n-channel filter bank followed
-by n-channel and fold down sampling now with the realization in the
-previous slide with polyphase components so we\'ve often used because
-you can swap them with up and down sampling operations. Same thing here.
-So we have to filter with polyphase components. This multiplication with
-matrix F inverse is merely multiplication of signals with fixed
-coefficients, the entries in the F inverse matrix, and then summation
-operations which are also easily or straightforwardly swapped with the
-downsampling operation. So F inverse can first be swapped with the
-downsampling operation and then the filtering with polyphase components
-can also be swapped with the downsampling operation. So then you would
-have the downsampling up front and then after the down sampling you have
-filtering with polyphase components where z\^4 has been replaced by z.
-Remember to normal identities and then after the filtering with all of
-the polyphase components you have the multiplication with F inverse. And
-here again it is restated that this is a very efficient realization. All
-of the operations the filtering with polyphase components that
-multiplication with inverse DFT matrix. All of this is done at the low
-sampling frequency side of the down sampling, so your first down sample
-goes to a lower sampling frequency, and then I\'ll only have all of the
-operations, the filtering and the multiplication with the F inverse, so
-this is extremely efficient.
-
-20
-
-Everything in the previous slides applies to the analysis filter bank,
-then the obvious question is can you do the same development for the
-synthesis filter bank? And the equally obvious answer is yes. So in a
-similar fashion as we have defined uniform analysis filter banks, we can
-first define uniform synthesis filter banks and the defining equation is
-given in this slide first formula. In this slide different from the
-defining equation in the analysis filter bank case in that we have an
-additional phase factor which is added merely for convenience with this
-additional phase factor. It turns out that all later formulas are simple
-in a sense that an inverse DFT matrix is replaced by a DFT matrix etc.
-So this is the reason for inserting this additional phase factor. But
-basically we have a synthesis filter bank with the prototype filter F0.
-This is going to be a low pass filter again, and then the NTH filter in
-the synthesis filter bank is derived from prototype filter where z is
-replaced by z\*e\^( -j 2 n/ N) as we have seen it in the defining the
-uniform analysis filter bank and the multiplication with the
-e\^(-j\....) in response to a shift over the frequency axis again. And
-then this gets multiplied by this additional phase factor. Don\'t ask
-questions about the additional phase factor, as I said, it\'s merely
-introduced for convenience. Then again, if you start from the polyphase
-decomposition of the prototype filter F0 with polyphase components Rn.
-From there you can drive the polyphase decomposition for the NTH filter
-and the synthesis filter bank and it will basically have the same
-polyphase components same with the white underlining Rn, but then with
-additional factors, where the additional factors are the powers of this
-same quantity W.
-
-## Slide 21
-
-Similar to what we had for the analysis filter bank case, you can then
-again merge all the polyphase decomposition equations from the previous
-slide into one large equation and then rather than an IDFT matrix, you
-would see a DFT matrix appearing in the equation and that leads to a
-realization or block scheme as you see it here. Basically you would to
-the left start with the sub band signals which are then multiplied. So a
-collection of samples of the sub band signals is a vector that gets
-multiplied by the DFT matrix, the F matrix. The result is then filtered
-by means of the polyphase components of the prototype filter. And now
-minor difference here is that polyphase components are stacked from
-bottom to top. So if you read block scheme from bottom to top, you would
-see R0 first and then you go from bottom to top R1, R2, R3 for this
-simple four channel case and then the resulting signals filtered by the
-smaller phase components enter into a delay line and a summation
-operation to provide you with the output signal. So you can easily
-verify for yourself that this indeed completes to or corresponds to the
-complete operation of the uniform. A synthesis filter bank derived from
-a prototype filter, of which the polyphase components are given as R0,
-R1, R2, R3 is very simple for channel case.
-
-## Slide 22
-
-And then finally, again, as we know that the synthesis filter bank
-operations are always preceded by an up sampling operation and the
-simple case here, for channel case maximal decimation, so four fold up
-sampling again, you can swap the up sampling operation with the
-multiplication with F and then with the filtering operations with
-polyphase components where then you would have at the bottom of the
-slide first the multiplication with F, then the filtering with polyphase
-components where the z4 has been replaced by z and then only at the end
-you would up sample. So go back to the higher sampling frequency and
-then merge the output signal by having the chain with the additions and
-the delay operations. So that again leads to a very efficient
-realization of a uniform. A DFT modulated synthesis filter bank.
-
-## Slide 23
-
-Now back to perfect reconstruction for maximally decimated DFT modulated
-filter banks. If you take the synthesis filter bank from a previous
-slide and you glue it together with the analysis filter bank from slides
-17, you obtain the blocks scheme as you see it in this slide. Still for
-that simple case where small example where the number of channels is
-equal to four, but obviously this is straightforwardly generalized for
-the general case and it different from four. So you see the analysis
-filter bank that defines the boldface E(z) matrix, which is then
-basically, as you see it here in the first formula to the right is
-basically the F inverse matrix and then multiplied by a diagonal matrix
-where the diagonal elements or the E polyphase components and you have a
-similar expression for the synthesis filter bank boldface R matrix and
-so starting from our perfect reconstruction condition that the product
-of the R and E is equal to an identity matrix up to a delay, you can
-easily, from the formulas and also from the block scheme, decide that
-basically the poly phase components in the synthesis filter bank have to
-be the inverse of polyphase components in the analysis filter bank
-polyphase components of the prototypes of the analysis and the synthesis
-filter bank. So if you look into the block scheme, for instance, you
-immediately see that the F inverse times F is an identity matrix. So
-basically that part drops out and then in order to have perfect
-extraction, then R3 has to be the inverse of E0. And R2 has to be the
-inverse of E1 and R1 has to be the inverse of E2 and R0 has to be the
-inverse of E3 all up to delay. So we have a very simple result here or
-condition for perfect reconstruction, basically. So the polyphase
-components of the prototype filter for the synthesis filter bank in
-reverse order. Basically check the block scheme or equal to inverse up
-to a delay of the polyphase components of the prototype filter for the
-analysis filter bank, and this will lead to a symbol design scheme, as
-you\'ll see in the next slide.
-
-## Slide 24
-
-From here, the design procedure looks very simple. You first go out and
-design the prototype analysis filter, the H0, which would be a low pass
-filter. So this is where you apply chapter four to design a good low
-pass filter H0. And here again we\'re going to use FIR filter. So we
-design H0 to be an FIR filter so that we can immediately decompose it
-into its polyphase components in step two, and so this is where we have
-the E polyphase components and then finally in step three, we would only
-have to invert the E polyphase components of the prototype analysis
-filter to obtain the polyphase components of the prototype synthesis
-filter, and we added delay z to the minus delta for after or with all
-the inversions. For instance, to make things causal or whatever, and an
-issue here is that we\'re inverting again scalar FIR transfer functions
-and in the previous slide we have seen that if you invert a scalar FIR
-transfer function, you obtain, in general, an IIR transfer function
-where we should be worried about stability because zeros if the
-originally transfer function which can safely lie outside the unit
-circle or converted into poles, but then have to lie inside the unit
-circle to guarantee stability. In a previous slide, we escaped from this
-problem by then considering matrix transfer functions FIR matrix
-transfer functions which can have FIR inverses. But here basically
-there\'s no escape because we\'re indeed considering scalar transfer
-functions and then the inverse of these scalar transfer functions.
-
-## Slide 25
-
-Whereas the design procedure in the previous slide is conceptually very
-simple, it will turn out that it doesn\'t really leave much design
-freedom basically for the analysis filter bank prototype H0, following a
-similar development as we had it earlier for the general case. So when
-we were looking not yet into the DFT modulated filter banks, you could
-ask can we design an FIR boldface E(z) matrix such that it inverse
-boldface R(z) matrix is, again, an FIR matrix, but it will turn out that
-in this case where the E(z) is factorized as you had in the previous
-slide as basically the F inverse, inverse DFT matrix times a diagonal
-matrix with FIR functions on the diagonal. Then there is not much left
-and that is also indicated in the figure at the bottom of the slide, so
-we were looking into E(z) transfer functions and then a subset of those
-namely the FIR E(z) transfer functions. And then again a subset of this
-subset, namely the unimodular FIR E(z) transfer functions. But now
-we\'re also looking into a subset of E(z) that are factorized as F
-inverse times diagonal matrix. And it turns out that the intersection of
-this last subset and the subset of unimodular FIR E(z) is restricted to
-transfer functions where all of the FIR transfer functions on the
-diagonal. So the En polyphase components are themselves unimodular and
-so that basically means that each En is unimodular. So in itself is
-equal to a constant times a delay filter. And obviously if you were to
-invert such a polyphase component as you added in the previous slide,
-then that indeed leads to an FIR polyphase component, R polyphase
-components as you had in the previous slide. So it means that you are to
-design an H0 analysis filter bank prototype filter where all of its
-polyphase components have to take this simple form. Every polyphase
-component has to be a constant times a delay and it will turn out that
-this significantly reduces the design freedom for the analysis filter
-bank prototype filter. A useful example, though this is the case where
-all of the polyphase components of the analysis filter band prototype
-filter H0 or constants indicated here as Wn and this leads to something
-which is referred to as a sort of a window, IDFT DFT filter bank. So you
-basically have an IDFT or DFT operation and the analysis and synthesis
-filter bank up to a window function and that will also be referred to as
-the short time Fourier transform based filter bank, which will be
-studied in the next chapter.
-
-## Slide 26
-
-In the general case we further looked into a subset of unimodular FIR
-transfer functions, namely paraunitary FIR transfer functions which
-turned out to have interesting property. So, here again you could also
-take it one step further and ask can we have a paraunitary FIR E(z) with
-hence also a simple inverse and interesting properties but similar to
-what we had in a previous slide. Here you would conclude that for the
-boldface E(z) to be paraunitary, then each polyphase components the E
-polyphase components of the analysis filter bank prototype filter. Each
-such polyphase component then in itself has to be paraunitary and a
-polyphase component is a scalar transfer function. A scalar transfer
-function is paraunitary when it is all passed. And then when on top of
-this it has to be an FIR function. Then the only thing that remains is
-where basically a polyphase component is either plus or minus one times
-a delay function. And if you leave out the delay function and you take
-plus ones everywhere, then you\'re back at the IDFT DFT filter bank as
-we have seen it in the previous slide. So basically with this you would
-obtain only trivial modifications of the IDFT DFT filter bank, which are
-not much more interesting than the IDFT DFT filter bank itself. So
-again, we do not have much design freedom left based on the design
-procedure from two slides back.
-
-## Slide 27
-
-The conclusion from the previous slides is that DFT modulated filter
-banks are great in the sense that you would have to design only
-prototype filters rather than a full filter bank. And also from a
-realization and implementation complexity point of view, they\'re very
-attractive. But then if we stick to a maximum decimation, then there\'s
-not much design freedom for the analysis filter bank prototype filter
-left. And that is bad news. The good news is that you can generate more
-design freedom by moving over from maximally decimated filter banks to
-over samples. Then again DFT modulated filter banks and this will be
-discussed in the rest of the chapter. Another alternative is to use what
-is referred to as cosine modulated filter banks and this is not covered
-here, but they\'re interesting filter banks where you can have similar
-advantages is what we have mentioned for DFT modulated filter banks, but
-then still for under maximal decimation, have sufficient design freedom
-to design useful filter banks. So here you do not even have to give up
-on maximal decimation. Cosine modulated filter banks are drived in a bit
-of a different fashion compared to the way we drive or constructed DFT
-modulated filter banks. It\'s indicated in the figure here. Starting
-point is a prototype low pass filter, which is denoted here as P0 with a
-cut off frequency, which is plus and minus pi/2N rather than divided by
-N as you would have it for H0 in the DFT modulated filter bank. So, you
-see that the bandwidth of the P0 is only half the bandwidth of the H0 as
-we had it in the DFT modulated filter bank and then you take the P0 and
-you shift it over the frequency axis over an amount to the right and at
-the same time you also shifted over the same amount to the left and the
-sum of these two shifted versions of P0. Sum of these two terms in a
-sense then corresponds to the H0 LP filter for instance an analysis
-filter bank as you see it in the figure here if you shift the P0 further
-up to the right and then also further up to the left again you have two
-terms and these together define H1, then the first band best filter of
-your filter bank and on you go to construct H2, H3 etc. What you also
-see is that because of the construction mechanism, as you have it here,
-you preserve symmetry in the frequency domain, which corresponds to
-having real valued coefficients for the filters and also or equivalently
-stated real valued impulse responses for the filters, which was not the
-case in the DFT modulated filter banks. So you have a simple
-construction mechanism. It will turn out if you express all this by
-means of formulas, equations then compared to DFT modulated filter banks
-rather than DFT matrices, you would have discrete cosine, transform
-matrices etcetera. Everything is very similar but we\'re not going to go
-into further details. Nevertheless, again with cosine module like filter
-banks, you can have sufficient design freedom for perfect reconstruction
-under still maximal decimation, which is very interesting.
-
-## Slide 28
-
-So let\'s now look into oversampled DFT modulated filter banks. So where
-the down sampling and up sampling factor D is smaller than N, the number
-of channels in this case. As you see them and the figure here copied
-from previous chapter you would have a boldface E(z). You see to the
-four matrices, which is it\'s all thin matrix, remember, N by D, so with
-more rows than columns, and then similarly in the synthesis filter bank,
-you would have a boldface R matrix which is short and fat, so with more
-columns than rows, D by N. Now in a maximally decimated DFT modulated
-filter banks we had a specific factorization for the E and R matrix,
-which was given in the previous slide. So the E matrix is the IDFT
-matrix times a diagonal matrix with the polyphase components of the
-analysis filter bank prototype filter on the diagonal in the similar
-expression for the R matrix. And in this or in these equations, all
-matrices that you see are N by N matrices. For the over sampled case,
-over sampled DFT modulated filter banks. What we\'re going to see in
-later slides by means of examples is that the E(z) matrix satisfies a
-similar factorization where E(z) is again equal to an inverse DFT
-matrix. So, this is N by N and then a B(z) matrix which again is tall
-and thin, similar to the E(z) matrix. So, and by D more rows than
-columns. But now rather than in a previous case B(z) being a diagonal
-matrix, B(z) in this case is going to be a structured and sparse matrix.
-Diagonal matrix is obviously also a structured and sparse matrix, but
-here we\'re generalizing this to all thin matrix and you will see
-specific structures for the B(z) matrix in later examples. And similarly
-for the R matrix, the R matrix will satisfy factorization with the F
-matrix, DFT matrix, and then a short fat D by N matrix C(z), which again
-is going to be structured and sparse. We\'re not going to display the
-full theory for the general case. For general D and Ns. We\'re going to
-focus on two examples for specific instances for the N and the D and
-then see what it\'s like and from there it will turn out that you can
-immediately generalize for any other instance for the N and the D.
-
-## Slide 29
-
-Let consider the first example. Now we are going to design an over
-sampled DFT modulate filter bank where the number of channels is the N
-is equal to eight, so a channel filter bank and the decimation factor
-will be smaller than eight will be equal to four so this is in a sense
-two fold oversampled filter bank. The design procedure will start by
-designing the prototype analysis filter, H0 will be a low pass filter
-with a bandwidth which is basically equal to two by the full range
-divided by eight, because we\'re going to have an eight channel filter
-bank, so we design a low pass prototype filter for the analysis filter
-bank and then similar to what we had in a maximally decimated case,
-we\'re going to use the polyphase decomposition of this H0 matrix. The
-difference here is that we\'re not going to use immediately an N fold
-polyphase decomposition. We\'re going to use N prime fault polyphase
-decomposition where N prime is defined here in the first formula and you
-should not try and understand this this formula it is just given here
-and it will turn out that in this example and also in the next example
-things come will come out nicely if you use that type of polyphase
-decomposition and then in general for any other instance for N and D
-will turn out that by using this polyphase decomposition. This N prime
-fold polyphase decomposition things indeed will always come out nicely.
-So, we have this magic formula for N prime, N prime is equal to N times
-D divided by the greatest common divisor of N and D, so in this case N
-is equal to eight, D is equal to four and then the greatest common
-divisor of eight and four is four, so altogether we have eight times
-four divided by four is equal to eight, so for this case N prime is
-equal to the number of channels eight but that will not be a general
-statement. So, N prime is equal to eight which means we have to do an
-eight fold polyphase decomposition of H0. And this is specified here
-with the a E polyphase components.
-
-## Slide 30
-
-With these obtained polyphase components for the analysis filter bank
-prototype filter, we now going to construct this sparse B matrix and so
-in this case B is all thin matrix with eight rows and four columns and
-it will be constructed as you see it in the first formula in the slide
-here. So we\'re basically filling the diagonal in this B matrix. So, if
-you start with the one one entry in the matrix, this is where you put
-the first polyphase component E0 and then basically you follow the first
-diagonal or the main diagonal. So you go to the two two entry. This is
-where you plug in E1 and then the three three entry plug in E2 and then
-the four four entry plug in E3. If you were to continue on that
-diagonal, this is where you would leave the matrix to the right and then
-you go back in to the left, sort of a similar mechanism as you have seen
-it in circular matrices. So you go back in to the left and in the fifth
-row, first column, and this is where you use the next polyphase
-component, which is E4r, but this is where you also insert an additional
-delay operation z-4, where this four corresponds to the down sampling
-factor, the four fault down sampling factor, and then again you run down
-this diagonal, so you go to the next diagonal elements plug in E5 again
-with z-4, and then next diagonal element E6 again multiplied by z-4. And
-then the final diagonal elements E7 again multiplied by z-4. Do not ask
-questions. Just do it like this and you will see a more general version
-of this mechanism. This is the way we construct this structured sparse
-salt(?) in B(z) matrix. If you use that in the block scheme for the
-analysis filter bank, as you see it here, your input signal would first
-go into the delay line as you always have it. And then the boldface E(z)
-matrix which is where which consists of first the B matrix to all thin.
-And then the square F inverse matrix, which in this case is eight by
-eight, so that gives you your eight output channels, which should
-correspond to, first output should be input signal filtered by H0 and
-the second output should be the same input signal filtered by H1
-etcetera up until the last signal, which is the input signal you
-filtered by H7 and it\'s actually easily proved that what you have here
-is indeed a DFT modulated filter bank and this is in the the equations
-at the bottom of the slide. So if you start from the left here, left
-hand part of the equation you would see the U(z) which is the input
-signal, read that part from right to left. Again, first gets multiplied
-with the delay operations 1, z-1, z-2, z-3, then gets multiplied by the
-B matrix, then gets multiplied by the F inverse plug in the previous
-expression for the B matrix and then verify that indeed that leads to a
-DFT modulated filter bank derived from the prototype filter with the E
-polyphase decomposition. So, this is indeed a valid DFT modulated filter
-bank constructed based on an IDFT matrix F inverse eight by eight for a
-channel filter bank and then it\'s all thin B matrix eight by four,
-which is filled with the polyphase components of the analysis filter
-bank prototype filter.
-
-## Slide 31
-
-The analysis filter bank is again followed by a decimation operation.
-So, in this case a four fold decimation. Again we\'re going to use the
-multiplied density(?) to swap the down sampling operations with the
-multiplications with the F inverse and the B matrix. And the result is
-indicated here. So, this is where the B(z) to the four is turned into a
-B(z) to the one because of the noble identities(??). So, this is our
-efficient realization of the analysis filter bank so all of the
-operation again happens at the low sampling frequency side of the down
-sampling operation and basically the realization or implementation
-complexity of that DFT modulated filter bank, if you ignore the
-complexity of the IDFT operation, corresponds to the complexity of,
-basically realizing the prototype filter only by means of its polyphase
-decomposition, so again an extremely efficient realization for this DFT
-modulated filter bank.
-
-## Slide 32
-
-The synthesis filter bank is similarly constructed. Block scheme is
-provided in the slide here with the F matrix rather than the F inverse
-now, and then the structured sparse matrix C(z) matrix. And then finally
-the up sampling and summation in the delay, the structured sparse C(z)
-matrix is now formed in a bit of a different fashion. It\'s again formed
-based on the Polyphase components of the prototype filter for the
-synthesis filter bank, but it\'s filled in reverse order. So with the
-first polyphase components R(z), you start filling the matrix basically
-at the end. So you go to the bottom right element in the last row in the
-last column and this is where you plug in R0 and then you go up this
-diagonal and put the R1 and then R2 and R3. This is where you leave the
-matrix at the top and you go back in at the bottom after having added a
-z-4, which because of the four fold down sampling, the swapping is now
-turned into a z-1 and then R4 and then again you move up to diagonal
-with R5, R6, R7 and each time multiplied by the z-1.
-
-## Slide 30
-
-You take the analysis filter bank block scheme glued together with this
-synthesis filter bank block scheme. Perfect reconstruction condition is
-again you multiply the R and the E together and that should be equal to
-identity matrix up to a delay.
-
-## Slide 31
-
-The perfect reconstruction leads to a simple matrix equation with only
-the C matrix and B matrix. Multiplication of C and B has to be equal to
-an identity matrix up to a delay. Now if you look into the structure of
-the C and B matrix you can easily check that all of the off diagonal
-elements of product C \* B are immediately zero. These corresponding
-equations are basically void. And so you only have to look at the
-diagonal elements in this matrix equation. So the right hand side part
-you would look into the diagonal elements of C \* B and the left hand
-part these have to be equal to the diagonal elements of the identity
-matrix which are all equal to 1 times z to the minus something. If you
-plug in again the formulas for the C and B you would see those
-equalities or equations corresponding to the four elements in the case
-where delay is z to the -1 minus, 4 polynomial equations as you see them
-here. So each polynomial equation corresponds to 1 diagonal element of
-the 4 by 4 identity matrix Here you can analysis similar to what we had
-in the general case and slide 11 actually if you assume that all of the
-E polyphase components or FIR filters with order LE and if you assume
-that all of the R polyphase components or FIR filters with order LR then
-each such polynomial equation basically corresponds to at least one
-equations and a number of unknowns where the number of unknowns is
-2(LR+1). Again you can decide that this can be solved you will have more
-unknowns than equations in the case that LR is at least equal to LE - 1
-so again if you use this sufficiently large LR so each of these four
-equations you can solve or compute.)
-
-## Slide 32
-
-With this the design procedure for perfect reconstruction DFT modulated
-filter bank especially case here with 8 channels and 4 fold up and down
-sampling. First design the prototype filter for the analysis filter bank
-so with a bandwidth of 2pi divided by 8 because it\'s an 8 channel
-filter bank. You design a FIR H0(z) based on chapter 4 and then you do
-polyphasic decomposition. Then finally as you have seen in the previous
-slide you compute pairs of polyphase components of the synthesis filter
-bank from pairs of polyphase components of the analysis filter bank
-prototype and that leads to set some equations that can be solved. At
-this point it\'s relevant to compare that to maximum decimated filter
-bank so if you were to have an 8 channel filter bank in this case with
-eight fold I should say up and down sampling then rather than pairs of R
-that are computed from pairs of E, you would have one R that is computed
-from one E. This is where you would have to invert the E polyphase
-components. Here because of the fact that you have oversampled 2 fold
-oversampling basically fourfold up and down sampling for a 8 channel
-filter bank, you compute R from E that is something which is possible
-without explicit inversion of FIR transfer functions and that is truly
-what makes it all possible and then give you sufficient design freedom.
-
-## Slide 35
-
-Second example that we are going to construct the filter bank with N is
-equal to 6 so 6 channel filter bank where the decimation is equal to 4
-so that corresponds to non-integer oversampling in the sense. So the
-first step will be to design the analysis is filter bank prototype H0
-and this will be an FIR filter again and that we do only phase
-decomposition. Here again we have to use this magic formula that says
-what type of polyphase decomposition we actually have to use and prime
-is again equal to N times D divided by the greatest common divisor of N
-and D. We have to do a 12 fold polyphase decomposition so 12 polyphase
-components which are the E functions as you see equation here.
-
-## Slide 36
-
-The only thing that is different here is the way we have to construct
-the structures and Be matrix. So the B matrix will be filled with the 12
-polyphase components and the way we filled this is indicated in this
-slide and it is sort of representative of the general procedure for
-constructing this structure. Basically you have to follow the red line
-which is added here. you always start with the top left element of the
-matrix. Dimensions of the matrix is 6 by 4 in this case 6 rows because
-of the six channels and 4 columns because of the fourfold down sampling.
-So 6 by 4 matrix you start in the top left position and this is where
-you plug in E0 first polyphase components. Then you sort of run down the
-diagonal into (2,2) position you plug in E1 in the (3,3) position you
-plug in E2. If you continue on the same diagonal of course this is where
-you leave the matrix to the right this is where you have to jump to the
-left and go back into the to left in the next row. So in the next row
-the first column you would see the E4 elements which because whenever
-you jump from right to left you also have to add the delay operation
-which in this case is Z to the -4 because fourfold down sampling. So
-this is where you have E4 and then if you continue on the diagonal, you
-leave the matrix at the bottom this is where you have to jump to the top
-of the matrix and continue in the next column at the top of the matrix.
-So in the first row third column this is where you enter E6 and E6
-continues with the same delays-4. Run down the diagonal again if you
-were to continue on the same diagonal again you would leave that matrix
-to the right jump back in the left with the next polyphase component E8
-but whenever you jump from right to left you have to add z to -4 so z -4
-\* z - 4 is z-8 as you see it here. And then again you further continue
-on the same diagonal. To check if this indeed corresponds to the DFT
-modulated filter back or for instance the first output from the F-1
-matrix would be the input signal filtered by H0 and the 2nd output would
-be the same input signal filter by H1 which is the shifted version of
-the H0, you follow the equations at the bottom of the slide. That
-actually in essence response to components polyphase components of a
-sixfold polyphase composition rather than 12 fold polyphase
-decomposition which then gets multiplied by F inverse and that indeed
-corresponds to the six channel DFT modulated filter bank.
-
-## Slide 37-38
-
-Everything is basically the same as we had in the previous example. You
-can use the noble identity to swap the fourfold down sampling first with
-the F inverse and then with B(z4) and this becomes a B(z) matrix where
-the Z-4 delays perhaps or turn it to Z-1 delays you do a similar
-construction for the synthesis filter bank. So similar construction for
-the c(z) and then perfectly destruction conditions again you would
-multiply the E(z) and the R(z) said that equal to an identity matrix and
-that leads to polynomial equations that will allow you to compute the
-coefficients of the synthesis prototype filter polyphase components from
-the polyphase components of the analysis prototype filter.
 
 # Chapter 13
 
