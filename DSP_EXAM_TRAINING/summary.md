@@ -389,7 +389,7 @@ Key concepts and formulas include:
     1.  **Defining filter specifications**: Such as passband, stopband, and optimisation criteria (e.g., passband ripple, stopband attenuation, cutoff frequencies).
     2.  **Deriving the optimal transfer function**: This involves choosing between FIR or IIR filters and applying specific design methodologies.
 
-*   **FIR (Finite Impulse Response) Filters**: These are "all-zero" filters with a **finite impulse response**. A key advantage is their **guaranteed stability** (poles are at the origin, $z=0$). They can also be designed to have a **linear phase response**, which is crucial for applications where phase distortion is undesirable. A linear phase FIR filter can be represented by its transfer function:
+*   **FIR (Finite Impulse Response) Filters**: These are "all-zero" filters with a **finite impulse response**. A key advantage is their **guaranteed stability** (poles are at the origin, $z=0$). They can also be designed to have a **linear phase response**, which is crucial for applications where phase distortion is undesirable. A linear phase FIR filter can be represented by its transfer function. It is a linear phase if we allow the mangitude response to be negative or we may experienced sudden jump in phase which is due to $\pi$ rotation of a negative number:
     $H(z) = b_0 + b_1 z^{-1} + \dots + b_L z^{-L}$.
     For a causal linear-phase FIR filter of even length $L=2L_o$, its frequency response can be expressed as:
     $H(e^{j\omega}) = e^{-j\omega L/2} \sum_{k=0}^{L_o} d_k \cos(\omega k)$.
@@ -810,3 +810,511 @@ Chapter 14 is a practical application and extension of prior knowledge:
 *   **Chapter 3 (Acoustic Modem Project)**: The principles of **OFDM** (Orthogonal Frequency Division Multiplexing), used in the acoustic modem project, inherently rely on DFT-modulated filter bank concepts for efficient modulation and demodulation in multi-carrier communication systems. The ability to design PR systems with reduced complexity is crucial for such applications.
 
 In essence, Chapter 14 demonstrates how imposing a specific structure (modulation) on filter banks, combined with the power of polyphase decomposition, leads to **highly efficient design and implementation procedures** for systems that can achieve **Perfect Reconstruction**, especially beneficial in oversampled scenarios.
+
+# Lab prep
+
+## First Lab
+
+1-2
+
+*[- PSD and spectrogram \@400 Hz, How can you get rid of harmonics in
+the PSD?]{.underline}*
+
+We don't get harmonics, you can get rid of them by scaling the input
+signal and/or lowering the volume.
+
+*[- What is the difference between these two methods,]{.underline}*
+
+*[and how does their result differ from the actual PSD? Also
+calculate]{.underline}*
+
+*[the PSD by squaring the the frequency magnitude spectrum
+without]{.underline}*
+
+*[averaging. Why are Welch's method and Bartlett's method
+preferred]{.underline}*
+
+*[over squaring the magnitude frequency spectrum?]{.underline}*
+
+Welch has no overlap. Barlett has overlap equal to Noverlap.
+
+The biggest difference between those methods and simply squqring is the
+sort of noise that appears in the graphic making it harder to see
+everything and making it less precise to estimate the psd of the white
+noise.
+
+*[- What is the influence of the DFT size?]{.underline}*
+
+*[-Compare spectrogram/PSD of the transmitted signal to the recorded
+signal]{.underline}*
+
+There is a lot more noise than expected with some unequal power at
+certain frequencies
+
+*[-Repeat the experiment, but add a DC component]{.underline}*
+
+There's no difference with the DC, air can't transmit a DC signal. We
+see a peak on the PSD for in but actually there is no peak on the output
+signal since it will not transmit anything.
+
+*[-What is the influence of clipping in the spectrum?]{.underline}*
+
+Clipping leads to harmonics in the spectrum.
+
+*[-Difference between transmitted and recorded signal in the
+PSD/spectrogram with a sum of sines?]{.underline}*
+
+We see more harmonics and interference, for instance with a 400 and 600
+Hz signal we are seeing another peak around 1000 Hz and 1700 Hz. We can
+see those also on the spectrogram.
+
+The frequencies of 100 Hz and 200 Hz are submerged by noise.
+
+*[-Execute the file with white noise as input, what relevant information
+can we get from the spectrogram of the recorded signal?]{.underline}*
+
+It is a way to try every frequency and see which will be amplified due
+to the current state of the room. It helps us see which frequencies are
+the most susceptible to harmonic. White noise is also a way to have an
+almost average and fair distribution of frequencies.
+
+*[-Does the spectrogram with white noise change in time? Why is this
+question relevant?]{.underline}*
+
+Yes, if we rerun the experiment some other frequencies will be peaking
+due to various reasons (temperature, noise of an electronics, car
+passing by, \...).
+
+*[-Redo the white noise experiment but move the microphone around, what
+do you observe in the spectrogram?]{.underline}*
+
+The noise gets higher values in the PSD and spectrogram
+
+1.3
+
+*[- What is the useful frequencies range?]{.underline}*
+
+16-bit Stereo full-duplex CODEC with 48KHz sampling rate for the Realtek
+ALC655 which is often integrated with laptops and Desk computers. So it
+is best to go from 0 to 24 kHz to respect Shannon.
+
+*[- How does this number (channel capacity) need to be interpreted,
+i.e., what does it mean?]{.underline}*
+
+The capacity of the channel indicates how many bits we can carry in the
+channel. This tackes into account issues with decoding bits that may be
+too damaged by the noise hence the relation with the SNR.
+
+Also, the usual formula for Shannon Capacity is C = B log2(1 + SNR) but
+in our case it is C = fs/N sum_1\^K log2(1+ SNR(k)). The sum will
+generate a sort of K log(1+ SNR_av) which needs to be divided hence the
+N = 2K. The remaining 2 are there to divide the fs into 2 to respect
+Shannon. So indeed, we have the same formula as the classical one.
+
+*[- Do the same for fs = 44100 Hz. How does the capacity change and
+why?]{.underline}*
+
+It seems to lower down. Maybe because the fs is bigger but not the power
+ratio. We can't use the full range of frequency.
+
+## Second Lab
+
+2.1
+
+*[- What do you observe?]{.underline}*
+
+We see a nice bump and then a slow decreasing effect until it returns to
+simple noise.
+
+*[-How long is the estimated IR?]{.underline}*
+
+Pretty short around 150 samples, but we can fine tune the cutoff as a
+percentage of the max power.
+
+*[-How would the IR change in a Cathedral?]{.underline}*
+
+In a Cathedral the multi-channel model would be longer, there is more
+echo so the Impulse response would be longer.
+
+*[-Is the acoustical environment the only factor that determines the
+IR?]{.underline}*
+
+No, other factors are volume, frequency \...
+
+*[- this should yield an output signal with similar characteristics as
+the recorded signal (why?). Compare the spectrograms and PSDs of the
+recorded signal and the convolved signal. Do they look more or less the
+same?]{.underline}*
+
+Yes, indeed our estimation of the noise and the actual recorded noise is
+really similar. Why does this work? Because our white noise signal is
+stronger than the environmental noise, so it covers all of the noise
+present in the channel since it uses all possible frequencies. Also, a
+delta contains all the frequencies so it is already an estimate of how
+everything will respond to the channel.
+
+2.2
+
+*[-How do the transmitted signal, the channel IR-vector and the recorded
+signal relate to each other?]{.underline}*
+
+y\[k\]=h\[k\]\*u\[k\]
+
+*[-What dimension should you choose for h? Why is white noise a suitable
+input in this experiment?]{.underline}*
+
+h is around 200 samples long. White noise is suitable for this
+experiment because it contains all frequencies with equal amplitude. So,
+the calculated h will be averaged over the frequencies.
+
+*[- Note that a positive delay can be easily taken into account in a
+causal system in the vector h, but a negative delay cannot. Why is this
+the case?]{.underline}*
+
+Because we are designing a causal system a positive delay will just
+create a system that will hold the values a little longer before
+outputting it. On the other hand, to have a non-causal system will
+generate bigger issues since we cannot model a non-causal system, it
+will just be random and trying to overfit the input that it was trained
+on.
+
+*[- Compare the time-domain IR and frequency response obtained with
+IR2.m with what you obtained with IR1.m. Do they resemble each other?
+Why (not)?]{.underline}*
+
+It is better and slightly more precise since we are training on a larger
+set of data, so the overdetermined system has more data to fit and be
+precise with.
+
+*[- Can you observe a correspondence between the PSD of the recorded
+signal, and the estimated frequency response? Why (not)?]{.underline}*
+
+*[-Predict what will happen to the IR if you use a stereo speaker
+setup?]{.underline}*
+
+A second IR will be added to the IR of the first speaker. The IR will be
+longer if the second speaker is placed further than the first.
+
+2.3
+
+## Third Lab
+
+3-1
+
+*[Compare the QAM symbol sequences for different constellation sizes.
+What are their average signal powers? Make sure that the constellations
+yielded by qam mod.m are normalized to unit signal power. What are the
+normalization factors for the different constellation
+sizes?]{.underline}*
+
+They are all around the same power of 1 and the normalization factor can
+be sqrt(2), \... To normalize we just first lay down all the bits at
+integer x and y and finally we reduce the size to make sure it fits
+inside the \[-1:1\]x\[-1:1\] square. In short, we just make a comparison
+of the area of the two squares.
+
+*[What are the tradeoffs of using different constellation
+sizes?]{.underline}*
+
+A bigger constellation means a higher bitrate but more sensible to SNR
+and we need higher SNR to have a correct bit rate.
+
+3-2
+
+*[Explain the necessity of the 'mirror operation' in each frame from a
+signal processing point of view]{.underline}*
+
+We can only transmit real value signals! So, the idea of using the
+complex conjugate is there to cancel out the bi part of the QAM
+modulation. The specific placement in the series Xk is there to make
+sure that the e\^2pi j n k /N and e\^2 pi j n N-k/N is there to cancel
+out and produces a e \^ pi j n which is just +/- 1. So, in short just to
+make sure the signal is real.
+
+*[Why are the X0 and X N/2 forced to be 0 in this acoustic
+setup?]{.underline}*
+
+X0 is 0 to have a 0 DC component and by the idea of symmetry explained
+earlier we also need to enforce X N/2 at 0 or it will never cancel out
+with any other component since X0 is already 0.
+
+## Fourth Lab
+
+4-1
+
+*[Can you explain where the name orthogonal frequency division
+multiplexing (OFDM) comes from?]{.underline}*
+
+Because the lobes are in frequencies where the other one are zero so it
+is orthogonal since in a specific frequency you will never see the other
+bin.
+
+*[Make sure you have added the cyclic prefix after the OFDM frames with
+a length longer than the length of the channel impulse response (Why
+?)]{.underline}*
+
+It is to prevent the Inter-symbol interference since, especially for
+acoustic channel, there is multiple paths and so delay replicas that may
+arrive at the receiver. This will leave a bit of time between each
+sequence being transmitted and not having interferences from past
+symbols.
+
+*[Set h0 = 2, h1 = 0, h2 = 0. Again compare the two constellations. How
+are they different?]{.underline}*
+
+We have more power at the arrival! It's like the channel amplified the
+signal. Not really realistic.
+
+*[Set h0 = 2, h1 = 0, h2 = 0. Again compare the two constellations. How
+are they different?]{.underline}*
+
+We are seeing an error that is not gaussian ! The error seems to be
+biased in one specific direction that can be due to a bad channel
+estimation. It is spreading as a circle ! The delay it introduces will
+change the way the multiple frequencies of the OFDM. It will change
+their amplitude and the delay will add a phase shift.
+
+*[This channel impulse response imposes a delay, why? Again compare the
+two constellations. Can you justify what you see in the QAM
+constellation of the receiver?]{.underline}*
+
+It will add a delay because
+
+*[Redo the experiments with multiple symbols]{.underline}*
+
+It is now impossible to decipher anything, we need to compensate for the
+channel, or we can't read anything and our BER is under 50 % We need to
+compensate for the channel or the predictions are totally off.
+
+4-2
+
+The idea is to use the FFT of the h coefficient padded with 0 to have
+the same size as the OFDM frame, so we reapply a FFT just on those
+coefficients and it will give us the complex numbers to use to resize
+and rotate correctly the data. Here below is the example with the X_1
+showing how it was crooked and now straightened. We had a BER of 45.3 %
+(almost as good as a random algorithm) and with our Frequency
+equalization we have a flawless 0 % BER.
+
+![A screenshot of a computer Description automatically
+generated](media/image1.png){width="6.5in" height="2.361111111111111in"}
+
+*[Now use the acoustic channel impulse response as measured in Session
+2. How long do you take the cyclic prefix now? Check the
+BER]{.underline}*
+
+For this I guess we will take a 200 cyclic prefix to add some guard
+rails but so we need to increase the OFDM frame otherwise we will lose a
+lot of bit rate
+
+*[Add AWGN noise again and check the BER for different channel transfer
+functions H(z) (including the channel impulse response measured in
+Session 2) and different SNRs.]{.underline}*
+
+With 20 dB SNR we are hitting a 49.23% BER for the OFDM demod without
+equalization and 30.35 % BER with the equalization. This is inline with
+the fact we are using a 6 bits QAM modulation even though we had just
+about .76 % BER when using a 20 dB SNR just with a QAM modulation. So in
+conclusion, OFDM is more sensitive to noise than QAM modulation alone.
+
+4-3
+
+![A person with short dark hair wearing a black jacket Description
+automatically generated](media/image2.png){width="2.223611111111111in"
+height="2.5833333333333335in"}*[For the measured acoustic channel
+impulse response and a small SNR, you can see a lot of errors in the
+received image. Can you observe any structure in the location of the
+errors and explain your findings?]{.underline}*
+
+It seems like the issue appears at some specific spots. It feels like
+they are in a sort of line and slightly diagonal ![A person with a
+pixelated face Description automatically
+generated](media/image3.png){width="2.259027777777778in"
+height="2.457638888888889in"}(maybe due to the frame size) We can also
+increase the frame size to a thousand
+
+![A graph with blue lines Description automatically
+generated](media/image4.png){width="3.2395833333333335in"
+height="2.4375207786526683in"}Here is a plot of the comparison between
+the actual and decoded sequence with a moving average. We see some peak
+(so correct values) at 6 spots, and we have 10200 x 6 QAM matrix. 6 like
+the 6 peaks which are located at the smallest frequencies of the
+convolution not the highest!
+
+## Fifth Lab
+
+5-1
+
+No questions
+
+[aj06smartbook.pdf](https://sps.ewi.tudelft.nl/pubs/aj06smartbook.pdf)
+
+5-2
+
+*[Also add as many zeros as the length of the IR after the pulse to
+avoid its response mixing up with the signal (Why?).]{.underline}*
+
+We need to add the same number of samples as the IR as it is in some
+ways the number of samples any signal will have replica. So, if the IR
+is 600 samples long, we can assume that for any frequencies, they will
+bounce on the walls and come for at maximum 600 times and then it will
+stop.
+
+This alignment is important to make sure we all start at the same bits,
+and we are not reading everything with an offset.
+
+*[An alternative for estimating the delay is to detect the
+synchronization pulse, based on a user-defined threshold. In this case
+the function becomes \[outaligned\] = alignIO(out,fs,threshold). What
+could be the disadvantage of this approach?]{.underline}*
+
+Using a threshold, we could not find the actual start of the signal and
+this method is less robust especially for lousy environments or when the
+speaker is far away from the microphone. Moreover, the correlation is a
+linear correlation so it will show first order correlation and will get
+rid of any higher order phenomenon.
+
+*[Make a pragmatic choice for the DFT-size, the CP length, and the QAM
+constellation. Can you explain them?]{.underline}*
+
+For the CP length, it is easy, we just make it the same length as the
+channel impulse response. In our case we estimated it to be around 600
+samples (actually it is closer to 250 samples but to be extra sure we
+added some buffer samples). We decided to go with 1024 samples to have a
+positive ratio between buffer and data.
+
+For the QAM constellation we tried various sizes with the 2 QAM being
+the best with a small BER of 2.95% but it was a long signal. The best
+trade-off is an 8 QAM constellation based on empirical tests.
+
+So, we need a trade-off between speed and precision. The speed formula
+can be derived as
+$s\, = \,\frac{\left( L_{t} + L_{d} \right)\left( L_{cp} + N \right)\left( \frac{bits}{N_{q}} \right)}{f_{s}}$
+with N_q being the size of the constellation, bits being the number of
+bits to be sent. Speed also helps with the channel estimation for later
+as the channel is quasi-stationary but over a long span will change.
+
+*[Run the ofdm channelest.m, and check the channel impulse response and
+frequency response. Does it look ok?]{.underline}*
+
+It is everything but okay, we have terrible result since we don't
+account for jitter and our signal is not properly aligned as we should.
+So, the data are all shifted and are just a random suite of garbage
+making any least square procedure completely useless.
+
+*[Which method do you prefer for channel estimation: the one used in
+this exercise (frequency domain), or the time-domain estimation with the
+Toeplitz matrix (in terms of memory usage, computational complexity, and
+performance).]{.underline}*
+
+It is easier to estimate the channel in the frequency domain than with a
+Toeplitz matrix in the time domain.
+
+*[What happens if you put your hand in front of the microphone? How does
+this affect the channel response? How does this affect the
+BER?]{.underline}*
+
+Theory: as answered in the first milestone, covering the microphone will
+change the channel response. Indeed, the lower frequency will pass
+through any object easily as for the higher frequency it is harder
+(think about wave experiments with a slit and for different
+frequencies.) So, we can expect the BER to go down as the end of each
+OFDM frame may be too much altered and more sensitive to noise.
+
+In practice: Indeed, we have a worse BER and really bad higher
+frequencies response. The higher frequencies are all harsh and the worse
+in our channel estimation.
+
+*[How does the sampling frequency affect the performance of your
+modem?]{.underline}*
+
+With a higher Frequency (44 kHz which is supported for the speaker) we
+are seeing a worse BER. The bottleneck is the microphone! It only
+supports a frequency around 100 - 12.000 Hz (according to the
+manufacturer [Trust PDF
+View](https://dezlwerqy1h00.cloudfront.net/Media/Datasheets/21674-Trust-Primo-Datasheet_en.pdf)).
+With smaller frequency we are seeing better results. Something odd is
+that the best part of the picture is always the middle one for some
+reason.
+
+## Seventh Lab
+
+7.1
+
+*[Does the adaptive filter converge? Experiment with different values
+for the stepsize parameters $\alpha$ and $\mu$]{.underline}*
+
+Yes, it does converge. The best results were obtained with alpha = 2.
+The goal of the alpha is to add some shaking and to escape potential
+local optima. Other more advanced techniques such as simulated annealing
+could have been used but they rely on metaheuristic processes. With
+alpha too large we may diverge too much from the global optimum. Also,
+the step size is key for quickly finding the right optimum but also to
+not diverge too much from it. High step-size means a quick convergence
+but a lot of variation in the error. So, we would restrict mu up to 2
+(see course slides) and a smart choice would be to adapt the step size
+to how fast the channel is varying. Fast variation? Big mu!
+
+![](media/image5.png){width="2.841963035870516in"
+height="2.177016622922135in"}![](media/image6.png){width="2.828451443569554in"
+height="2.1666666666666665in"}![](media/image7.png){width="2.7324846894138233in"
+height="2.0625in"}
+
+*[What happens when the channel changes (slow and fast)? What does this
+mean for the OFDM transmission?]{.underline}*
+
+As hinted in the previous answer, a fast-varying channel would degrade
+the performance of our adaptive filter if we don't appropriately pick
+the right factor.
+
+7.2
+
+7.3
+
+*[Are these a good model for the acoustic channels? Why
+(not)?]{.underline}*
+
+We used some randomly generated channel impulse and also tried with some
+given one. Both works flawlessly. Our generated one may tend to have a
+bias towards a specific channel response, but the results are
+acceptable. Moreover, we have generated some similar channel responses
+since the stereo speaker will have approximately the same impulse
+response.
+
+*[What can you conclude about the combined channel transfer function H
+1+2 k ?]{.underline}*
+
+It is a real channel impulse response not like H1 and H2 so it should
+lead to no phase shift.
+
+*[Do you need to change a lot in this function?]{.underline}*
+
+We barely had to change anything since Tx will already be the sum of the
+signal from both speakers.
+
+*[Do you see an advantage of using two loudspeakers?]{.underline}*
+
+Test factors: SNR = 30 dB, Lt = 10, Ld = 30, M = 16, N = 1024, Lcp = Lh
+= 300
+
+For both speakers, we had a BER of 1.8% for 30 dB SNR without any
+technique of bit loading which is quite impressive.
+
+We had a BER of 3% with only one speaker. So not the best.
+
+In conclusion, for the same amount of power we have a BER that is almost
+twice as much as with 2 speakers. Quite impressive and cheap.
+
+*[Do you see an advantage of using two loudspeakers? In which scenario
+do you think you get the biggest advantage from the transmitter-side
+beamformer]{.underline}*
+
+Yes, we have lower BER without using any bit loading technique, but it
+can also degrade the performance of the transmission if the channel is
+too fast changing. Since we adapt the scalar a and b to the first
+version of the channel, it may not be the most optimal vector for
+another channel.
+
+*[Do you think it is possible to replace the channel estimation using
+training frames by an adaptive filter in decision-directed
+mode?]{.underline}*
