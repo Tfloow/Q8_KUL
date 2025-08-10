@@ -1237,6 +1237,25 @@ With smaller frequency we are seeing better results. Something odd is
 that the best part of the picture is always the middle one for some
 reason.
 
+## Sixth Lab
+
+6.1
+
+* *Find a good value for Lt and Ld. What is the trade-off here (in terms
+of noise, bitrate and channel tracking performance)? ?*
+
+* *When running visualize demod.m, look at the time variation, and the
+shape of the channel. What can you conclude?*
+
+6.2
+
+* *Can you observe that the quality of the received image has improved?
+What is the drawback of using ON-OFF bitloading?*
+
+6.3
+
+* *What is the advantage of such an approach? If you would move your microphone around while transmitting the image (assuming the channel impulse response remains shorter than the CP length), what is the best training scheme: training packets or pilot tones? Why?*
+
 ## Seventh Lab
 
 7.1

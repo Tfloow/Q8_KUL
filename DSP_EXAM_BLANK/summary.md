@@ -294,24 +294,10 @@ cfr. slide 31 for an example
 
 1. Explain how WLS for FIR filter design reduces the degrees of freedom when imposing a linear phase requirement.  
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
-
 Due to the linear phase requirement we know the H(w) is symmetric. The d-coefficients are related to the IR and thanks to the symmetry, there are roughly half as many d-coefficients as H's (see also slide 6). When we take a look at the optimization criterion, we see it's an overdetermined system. Is Symmetry a requirement for linear phase?  
 Either symmetry or antisymmetric, but both can be used to reduce the degrees of freedom   
 
-2. Can QRD be used in WLS FIR filter design? How? Chapter 9, QRD for LS estimation?                                                                                 	
+1. Can QRD be used in WLS FIR filter design? How? Chapter 9, QRD for LS estimation?                                                                                 	
 > 
 > &nbsp;
 > 
@@ -488,61 +474,25 @@ The solution to the discretised optimisation problem (ch4, slide 12\) is xopt=A^
 
 1. What is the relevance of channel equalisation in the acoustic modem?
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
+The signal Xk will be modified by a channel H(z) and if you do the FFT at the receiver you won't have the same signals as at the transmitter due to this channel H(z). To recover the perfect signal (with the noise of course), one has to do the Freq-domain EQualization (FEQ) after having removed the CP and having done the FFT. slide 25 Chapter-3. 
 
-   The signal Xk will be modified by a channel H(z) and if you do the FFT at the receiver you won't have the same signals as at the transmitter due to this channel H(z). To recover the perfect signal (with the noise of course), one has to do the Freq-domain EQualization (FEQ) after having removed the CP and having done the FFT. slide 25 Chapter-3. 
+The channel equalization is easy due to the fact that you use a prefix \-\> makes the matrix H diagonal. 
 
-   The channel equalization is easy due to the fact that you use a prefix \-\> makes the matrix H diagonal. 
+So it is a vital procedure in the OFDM process to retrieve the actual transmitted signal. And with the FFT, it can be cheaply realized through a one tap scalar scalar division.
 
 2. What is the relevance of the prefix in OFDM? What are the requirements for this prefix?
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
 
 The OFDM frame together with the prefix allows for a circular convolution. In the receiver, the L samples corresponding with the prefix are thrown away which results in a circulant matrix. This circulant matrix can then be factorized using IDFT/DFT( H= F^-1 \* diag(H0,..,Hn-1) \* F). With this, a diagonal matrix is obtained. The resulting output Y is then simply the input X multiplied with some scalar H(all in frequency domain), so the X can be estimated using component wise division. The prefix length needs to be longer than the impulse response of the channel. (slide 31-35\`)
 
-3. How does one derive a channel model for the acoustic modem? What if one wants to equalise without modelling the channel?
+Moreover, it reduces inter-symbol interference caused by echo from previous transmission, here all the echo will be due to the same transmitted signal and thus will be able to make it circulant into the diagonalize form which can realize FEQ cheaply.
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
+1. How does one derive a channel model for the acoustic modem? What if one wants to equalise without modelling the channel?
+
 
 You can send training frames that are known at both sides. You know X and Y, by using the OFDM modulation with CP, it is very easy to derive a channel model. Y\_k^(n) \= Hn \* X\_k ^(n) (slide 35,ch 3\) which leads to H \= Y\_k \* X\_k^(-1) \-\> Least Square estimation
 
-For the second part of the question, I understand it like this. In order to avoid losing channel resources for training frames, a adaptive filter can be used and you find a channel for each time.
+So, to model $H^{-1}$ directly and avoid dangerous numerical operation such as matrix inversion, we can directly estime the inverse. This is done through adaptive filtering where the desired signal is the known training sequence and the in put signal is the received transmitted signal. Through adaptive filtering theory, it is known (if we select the right cost function and assuming good numerical stability) to minimize the error and thus will approximate as best as it can the inverse of the channel using a FIR filter making it a stable filter. Chap 7 page 14.
 
 
 # **13 augustus 2018**
@@ -747,41 +697,22 @@ Filter coeff are not calculated (slide 22\)
 
 1.  Explain how the OFDM modulation format (including a cyclic prefix) provides an easy equalization of the transmission channel. What are conditions that the transmission channel has to satisfy for this 'cyclic prefix trick' to work properly?
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
+The OFDM frame together with the prefix allows for a circular convolution. In the receiver, the L samples corresponding with the prefix are thrown away which results in a circulant matrix. This circulant matrix can then be factorized using IDFT/DFT( H= F^-1 \* diag(H0,..,Hn-1) \* F). With this, a diagonal matrix is obtained. The resulting output Y is then simply the input X multiplied with some scalar H(all in frequency domain), so the X can be estimated using component wise division. The prefix length needs to be longer than the impulse response of the channel. (slide 31-35\`) 
 
-The OFDM frame together with the prefix allows for a circular convolution. In the receiver, the L samples corresponding with the prefix are thrown away which results in a circulant matrix. This circulant matrix can then be factorized using IDFT/DFT( H= F^-1 \* diag(H0,..,Hn-1) \* F). With this, a diagonal matrix is obtained. The resulting output Y is then simply the input X multiplied with some scalar H(all in frequency domain), so the X can be estimated using component wise division. The prefix length needs to be longer than the impulse response of the channel. (slide 31-35\`)
+Conditions: 
+
+- L cyclic prefix is bigger or equal than the length of the filter --> Otherwise, will lead to ISI and ICI (loss of orthogonality between the carriers as the H is a complex number that rotates ever so slightly each carrier to make sure they are still orthogonal between each other)
+- Channel can be modelled as an FIR filter
 
 1.  If a channel model is required for the equalization, explain how it can be derived. Is it possible to run the equalization without first deriving a channel model?
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
+
 
 
 	A channel model can be acquired by using trainingframes?? The data in these frames is known at the receiver, so the channel model can be derived with a least squares estimation.  
 By measurement, and ise slide 19
+
+Without modeling channel check chap 7 page 14
 
 # **16 augustus 2017**
 
@@ -930,39 +861,13 @@ By measurement, and ise slide 19
 
 1.  Explain how the OFDM modulation format (include cyclic prefix) provides easy equalization of the transmission channel. What conditions are to be met for the cyclic prefix?
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
+**ALREADY ANSWERED IN PREVIOUS QUESTIONS**
 
 2.  Explain how RLS is used for channel equalization in the acoustic modem project. What input for the adaptive filter? What is the desired output signal? What is the order of the filter? (awnser: 1, for every carrier/subband)
 
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
-> 
-> &nbsp;
->
-> &nbsp;
->
-> &nbsp;
-> 
 
 Does anyone have an idea?  
 I think we used NLMS in week 7 (and not RLS) . And the input of the adaptive filter is the signal received at te microphone (x\[k\]\*h\[k\]+n\[k\]). The desired output is the output of the decision device which takes the output of the adaptive filter as input.   
 The order of the filter is 1, you try to find an estimation for every subband carrier channel. 
 
-
-
+I guess the only "recursive" part is the fact we are updating with more and more estimate and refining it?
